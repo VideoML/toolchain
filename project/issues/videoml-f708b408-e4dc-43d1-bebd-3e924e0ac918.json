@@ -25,9 +25,17 @@
       "type": "blocked-by"
     }
   ],
-  "comments": [],
+  "comments": [
+    {
+      "id": "2d1c1ac0-17b8-4859-9fdc-e5fa9cacfdcf",
+      "author": "home",
+      "text": "P15 intentionally does not add a copied source digest that cannot independently validate all normalized source content. P17 must enforce D08 whole-bundle manifest hashes for source/script/frozen timing/audio and reject any mutated file; include narration text and component property tampering tests. This is the full content-integrity boundary, separate from P15 ordered-ID/timing/audio verification.",
+      "created_at": "2026-10-30T21:59:36.102315Z",
+      "comment_type": "default"
+    }
+  ],
   "created_at": "2026-10-30T19:29:35.623766Z",
-  "updated_at": "2026-10-30T19:31:41.788889Z",
+  "updated_at": "2026-10-30T21:59:36.102535Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,

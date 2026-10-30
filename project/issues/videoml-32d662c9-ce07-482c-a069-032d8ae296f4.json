@@ -1,0 +1,22 @@
+{
+  "id": "videoml-32d662c9-ce07-482c-a069-032d8ae296f4",
+  "title": "P20a — Prove cloud renderer isolation boundary",
+  "description": "Before P23 rollout, prove the D08/D10 credentialed-supervisor versus untrusted-renderer boundary on the exact proposed Batch Fargate runtime. Produce runnable launch configuration and adversarial probes: renderer cannot read supervisor secrets, task credentials or task metadata; cannot reach external network, link-local or account service endpoints; cannot alter other jobs or supervisor state; reads only validated bundle and writes only its output. Chromium request interception alone is not an OS isolation proof. No production enablement or paid drill until primary accepts this evidence. Start with documentation and local representative runtime probes; any cloud proof must use the dedicated account and D11 bounded admission. If Fargate cannot enforce the boundary, stop this packet and have the primary record a concrete runtime revision, including capacity and cost controls, before P23 implementation. Do not quietly weaken D08 or mark source configuration as verified isolation. Existing local implementation work remains independent.",
+  "type": "task",
+  "status": "open",
+  "priority": 2,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-49cdfa8f-a6cf-4c73-9f1f-76e6def3500d",
+  "labels": [
+    "terra-packet"
+  ],
+  "dependencies": [],
+  "comments": [],
+  "created_at": "2026-10-30T21:55:55.047192Z",
+  "updated_at": "2026-10-30T21:55:55.047224Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

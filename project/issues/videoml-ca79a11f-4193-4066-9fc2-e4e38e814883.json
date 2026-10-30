@@ -3,7 +3,7 @@
   "title": "P06 — Migrate seven existing Babulus framework demos",
   "description": "## Dispatch packet P06\nRead initiative videoml-dbc2b1 sections D03 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\nstdlib, Babulus\nPrimary paths: Babulus/examples/animation-*; renderer component registry; stdlib/examples. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Move the seven named D03 demos into shared fixtures, two at a time internally; Babulus imports shared effects with compatibility aliases. Preserve Babulus behavior scenarios; no copied second implementation.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\nseven real browser captures plus package-consumer smoke and existing animation behavior tests.\n\n## Dependencies\nvideoml-2779f2 (P04)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n",
   "type": "task",
-  "status": "open",
+  "status": "in_progress",
   "priority": 1,
   "assignee": null,
   "creator": null,
@@ -17,9 +17,45 @@
       "type": "blocked-by"
     }
   ],
-  "comments": [],
+  "comments": [
+    {
+      "id": "a6b0ebad-339d-4728-918f-f9bf122dd038",
+      "author": "home",
+      "text": "P06 source migration covers all seven demos and Babulus aliases; no catalog entries promoted. Source review found and corrected Lottie frame-rate/loop handling and p5 cancellation/draw-error waits; four lightweight regression tests pass. Still unverified: dependency locks are stale, remaining dependencies need bounded installation, real browser captures/conformance, Babulus behavior suite, package-consumer and quality gates have not passed. Disk fell below the 8 GiB floor due unrelated concurrent temporary-data growth; all heavy operations paused. Source changes remain uncommitted; Babulus AGENTS separately requires user approval before committing a completed reviewable change.",
+      "created_at": "2026-10-30T21:29:29.666366Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "e587d818-8dcf-45ed-8f25-b28137286f53",
+      "author": "home",
+      "text": "Capacity recovered to11,043,608KiB (~10.53GiB); resumed heavy validation with one worker,1GiB incremental budget and8GiB floor. Primary independently passed6 lightweight regressions after source fixes: cancellable Anime/Lottie initialization, Mix forwarding, p5 draw cancellation, unequal-fps Lottie and explicit Anime autoplay=false/cleanup. Terra source review found no remaining blocker in these changed paths. Real browser/typecheck/locks/Babulus/package gates remain pending.",
+      "created_at": "2026-10-30T21:36:16.267458Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "8cb0bb3b-a936-410f-8bc1-48cd026f422a",
+      "author": "home",
+      "text": "Primary independent source review found a remaining disposal blocker: demo adapter createDemoEffect.seek and shared mountEffect.seek both await document.fonts.ready and img.decode without cancellation. A stalled asset readiness promise prevents seek completion and React unmount even after dispose. Add cancellation-aware races in both layers, suppress late rejections, prevent post-dispose DOM mutation, and test never-settling font and image readiness followed by timely cleanup. Browser conformance remains pending; do not accept from source tests alone.",
+      "created_at": "2026-10-30T21:52:59.306700Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "629ee9e3-cd2f-4ff8-8a79-d2e8ba7ab451",
+      "author": "home",
+      "text": "All seven shared demos passed32/32 browser conformance comparisons after fixes for cancellation, initial timeline state, stable child props and host sizing. Primary inspected captures: Anime/Three/D3/Lottie/p5/Text coherent; MixAndMatchDemo lower panel clips at1280x720. Must fix responsive layout, recapture1280x720 and1920x1080, rerun changed Mix conformance, refresh vendored package/provenance, and finish Babulus behavioral/build gates before acceptance. macOS browser evidence is not pinned Linux release proof.",
+      "created_at": "2026-10-30T22:02:11.838859Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "9a435535-6e80-462b-ab00-18a8a1b4ec42",
+      "author": "home",
+      "text": "Shared stdlib producer accepted and merged in https://github.com/VideoML/stdlib/pull/2 at source4fb36e9a994f1c382efffa3fdabd0d51c63dc623. Primary six catalog tests passed with pinned checkout;12 scoped tests,3 browser disposal/timing tests,consumerTypeScript passed; allseven localconformance32/32 and correctedMix720p/1080p visualreview accepted. Babulus part remains uncommitted: realAWSoutputs retrieved; requiredNextbuild hit font-loaderfailure onNode26, now checking existingNode20 matchingCI. Keep P06 open untilconsumer gateandcommitapproval.",
+      "created_at": "2026-10-30T22:11:16.208035Z",
+      "comment_type": "default"
+    }
+  ],
   "created_at": "2026-10-30T19:29:35.181013Z",
-  "updated_at": "2026-10-30T19:29:35.196601Z",
+  "updated_at": "2026-10-30T22:11:16.208687Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,

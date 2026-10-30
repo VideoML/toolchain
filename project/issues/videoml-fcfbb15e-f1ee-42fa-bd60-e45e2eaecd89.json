@@ -3,7 +3,7 @@
   "title": "P14 — Connect VideoML provider to local Auritus",
   "description": "## Dispatch packet P14\nRead initiative videoml-dbc2b1 sections D06 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\ntoolchain, cli\nPrimary paths: src/providers/tts/auritus.ts; registry.ts; CLI setup/config. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Spawn bridge safely and implement D06 validation/timeout. Add explicit model setup/diagnostics commands and clean install docs. Default only new projects to auritus; preserve explicitly selected existing providers. Remove implicit dry-run successes from missing creds or CI.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\nprotocol integration with fake process; missing executable/model, stderr noise, malformed response, timeout and CI explicit-provider tests.\n\n## Dependencies\nvideoml-f4f9f3 (P13), videoml-207e97 (P01)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n\n## Accepted review correction\nD06 correction: reject fatal exit, not a recoverable per-request error response. A 300s timeout kills process group and fails run, removing partial outputs; no implicit restart or paid fallback.",
   "type": "task",
-  "status": "open",
+  "status": "closed",
   "priority": 1,
   "assignee": null,
   "creator": null,
@@ -21,10 +21,32 @@
       "type": "blocked-by"
     }
   ],
-  "comments": [],
+  "comments": [
+    {
+      "id": "e064b910-0e99-4751-88e1-a8b15c587452",
+      "author": "home",
+      "text": "P14 source implemented and review findings corrected: persistent session and terminal process failures, strict correlated metadata, retained WAV sidecar, no provider instantiation for visual-only, explicit provider selection, invalid speed/model/format rejection, bounded explicit setup with offline readiness checks. Worker reports lint,16 focused fake-process tests and26 existing tests pass; lightweight CLI scratch checks passed with reused dependencies. Not accepted yet: refreshed packed-consumer verification was stopped before starting because free space was below8GiB. No setup/model download or real inference performed. Heavy operations paused; source remains uncommitted for final review and validation.",
+      "created_at": "2026-10-30T21:29:29.889121Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "a6f6273c-d392-4178-a31e-aca826d571a0",
+      "author": "home",
+      "text": "Primary independently passed19 focused provider tests. New fixes contain bridge staging siblings in a private request envelope and await killed-process close before cleanup; terminal GenerationSession forbids lazy restart and conflicting runtime config. Source review passed changed paths. Capacity restored; resumed bounded lightweight packed consumer using existing frozen dependencies, while P06 owns heavy slot. No actual model download/inference.",
+      "created_at": "2026-10-30T21:36:16.439462Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "b08a0ba2-b33d-459b-b54d-2fd06bf056a8",
+      "author": "home",
+      "text": "Primary accepted P14 after source review, independent19 focused protocol/session tests and26 existing tests, lint/diff checks, and refreshed packed CLI/toolchain consumer. Packed smoke used frozen dependency tree without new installation; verified public imports, init/diagnostics, visual-only and fake narrated generation, SIGINT/malformed cleanup. Visual-only zero-segment concat bug fixed. Private envelopes contain staging files; terminal sessions cannot restart or change runtime config. Hashes/report: /private/tmp/videoml-p14-packed/REPORT.md. Actual Kokoro inference and exact sample/cache v1 remain P16/P15; no model downloaded.",
+      "created_at": "2026-10-30T21:42:09.803623Z",
+      "comment_type": "default"
+    }
+  ],
   "created_at": "2026-10-30T19:29:35.506845Z",
-  "updated_at": "2026-10-30T19:31:41.678372Z",
-  "closed_at": null,
+  "updated_at": "2026-10-30T21:42:09.842702Z",
+  "closed_at": "2026-10-30T21:42:09.842582Z",
   "right_now_summary": null,
   "right_now_updated_at": null,
   "custom": {}

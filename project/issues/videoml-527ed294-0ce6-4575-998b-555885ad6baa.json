@@ -3,7 +3,7 @@
   "title": "P09 — Implement seeded text and image particles",
   "description": "## Dispatch packet P09\nRead initiative videoml-dbc2b1 sections D02,D03 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\nstdlib\nPrimary paths: src/effects/particles; catalog fixtures. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Adapt text/image particle targets with bundled font/image, seeded sampling and absolute-time interpolation. Expose density/direction/accent; no accumulated simulation.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\nrepeat/reverse/random seek fixtures and missing asset errors.\n\n## Dependencies\nvideoml-2779f2 (P04), videoml-fa90b2 (P05)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n",
   "type": "task",
-  "status": "open",
+  "status": "closed",
   "priority": 1,
   "assignee": null,
   "creator": null,
@@ -21,10 +21,25 @@
       "type": "blocked-by"
     }
   ],
-  "comments": [],
+  "comments": [
+    {
+      "id": "74da5c0c-c251-44c1-a229-549d497dd589",
+      "author": "home",
+      "text": "Execution sequence: start P09 independently while P15 owns toolchain/player integration and the heavy-validation slot. P09 edits stdlib source and scoped tests only until the primary grants browser validation. This avoids overlapping toolchain writers required by P07. P06 stdlib producer has merged; its Babulus consumer commit is awaiting the repository-required user approval after passing checks.",
+      "created_at": "2026-10-30T22:14:36.730351Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "8b36ba37-4fcc-446e-8999-4fe33bc06ae9",
+      "author": "home",
+      "text": "Accepted and merged in stdlib PR3, source eb454209b871659efdd322014c2844359ab5c565. Independent source review and primary visual review passed. Primary reran 11 scoped tests; worker pinned catalog 6/6, TypeScript and 5 browser cases passed. Exact RGBA equality covers text in/out and image ltr/center seeks and two partitions; exit boundaries, missing/stalled assets, cancellation and no external HTTP requests passed. Captures: /private/tmp/videoml-execution/artifacts/p09-final2. Catalog remains implemented, with pinned Linux/preview-export/encoded-video release proof tracked in P28.",
+      "created_at": "2026-10-30T22:25:34.718739Z",
+      "comment_type": "default"
+    }
+  ],
   "created_at": "2026-10-30T19:29:35.289200Z",
-  "updated_at": "2026-10-30T19:29:35.321640Z",
-  "closed_at": null,
+  "updated_at": "2026-10-30T22:25:34.851985Z",
+  "closed_at": "2026-10-30T22:25:34.851876Z",
   "right_now_summary": null,
   "right_now_updated_at": null,
   "custom": {}

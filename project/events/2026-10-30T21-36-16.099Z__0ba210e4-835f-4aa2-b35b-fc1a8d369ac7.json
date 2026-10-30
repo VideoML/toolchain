@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "event_id": "0ba210e4-835f-4aa2-b35b-fc1a8d369ac7",
+  "issue_id": "videoml-fcfbb15e-f1ee-42fa-bd60-e45e2eaecd89",
+  "event_type": "state_transition",
+  "occurred_at": "2026-10-30T21:36:16.099Z",
+  "actor_id": "home",
+  "payload": {
+    "from_status": "blocked",
+    "to_status": "in_progress"
+  }
+}
