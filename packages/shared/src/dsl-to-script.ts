@@ -13,7 +13,7 @@ import type {
   LayerSpec,
   ComponentSpec,
   PauseSpec,
-} from "../../../src/dsl/index.ts";
+} from "@videoml/toolchain/dsl";
 import type { ScriptData, ScriptScene, ScriptCue, ScriptSegment } from "./video.js";
 
 /**

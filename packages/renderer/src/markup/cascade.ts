@@ -1,4 +1,4 @@
-import type { SemanticMarkup } from "../../../../src/dsl/types.ts";
+import type { SemanticMarkup } from "@videoml/toolchain/dsl";
 
 /**
  * Cascaded markup includes merged values after applying the cascade.

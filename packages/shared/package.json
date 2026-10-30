@@ -8,5 +8,14 @@
   "exports": {
     ".": "./src/index.ts",
     "./dsl-to-script": "./src/dsl-to-script.ts"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "@videoml/toolchain": "0.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@videoml/toolchain": {
+      "optional": true
+    }
   }
 }

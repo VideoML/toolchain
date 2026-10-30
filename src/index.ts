@@ -18,6 +18,6 @@ export type { CompositionSpec, VideoFileSpec } from "./dsl/types.js";
 
 export { generateComposition, type GenerateOptions, type GeneratedArtifact } from "./generate.js";
 
-export { renderVideoFromScript } from "../packages/renderer/src/video-render.js";
-export type { ScriptData } from "../packages/shared/src/video.js";
-export type { TimelineData } from "../packages/shared/src/timeline.js";
+export { renderVideoFromScript } from "@videoml/renderer/video-render";
+export type { ScriptData } from "@videoml/shared";
+export type { TimelineData } from "@videoml/shared";

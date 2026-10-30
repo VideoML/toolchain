@@ -1,4 +1,4 @@
-import type { VisualStyles } from "../../../../src/dsl/types.ts";
+import type { VisualStyles } from "@videoml/toolchain/dsl";
 
 /**
  * Cascaded styles include computed values after applying the cascade.

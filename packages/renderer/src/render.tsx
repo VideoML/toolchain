@@ -193,12 +193,12 @@ export const renderFrameToFile = ({ outPath, ...options }: RenderFrameFileOption
   return html;
 };
 
-const loadPlaywright = async (): Promise<{ chromium: { launch: () => Promise<BrowserAdapter> } }> => {
+const loadPlaywright = async (): Promise<{ chromium: { launch: (options?: { executablePath?: string }) => Promise<BrowserAdapter> } }> => {
   try {
-    return require("playwright") as { chromium: { launch: () => Promise<BrowserAdapter> } };
+    return require("playwright") as { chromium: { launch: (options?: { executablePath?: string }) => Promise<BrowserAdapter> } };
   } catch {
     try {
-      return require("playwright-core") as { chromium: { launch: () => Promise<BrowserAdapter> } };
+      return require("playwright-core") as { chromium: { launch: (options?: { executablePath?: string }) => Promise<BrowserAdapter> } };
     } catch {
       throw new Error("Playwright is required for PNG rendering. Install 'playwright' or 'playwright-core'.");
     }
@@ -236,7 +236,7 @@ export const renderFrameToPng = async ({
   ...options
 }: RenderFramePngOptions): Promise<Buffer> => {
   const html = renderFrameToHtml(options);
-  const providedBrowser = browser ?? (await loadPlaywright()).chromium.launch();
+  const providedBrowser = browser ?? (await loadPlaywright()).chromium.launch({ executablePath: process.env.VIDEOML_CHROMIUM_EXECUTABLE_PATH });
   const activeBrowser = await providedBrowser;
   const shouldClose = autoClose ?? !browser;
   const { page, closeContext } = await createPage(activeBrowser, {
@@ -282,7 +282,7 @@ export const renderFramesToPng = async ({
   if (lastFrame < firstFrame) {
     return { frames: [] };
   }
-  const providedBrowser = browser ?? (await loadPlaywright()).chromium.launch();
+  const providedBrowser = browser ?? (await loadPlaywright()).chromium.launch({ executablePath: process.env.VIDEOML_CHROMIUM_EXECUTABLE_PATH });
   const activeBrowser = await providedBrowser;
   const shouldClose = autoClose ?? !browser;
 

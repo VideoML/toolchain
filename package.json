@@ -11,11 +11,11 @@
   "exports": {
     ".": "./src/index.ts",
     "./dsl": "./src/dsl/index.ts",
-    "./renderer": "./packages/renderer/src/index.ts",
-    "./renderer/components/registry": "./packages/renderer/src/components/registry.ts",
-    "./renderer/context": "./packages/renderer/src/context.tsx",
-    "./renderer/math": "./packages/renderer/src/math.ts",
-    "./shared": "./packages/shared/src/index.ts"
+    "./renderer": "./src/compat/renderer.ts",
+    "./renderer/components/registry": "./src/compat/registry.ts",
+    "./renderer/context": "./src/compat/context.ts",
+    "./renderer/math": "./src/compat/math.ts",
+    "./shared": "./src/compat/shared.ts"
   },
   "types": "./src/index.ts",
   "engines": {
@@ -23,7 +23,11 @@
   },
   "scripts": {
     "lint": "tsc --noEmit",
-    "test": "node --import tsx --test src/config.test.ts packages/shared/src/__tests__/dsl-to-script.test.ts"
+    "test": "node --import tsx --test src/config.test.ts packages/shared/src/__tests__/dsl-to-script.test.ts",
+    "test:package-wiring": "node --test tests/package-wiring.test.mjs",
+    "test:packed-consumer": "sh tests/packed-consumer-smoke.sh",
+    "test:conformance": "node --test tests/conformance/runner.test.mjs",
+    "test:effects": "node --import tsx --test tests/effects/*.test.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-polly": "^3.699.0",
@@ -31,7 +35,9 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tsx": "^4.19.0",
-    "yaml": "^2.5.1"
+    "yaml": "^2.5.1",
+    "@videoml/renderer": "0.0.0",
+    "@videoml/shared": "0.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
@@ -39,5 +45,8 @@
     "@types/react-dom": "^18.3.1",
     "playwright": "1.45.0",
     "typescript": "^5.7.2"
-  }
+  },
+  "files": [
+    "src"
+  ]
 }
