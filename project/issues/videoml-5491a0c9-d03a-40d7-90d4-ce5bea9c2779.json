@@ -21,9 +21,17 @@
       "type": "blocked-by"
     }
   ],
-  "comments": [],
+  "comments": [
+    {
+      "id": "14131785-8745-49c2-a16f-9e57b3264db0",
+      "author": "home",
+      "text": "P08 must wire shader identifiers into actual VideoML transition playback/export entrypoints using accepted P07 providers; new helper exports alone do not make XML transition effect=\"domain-warp\" execute. Preserve explicit capture-provider boundary, no silent CSSfade substitution for shader. Include copiedXML/shader transition integration tests for shippedrecipes.",
+      "created_at": "2026-10-30T23:01:52.173949Z",
+      "comment_type": "default"
+    }
+  ],
   "created_at": "2026-10-30T19:29:35.240751Z",
-  "updated_at": "2026-10-30T19:29:35.275487Z",
+  "updated_at": "2026-10-30T23:01:52.174183Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
