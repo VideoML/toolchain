@@ -1,3 +1,4 @@
+import { GenerationSession } from "./providers/tts/auritus.js";
 import { writeFileSync, existsSync, mkdirSync, copyFileSync, readdirSync, unlinkSync } from "fs";
 import { dirname, join, resolve, sep } from "path";
 import { CompileError } from "./errors.js";
@@ -6,6 +7,7 @@ import { getEnvironment, resolveEnvCacheDir } from "./env.js";
 import { loadManifest, getManifestDuration, resolveCachedSegment, resolveCachedSfx, resolveCachedMusic } from "./cache-resolver.js";
 import { hashKey, safePrefix, ensureDir } from "./util.js";
 import { makeBullet, type Script, type TransitionTimelineItem, scriptToJson } from "./models.js";
+import { getProviderConfig } from "./config.js";
 import { getTtsProvider } from "./providers/tts/registry.js";
 import { estimateDurationSec } from "./providers/tts/dry-run.js";
 import { getSfxProvider } from "./providers/sfx/registry.js";
@@ -45,6 +47,7 @@ export type GeneratedArtifact = {
 };
 
 export type GenerateOptions = {
+  generationSession?: GenerationSession;
   composition: CompositionSpec;
   dslPath: string;
   scriptOut: string;
@@ -63,6 +66,18 @@ export type GenerateOptions = {
 };
 
 export async function generateComposition(options: GenerateOptions): Promise<GeneratedArtifact> {
+  const session = options.generationSession ?? new GenerationSession();
+  let primaryError: unknown;
+  try { return await generateWithSession(options, session); }
+  catch (error) { primaryError = error; throw error; }
+  finally {
+    if (!options.generationSession) {
+      try { await session.dispose(); } catch (error) { if (!primaryError) throw error; }
+    }
+  }
+}
+
+async function generateWithSession(options: GenerateOptions, session: GenerationSession): Promise<GeneratedArtifact> {
   const {
     composition,
     dslPath,
@@ -87,19 +102,27 @@ export async function generateComposition(options: GenerateOptions): Promise<Gen
   };
 
   const voiceover = composition.voiceover ?? {};
-  const providerName = providerOverride ?? voiceover.provider ?? getDefaultProvider(config);
-  const sampleRateHz = voiceover.sampleRateHz ?? (providerName === "openai" ? 24000 : 44100);
+  const selectedProvider = providerOverride ?? voiceover.provider ?? getDefaultProvider(config);
+  const providerName = selectedProvider ?? "none";
+  const sampleRateHz = voiceover.sampleRateHz ?? (["openai", "auritus"].includes(providerName ?? "") ? 24000 : 44100);
   const leadInSec = voiceover.leadInSeconds ?? 0;
   const defaultTrimEnd = voiceover.trimEndSeconds ?? 0;
-  if (!providerName) {
+  const hasNarration = composition.timeline.some(item => "items" in item && item.items.some(i => i.kind === "cue" && i.segments.some(s => s.kind === "text" && s.text.trim())));
+  if (!selectedProvider && hasNarration) {
     throw new CompileError(
-      "No TTS provider configured. Set tts.default_provider or providers.openai.api_key (or pass --provider).",
+      "No TTS provider configured. Set tts.default_provider or pass --provider.",
     );
   }
-  const provider = getTtsProvider(providerName, config);
+  const provider = selectedProvider && hasNarration ? getTtsProvider(providerName, config, session) : { name: "none", async synthesize(): Promise<never> { throw new CompileError("No TTS provider configured"); } };
+  const auritusConfig = providerName === "auritus" ? getProviderConfig(config, "auritus") : {};
+  const selectedVoice = voiceover.voice ?? (typeof auritusConfig.voice === "string" ? auritusConfig.voice : null);
+  if (hasNarration && auritusConfig.speed !== undefined && typeof auritusConfig.speed !== "number") throw new CompileError("providers.auritus.speed must be a positive finite number");
+  const selectedSpeed = voiceover.speed ?? (typeof auritusConfig.speed === "number" ? auritusConfig.speed : 1);
+  if (hasNarration && (!Number.isFinite(selectedSpeed) || selectedSpeed <= 0)) throw new CompileError("voiceover speed must be a positive finite number");
+  const selectedSeed = seedOverride ?? voiceover.seed ?? (typeof auritusConfig.seed === "number" ? auritusConfig.seed : 0);
   const dryRunMode = providerName === "dry-run";
   const resolvedModel = voiceover.model ?? (provider as { defaultModel?: string }).defaultModel ?? null;
-  const resolvedVoice = voiceover.voice ?? (provider as { defaultVoice?: string }).defaultVoice ?? null;
+  const resolvedVoice = selectedVoice ?? (provider as { defaultVoice?: string }).defaultVoice ?? null;
 
   if (verboseLogs) {
     const modelInfo = `model=${resolvedModel ?? ""}`;
@@ -108,7 +131,7 @@ export async function generateComposition(options: GenerateOptions): Promise<Gen
     _log(`meta: fps=${composition.meta?.fps ?? "undefined"} width=${composition.meta?.width ?? "undefined"} height=${composition.meta?.height ?? "undefined"}`);
   }
 
-  const rng = makeRng(seedOverride ?? voiceover.seed ?? null);
+  const rng = makeRng(seedOverride ?? voiceover.seed ?? (providerName === "auritus" ? selectedSeed : null));
 
   const currentEnv = getEnvironment();
   const envCacheDir = resolveEnvCacheDir(outDir, currentEnv);
@@ -126,6 +149,10 @@ export async function generateComposition(options: GenerateOptions): Promise<Gen
   if (verboseLogs) {
     _log(`cache: env=${currentEnv} provider=${providerName}`);
   }
+
+  const pronunciations = voiceover.pronunciations ?? [];
+  if (providerName !== "elevenlabs" && pronunciations.some(rule => rule.phoneme)) throw new CompileError(`TTS provider "${providerName}" does not advertise phoneme support`);
+  const expandText = (text: string) => providerName === "elevenlabs" ? text : pronunciations.reduce((value, rule) => rule.alias ? value.split(rule.grapheme).join(rule.alias) : value, text);
 
   let didSynthesize = false;
   let pronunciationRulesHash: string | null = null;
@@ -189,7 +216,7 @@ export async function generateComposition(options: GenerateOptions): Promise<Gen
   }
 
   const ttsContext = {
-    voice: voiceover.voice ?? null,
+    voice: selectedVoice,
     model: voiceover.model ?? null,
     format: voiceover.format ?? "wav",
     sample_rate_hz: sampleRateHz,
@@ -353,7 +380,7 @@ export async function generateComposition(options: GenerateOptions): Promise<Gen
 
           const cached = resolveCachedSegment(outDir, currentEnv, segKey, scene.id, cue.id, occurrence, ttsExt, _log);
           // Verify the cached file actually exists before using it
-          const cacheValid = cached.path && !fresh && existsSync(cached.path);
+          const cacheValid = providerName !== "auritus" && cached.path && !fresh && existsSync(cached.path);
           if (cacheValid) {
             segPath = cached.path!;
             const manifestDuration = getManifestDuration(manifest, "segments", segPath, segKey);
@@ -385,12 +412,12 @@ export async function generateComposition(options: GenerateOptions): Promise<Gen
             try {
               const seg = await provider.synthesize(
                 {
-                  text: segSpec.text,
-                  voice: voiceover.voice ?? null,
+                  text: expandText(segSpec.text),
+                  voice: selectedVoice,
                   model: voiceover.model ?? null,
                   format: voiceover.format ?? "wav",
                   sampleRateHz,
-                  extra: effectivePronunciationLocators ? { pronunciation_dictionary_locators: effectivePronunciationLocators } : {},
+                  extra: { ...(effectivePronunciationLocators ? { pronunciation_dictionary_locators: effectivePronunciationLocators } : {}), speed: selectedSpeed, seed: selectedSeed },
                 },
                 segPath,
               );
@@ -428,12 +455,12 @@ export async function generateComposition(options: GenerateOptions): Promise<Gen
           _log(`tts: corrupt-duration scene=${scene.id} cue=${cue.id} seg=${segIndex + 1} duration=${duration.toFixed(1)}s -> regen`);
           const seg = await provider.synthesize(
             {
-              text: segSpec.text,
-              voice: voiceover.voice ?? null,
+              text: expandText(segSpec.text),
+              voice: selectedVoice,
               model: voiceover.model ?? null,
               format: voiceover.format ?? "wav",
               sampleRateHz,
-              extra: effectivePronunciationLocators ? { pronunciation_dictionary_locators: effectivePronunciationLocators } : {},
+              extra: { ...(effectivePronunciationLocators ? { pronunciation_dictionary_locators: effectivePronunciationLocators } : {}), speed: selectedSpeed, seed: selectedSeed },
             },
             segPath,
           );
@@ -835,7 +862,7 @@ export async function generateComposition(options: GenerateOptions): Promise<Gen
             ttsExt,
             _log,
           );
-          const cacheValid = cached.path && !fresh && existsSync(cached.path);
+          const cacheValid = providerName !== "auritus" && cached.path && !fresh && existsSync(cached.path);
           if (cacheValid) {
             segPath = cached.path!;
             const manifestDuration = getManifestDuration(manifest, "segments", segPath, segKey);
@@ -880,14 +907,12 @@ export async function generateComposition(options: GenerateOptions): Promise<Gen
             ensureDir(dirname(segPath));
             const seg = await provider.synthesize(
               {
-                text: segSpec.text,
-                voice: voiceover.voice ?? null,
+                text: expandText(segSpec.text),
+                voice: selectedVoice,
                 model: voiceover.model ?? null,
                 format: voiceover.format ?? "wav",
                 sampleRateHz,
-                extra: effectivePronunciationLocators
-                  ? { pronunciation_dictionary_locators: effectivePronunciationLocators }
-                  : {},
+                extra: { ...(effectivePronunciationLocators ? { pronunciation_dictionary_locators: effectivePronunciationLocators } : {}), speed: selectedSpeed, seed: selectedSeed },
               },
               segPath,
             );
@@ -1109,7 +1134,7 @@ export async function generateComposition(options: GenerateOptions): Promise<Gen
   const totalEndSec = outScenes.length ? outScenes[outScenes.length - 1].endSec : 0;
 
   ensureDir(dirname(scriptOut));
-  writeFileSync(scriptOut, JSON.stringify(scriptToJson(script), null, 2) + "\n", "utf-8");
+  writeFileSync(scriptOut, JSON.stringify({ ...scriptToJson(script), ...(selectedProvider === "dry-run" ? { simulated: true } : {}) }, null, 2) + "\n", "utf-8");
   if (verboseLogs) {
     _log(`write: script=${scriptOut} duration_seconds=${totalEndSec.toFixed(2)}`);
   }
@@ -1530,7 +1555,7 @@ export async function generateComposition(options: GenerateOptions): Promise<Gen
   }
 
   ensureDir(dirname(timelineOut));
-  writeFileSync(timelineOut, JSON.stringify({ items: timelineItems, audio: { tracks: audioTracksOut } }, null, 2) + "\n");
+  writeFileSync(timelineOut, JSON.stringify({ items: timelineItems, audio: { tracks: audioTracksOut }, ...(selectedProvider === "dry-run" ? { simulated: true } : {}) }, null, 2) + "\n");
   if (verboseLogs) {
     _log(`write: timeline=${timelineOut} items=${timelineItems.length} tracks=${audioTracksOut.length}`);
   }
@@ -1549,7 +1574,7 @@ export async function generateComposition(options: GenerateOptions): Promise<Gen
   }
 
   let audioPath: string | null = null;
-  if (audioOutPath) {
+  if (audioOutPath && segmentPathsForConcat.length > 0) {
     concatAudioFiles(audioOutPath, segmentPathsForConcat);
     audioPath = audioOutPath;
     if (verboseLogs) {

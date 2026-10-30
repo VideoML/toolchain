@@ -21,3 +21,5 @@ export { generateComposition, type GenerateOptions, type GeneratedArtifact } fro
 export { renderVideoFromScript } from "@videoml/renderer/video-render";
 export type { ScriptData } from "@videoml/shared";
 export type { TimelineData } from "@videoml/shared";
+
+export { GenerationSession, AuritusProvider } from "./providers/tts/auritus.js";

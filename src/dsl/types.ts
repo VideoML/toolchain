@@ -96,6 +96,7 @@ export type PronunciationLexemeSpec = {
 };
 
 export type VoiceoverConfig = {
+  speed?: number;
   provider?: string | null;
   voice?: string | null;
   model?: string | null;

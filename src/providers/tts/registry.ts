@@ -5,9 +5,10 @@ import { ElevenLabsTTSProvider } from "./elevenlabs.js";
 import { OpenAITTSProvider } from "./openai.js";
 import { PollyTTSProvider } from "./aws-polly.js";
 import { AzureSpeechTTSProvider } from "./azure.js";
+import { GenerationSession } from "./auritus.js";
 import type { TTSProvider } from "./types.js";
 
-export function getTtsProvider(name: string, config: Config): TTSProvider {
+export function getTtsProvider(name: string, config: Config, session?: GenerationSession): TTSProvider {
   const dryRunProvider = () => {
     const cfg = getProviderConfig(config, "dry-run");
     const wpm = typeof cfg.wpm === "number" ? cfg.wpm : Number(cfg.wpm ?? 165);
@@ -17,35 +18,22 @@ export function getTtsProvider(name: string, config: Config): TTSProvider {
     return new DryRunProvider(wpm);
   };
 
-  const shouldMock =
-    ["1", "true"].includes(String(process.env.CI ?? "").toLowerCase()) ||
-    ["1", "true"].includes(String(process.env.BABULUS_MOCK_TTS ?? "").toLowerCase());
-  const shouldFail =
-    ["1", "true"].includes(String(process.env.BABULUS_FORCE_TTS_ERROR ?? "").toLowerCase());
-  const failingProvider = () => ({
-    name: "failing-tts",
-    async synthesize() {
-      throw new Error("TTS API unavailable");
-    },
-  });
   if (name === "dry-run") {
     return dryRunProvider();
   }
+  if (name === "auritus") {
+    if (!session) throw new CompileError("Auritus requires a generation session");
+    return session.getAuritus(getProviderConfig(config, "auritus"));
+  }
   if (name === "openai") {
     const cfg = getProviderConfig(config, "openai");
-    if (shouldFail) {
-      return failingProvider();
-    }
-    if (shouldMock) {
-      return dryRunProvider();
-    }
     // Accept key from env, providers.openai.api_key, or legacy root key `openai_api_key`
     const apiKey =
       process.env.OPENAI_API_KEY ||
       String(cfg.api_key ?? "") ||
       (typeof (config as any)?.openai_api_key === "string" ? String((config as any).openai_api_key) : "");
     if (!apiKey || apiKey.startsWith("test-")) {
-      return dryRunProvider();
+      throw new CompileError("OpenAI API key credential required");
     }
     return new OpenAITTSProvider({
       apiKey,
@@ -71,16 +59,10 @@ export function getTtsProvider(name: string, config: Config): TTSProvider {
         }
       }
     }
-    if (shouldFail) {
-      return failingProvider();
-    }
-    if (shouldMock) {
-      return dryRunProvider();
-    }
     const apiKey = process.env.ELEVENLABS_API_KEY || String(cfg.api_key ?? "");
     const voiceId = String(cfg.voice_id ?? "");
     if (!apiKey || apiKey.startsWith("test-") || !voiceId) {
-      return dryRunProvider();
+      throw new CompileError("ElevenLabs API key and voice credentials required");
     }
     return new ElevenLabsTTSProvider({
       apiKey,
@@ -94,19 +76,6 @@ export function getTtsProvider(name: string, config: Config): TTSProvider {
   }
   if (name === "aws" || name === "aws-polly") {
     const cfg = getProviderConfig(config, "aws_polly");
-    if (shouldFail) {
-      return failingProvider();
-    }
-    if (shouldMock) {
-      return dryRunProvider();
-    }
-    const hasAwsCreds =
-      Boolean(process.env.AWS_ACCESS_KEY_ID) ||
-      Boolean(process.env.AWS_PROFILE) ||
-      Boolean(process.env.AWS_WEB_IDENTITY_TOKEN_FILE);
-    if (!hasAwsCreds) {
-      return dryRunProvider();
-    }
     return new PollyTTSProvider({
       region: process.env.AWS_POLLY_REGION || String(cfg.region ?? "us-east-1"),
       voiceId: String(cfg.voice_id ?? "Joanna"),
@@ -116,16 +85,10 @@ export function getTtsProvider(name: string, config: Config): TTSProvider {
   }
   if (name === "azure" || name === "azure-speech") {
     const cfg = getProviderConfig(config, "azure_speech");
-    if (shouldFail) {
-      return failingProvider();
-    }
-    if (shouldMock) {
-      return dryRunProvider();
-    }
     const apiKey = process.env.AZURE_SPEECH_KEY || String(cfg.api_key ?? "");
     const region = process.env.AZURE_SPEECH_REGION || String(cfg.region ?? "");
     if (!apiKey || apiKey.startsWith("test-") || !region) {
-      return dryRunProvider();
+      throw new CompileError("Azure Speech key and region credentials required");
     }
     return new AzureSpeechTTSProvider({
       apiKey,
@@ -134,6 +97,6 @@ export function getTtsProvider(name: string, config: Config): TTSProvider {
     });
   }
   throw new CompileError(
-    `Unknown TTS provider "${name}". Supported: dry-run, openai, elevenlabs, aws-polly (aws), azure-speech (azure)`,
+    `Unknown TTS provider "${name}". Supported: auritus, dry-run, openai, elevenlabs, aws-polly (aws), azure-speech (azure)`,
   );
 }
