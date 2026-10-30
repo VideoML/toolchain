@@ -1,4 +1,5 @@
 import { randomBytes, createHash } from "node:crypto";
+import {stageAssets} from "./assets/local.js";
 import { implicitTransitionId, qualifiedTimingId, validateResolvedTiming } from "@videoml/shared/resolved-timing";
 import { normalizeCompositionIds } from "./dsl/normalize.js";
 import { GenerationSession } from "./providers/tts/auritus.js";
@@ -1080,7 +1081,7 @@ async function generateWithSession(options: GenerateOptions, session: Generation
     timeline,
     posterTimeSec: composition.posterTime ?? null,
     fps: composition.meta?.fps,
-    meta: composition.meta,
+    meta: {...composition.meta, generationSeed:selectedSeed, ...(composition.assets?.length ? {assets:stageAssets(composition.assets,dslPath,scriptOut)} : {})},
   };
   for (const scene of outScenes) {
     sceneStartIndex[scene.id] = scene.startSec;

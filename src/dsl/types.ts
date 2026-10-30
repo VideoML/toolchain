@@ -201,6 +201,7 @@ export type CompositionSpec = {
   id: string;
   title?: string | null;
   meta?: CompositionMeta;
+  assets?: Array<{id:string;src:string;mediaType:string}>;
   posterTime?: number | null;
   voiceover?: VoiceoverConfig;
   audioProviders?: { sfx?: string | null; music?: string | null };

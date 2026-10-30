@@ -1,6 +1,7 @@
-import { mkdirSync, writeFileSync, readdirSync, unlinkSync, existsSync } from "fs";
+import { mkdirSync, writeFileSync, readFileSync, readdirSync, unlinkSync, existsSync } from "fs";
 import { cpus } from "os";
-import { dirname, join, resolve, isAbsolute } from "path";
+import { dirname, basename, join, resolve, isAbsolute } from "path";
+import { fileURLToPath } from "node:url";
 import { createRequire } from "module";
 import React from "react";
 import { renderToString } from "react-dom/server";
@@ -36,6 +37,8 @@ export type RenderFramesPngOptions = Omit<RenderFrameOptions, "frame"> & {
   workers?: number;
   onFrame?: (frame: number, path: string) => void;
   cleanFrames?: boolean; // If true, delete existing frames before rendering (default: true)
+  effectRegistryBundlePath?: string; // Trusted local bundle registering custom frame effects
+  effectStageTimeoutMs?: number; // Defaults to 30 seconds, capped at 300 seconds
   browserBundlePath?: string; // Deprecated: use browserBundlePaths instead
   browserBundlePaths?: string[]; // Multiple bundles to load in order (standard + custom)
 };
@@ -67,13 +70,14 @@ type BrowserContextAdapter = {
 };
 
 type PageAdapter = {
+  route?: (pattern:string, handler:(route:any)=>Promise<void>)=>Promise<void>;
   setViewport?: (options: { width: number; height: number; deviceScaleFactor?: number }) => Promise<void>;
   setViewportSize?: (options: { width: number; height: number }) => Promise<void>;
   setContent: (html: string, options?: { waitUntil?: "load" | "domcontentloaded" | "networkidle" }) => Promise<void>;
   screenshot: (options: { type: "png"; omitBackground?: boolean }) => Promise<Buffer>;
   close?: () => Promise<void>;
   on?: (event: string, handler: (msg: any) => void) => void;
-  addScriptTag?: (options: { url?: string; path?: string }) => Promise<void>;
+  addScriptTag?: (options: { url?: string; path?: string; content?: string }) => Promise<void>;
   evaluate?: <T = any>(pageFunction: (...args: any[]) => T | Promise<T>, ...args: any[]) => Promise<T>;
   waitForTimeout?: (timeout: number) => Promise<void>;
 };
@@ -228,6 +232,12 @@ const resolveWorkerCount = (workers?: number): number => {
   return Math.max(1, Math.floor(workers));
 };
 
+const hasFrameEffect = (value: unknown): boolean => {
+    if (!value || typeof value !== "object") return false;
+    if (Array.isArray(value)) return value.some(hasFrameEffect);
+    return (value as Record<string, unknown>).type === "FrameEffect" || Object.values(value).some(hasFrameEffect);
+  };
+
 export const renderFrameToPng = async ({
   outPath,
   deviceScaleFactor = 1,
@@ -235,6 +245,10 @@ export const renderFrameToPng = async ({
   autoClose,
   ...options
 }: RenderFramePngOptions): Promise<Buffer> => {
+  if (hasFrameEffect(options.inputProps?.script)) {
+    await renderFramesToPng({component:options.component,config:options.config,inputProps:options.inputProps,outDir:dirname(outPath),framePattern:basename(outPath),startFrame:options.frame,endFrame:options.frame,deviceScaleFactor,browser,autoClose,workers:1,cleanFrames:false});
+    return readFileSync(outPath);
+  }
   const html = renderFrameToHtml(options);
   const providedBrowser = browser ?? (await loadPlaywright()).chromium.launch({ executablePath: process.env.VIDEOML_CHROMIUM_EXECUTABLE_PATH });
   const activeBrowser = await providedBrowser;
@@ -282,6 +296,15 @@ export const renderFramesToPng = async ({
   if (lastFrame < firstFrame) {
     return { frames: [] };
   }
+  const automaticEffects = hasFrameEffect(options.inputProps?.script);
+  let automaticBundle: string | undefined;
+  if (automaticEffects && (!Number.isFinite(options.effectStageTimeoutMs ?? 30000) || (options.effectStageTimeoutMs ?? 30000) <= 0 || (options.effectStageTimeoutMs ?? 30000) > 300000)) throw new Error('FRAME_EFFECT_INVALID: stage timeout must be within 300 seconds');
+  if (automaticEffects) {
+    const { build } = await import("esbuild");
+    const output = await build({entryPoints:[fileURLToPath(new URL("./frame-effect-browser.tsx",import.meta.url))],bundle:true,write:false,platform:"browser",format:"iife",target:"es2022"});
+    automaticBundle = output.outputFiles[0].text;
+  }
+
   const providedBrowser = browser ?? (await loadPlaywright()).chromium.launch({ executablePath: process.env.VIDEOML_CHROMIUM_EXECUTABLE_PATH });
   const activeBrowser = await providedBrowser;
   const shouldClose = autoClose ?? !browser;
@@ -306,7 +329,36 @@ export const renderFramesToPng = async ({
     return next;
   };
 
+
   const renderWithPage = async (page: PageAdapter) => {
+    if (automaticBundle) {
+      if (!page.addScriptTag || !page.evaluate || !page.route) throw new Error("Frame effect rendering requires a browser page with request isolation");
+      const timeoutMs=options.effectStageTimeoutMs ?? 30000;
+      if(!Number.isFinite(timeoutMs)||timeoutMs<=0||timeoutMs>300000)throw new Error('FRAME_EFFECT_INVALID: stage timeout must be within 300 seconds');
+      const bounded=async <T,>(operation:()=>Promise<T>,stage:string):Promise<T>=>{
+        let timer: ReturnType<typeof setTimeout>|undefined;
+        try{return await Promise.race([operation(),new Promise<never>((_,reject)=>{timer=setTimeout(()=>{void page.close?.().catch(()=>{});reject(new Error(`FRAME_EFFECT_TIMEOUT: ${stage}`));},timeoutMs);})]);}
+        finally{if(timer)clearTimeout(timer);}
+      };
+      const blockedRequests:string[]=[];
+      await bounded(()=>page.route!('**/*',async route=>{const url=route.request().url();if(/^(https?:|file:|ftp:)/i.test(url)){blockedRequests.push(url);await route.abort('blockedbyclient');}else await route.continue();}),'request isolation');
+      await bounded(()=>page.setContent(`<!doctype html><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval'; style-src 'unsafe-inline'; img-src data: blob:; font-src data: blob:; connect-src data: blob:; worker-src 'none'; frame-src 'none'; object-src 'none'"><style>html,body{margin:0;width:${options.config.width}px;height:${options.config.height}px;overflow:hidden;background:#fdfdfd}</style><div id="root" style="width:100%;height:100%"></div>`,{waitUntil:"load"}),"page setup");
+      await bounded(()=>page.evaluate!(() => { (window as any).__videomlBlockedPolicies=[];document.addEventListener('securitypolicyviolation',event=>(window as any).__videomlBlockedPolicies.push(`${event.violatedDirective}: ${event.blockedURI}`)); }),"policy setup");
+      if(options.effectRegistryBundlePath)await bounded(()=>page.addScriptTag!({path:resolve(options.effectRegistryBundlePath!)}),"custom registry setup");
+      await bounded(()=>page.addScriptTag!({content:automaticBundle}),"effect bundle setup");
+      let failed = false;
+      try {
+        for (;;) {
+          const frame = takeNextFrame(); if (frame == null) break;
+          await bounded(()=>page.evaluate!(async (args: any) => (window as any).videomlFrameEffectRender(args), {script:options.inputProps?.script,frame,config:options.config,assets:options.inputProps?.effectAssets ?? {},seed:options.inputProps?.effectSeed ?? 0}),"mount or seek");
+          const policyViolations=await bounded(()=>page.evaluate!(()=>(window as any).__videomlBlockedPolicies as string[]),'policy check');
+          if(blockedRequests.length||policyViolations.length)throw new Error(`FRAME_EFFECT_NETWORK_BLOCKED: ${blockedRequests[0] ?? policyViolations[0]}`);
+          const buffer = await bounded(()=>page.screenshot({type:"png"}),"screenshot"); const outPath=join(outDir,formatFrameName(framePattern,frame));ensureDir(dirname(outPath));writeFileSync(outPath,buffer);frames.push({frame,path:outPath});onFrame?.(frame,outPath);
+        }
+      } catch (error) { failed=true; if(error instanceof Error && error.message.startsWith('FRAME_EFFECT_TIMEOUT:'))throw error; const violations=await bounded(()=>page.evaluate!(()=>(window as any).__videomlBlockedPolicies as string[]),'error policy check').catch(()=>[] as string[]); if(blockedRequests.length||violations.length) throw new Error(`FRAME_EFFECT_NETWORK_BLOCKED: ${blockedRequests[0] ?? violations[0]}`); throw error; }
+      finally { try { await bounded(()=>page.evaluate!(() => (window as any).videomlFrameEffectDispose()),"dispose"); } catch (error) { if (!failed) throw error; } }
+      return;
+    }
     // Resolve browser bundle paths - support both single and multiple bundles
     let bundlePaths: string[] = [];
 
@@ -438,36 +490,34 @@ export const renderFramesToPng = async ({
     }
   };
 
-  const workersPool = await Promise.all(
-    Array.from({ length: workerCount }, async () => {
-      const { page, closeContext } = await createPage(activeBrowser, {
-        width: options.config.width,
-        height: options.config.height,
-        deviceScaleFactor,
-      });
-      await applyViewport(page, {
-        width: options.config.width,
-        height: options.config.height,
-        deviceScaleFactor,
-      });
-      return { page, closeContext };
-    }),
-  );
+  const setupBounded=async <T,>(operation:()=>Promise<T>,stage:string):Promise<T>=>{
+    if(!automaticBundle)return operation();let timer:ReturnType<typeof setTimeout>|undefined;
+    try{return await Promise.race([operation(),new Promise<never>((_,reject)=>{timer=setTimeout(()=>{void activeBrowser.close?.().catch(()=>{});reject(new Error(`FRAME_EFFECT_TIMEOUT: ${stage}`));},options.effectStageTimeoutMs ?? 30000);})]);}finally{if(timer)clearTimeout(timer);}
+  };
+  const setupResults = await Promise.allSettled(Array.from({length:workerCount},async()=>{
+    const pair=await setupBounded(()=>createPage(activeBrowser,{width:options.config.width,height:options.config.height,deviceScaleFactor}),'page creation');
+    try {await setupBounded(()=>applyViewport(pair.page,{width:options.config.width,height:options.config.height,deviceScaleFactor}),'viewport setup');return pair;}
+    catch(error){void pair.page.close?.().catch(()=>{});void pair.closeContext?.().catch(()=>{});throw error;}
+  }));
+  const workersPool=setupResults.filter((item):item is PromiseFulfilledResult<Awaited<ReturnType<typeof createPage>>>=>item.status==='fulfilled').map(item=>item.value);
+  const setupFailure=setupResults.find((item):item is PromiseRejectedResult=>item.status==='rejected');
+  if(setupFailure){for(const {page,closeContext} of workersPool){void page.close?.().catch(()=>{});void closeContext?.().catch(()=>{});}if(shouldClose)void activeBrowser.close?.().catch(()=>{});throw setupFailure.reason;}
 
-  await Promise.all(
-    workersPool.map(async ({ page, closeContext }) => {
-      try {
-        await renderWithPage(page);
-      } finally {
-        await page.close?.();
-        await closeContext?.();
-      }
-    }),
-  );
-
-  if (shouldClose) {
-    await activeBrowser.close?.();
+  let renderFailure: unknown;
+  try {
+    const outcomes = await Promise.allSettled(workersPool.map(async ({ page, closeContext }) => {
+      let failure: unknown;
+      try { await renderWithPage(page); } catch (error) { failure=error; }
+      const closeBounded=async (operation:()=>Promise<void>)=>{if(!automaticBundle)return operation();let timer:ReturnType<typeof setTimeout>|undefined;try{await Promise.race([operation(),new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error('FRAME_EFFECT_TIMEOUT: cleanup')),options.effectStageTimeoutMs ?? 30000);})]);}finally{if(timer)clearTimeout(timer);}};
+      try { await closeBounded(async()=>{await page.close?.();}); } catch (error) { failure ??= error; }
+      try { await closeBounded(async()=>{await closeContext?.();}); } catch (error) { failure ??= error; }
+      if (failure) throw failure;
+    }));
+    for (const outcome of outcomes) if (outcome.status === 'rejected') {renderFailure=outcome.reason;break;}
+  } finally {
+    if (shouldClose) try { if(automaticBundle){let timer:ReturnType<typeof setTimeout>|undefined;try{await Promise.race([activeBrowser.close?.(),new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error('FRAME_EFFECT_TIMEOUT: browser cleanup')),options.effectStageTimeoutMs ?? 30000);})]);}finally{if(timer)clearTimeout(timer);}}else await activeBrowser.close?.(); } catch (error) { renderFailure ??= error; }
   }
+  if (renderFailure) throw renderFailure;
 
   frames.sort((a, b) => a.frame - b.frame);
   return { frames };

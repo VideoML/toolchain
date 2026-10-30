@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "sampleRateHz": 24000,
+  "fps": 30,
+  "durationFrames": 120,
+  "audioTotalSamples": 0,
+  "generationSeed": 2402394238,
+  "leadInSamples": 0,
+  "scenes": [
+    {
+      "id": "scene:[\"s\"]",
+      "startFrame": 0,
+      "endFrame": 120
+    }
+  ],
+  "cues": [],
+  "layers": [],
+  "components": [
+    {
+      "id": "component:[\"s\",\"e\"]",
+      "startFrame": 0,
+      "endFrame": 120
+    }
+  ],
+  "transitions": [],
+  "segments": []
+}

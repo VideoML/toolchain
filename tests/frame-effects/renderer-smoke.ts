@@ -1,0 +1,12 @@
+import {mkdtempSync,readFileSync,writeFileSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {loadVideoFileFromXml} from '../../src/dsl/xml.js';
+import {generateComposition} from '../../src/generate.js';
+import {renderFramesToPng} from '../../packages/renderer/src/render.js';
+import {ComposableRenderer} from '../../packages/renderer/src/ComposableRenderer.js';
+const dir=mkdtempSync(join(tmpdir(),'vml-frame-effect-'));
+const xml=`<vml id="v" fps="30" width="1280" height="720"><scene id="s" duration="4s"><frame-effect id="e" effect-id="videoml/echo-smear" effect-version="1" props='{"parameters":{}}' start="0f" duration="120f" /></scene></vml>`;
+const composition=loadVideoFileFromXml(xml).compositions[0];await generateComposition({composition,dslPath:join(dir,'in.xml'),scriptOut:join(dir,'script.json'),timelineOut:join(dir,'timeline.json'),outDir:join(dir,'out'),config:{},verboseLogs:false});
+const script=JSON.parse(readFileSync(join(dir,'script.json'),'utf8'));console.log('script',JSON.stringify(script.scenes[0].components));
+await renderFramesToPng({component:ComposableRenderer,config:{fps:30,width:1280,height:720,durationFrames:120},inputProps:{script,effectSeed:0},outDir:join(dir,'frames'),startFrame:15,endFrame:15,workers:1});console.log('output',dir);

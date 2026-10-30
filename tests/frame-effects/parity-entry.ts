@@ -1,0 +1,7 @@
+import {createVmlPlayerController} from '@videoml/player';
+import {createEffectRegistry,mountEffect} from '@videoml/stdlib/effects';
+import {registerParticleEffects} from '@videoml/stdlib/effects/particles';
+import {registerEchoSmear} from '@videoml/stdlib/effects/echo-smear';
+let c:any;const root=document.getElementById('root')!;
+(window as any).setup=(kind:string,mode:string,asset:string|null,fps:number,seed:number)=>{c?.dispose();root.replaceChildren();const effects={text:'videoml/particle-text-dissolve',image:'videoml/particle-image-reveal',echo:'videoml/echo-smear'} as Record<string,string>;const params=kind==='text'?{text:'VideoML'}:{};const assets=kind==='text'?{font:asset}:kind==='image'?{image:asset}:{};if(mode==='direct'){const registry=createEffectRegistry();registerParticleEffects(registry);registerEchoSmear(registry);c=mountEffect(root,registry,{id:effects[kind],version:'1',parameters:params,startFrame:0,endFrame:fps*4},{width:1280,height:720,fps,seed,assets});}else{const xml=`<vml id="v" fps="${fps}" width="1280" height="720"><voiceover seed="${seed}"/><scene id="s" duration="4s"><frame-effect id="e" effect-id="${effects[kind]}" effect-version="1" props='${JSON.stringify({parameters:params})}' start="0f" duration="${fps*4}f"/></scene></vml>`;c=createVmlPlayerController(root,{xml,autoPlay:false,effectAssets:assets});}return true;};
+(window as any).seek=(frame:number)=>c.seek(frame);

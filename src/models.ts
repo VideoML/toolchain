@@ -77,6 +77,8 @@ export type ScriptMeta = {
   width?: number;
   height?: number;
   durationSeconds?: number;
+  generationSeed?: number;
+  assets?: Array<{id:string;path:string;mediaType:string;sha256:string}>;
 };
 
 export type Script = {
