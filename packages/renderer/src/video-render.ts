@@ -1,5 +1,7 @@
+import { applyResolvedTimingToScript, projectResolvedTimeline, validateResolvedTiming, type ResolvedTiming } from "@videoml/shared/resolved-timing";
 import type { ScriptData } from "./shared.ts";
 import { deriveVideoConfig, type TimelineData } from "./shared.ts";
+import { withVerifiedFrozenAudio } from "./resolved-audio-node.js";
 import { renderVideo, type RenderVideoOptions, type RenderVideoResult } from "./pipeline.js";
 import { ComposableRenderer } from "./ComposableRenderer.js";
 
@@ -12,6 +14,8 @@ export type PreviewOptions = {
 export type RenderVideoScriptOptions = Omit<RenderVideoOptions, "component" | "config" | "inputProps"> & {
   script: ScriptData;
   timeline?: TimelineData | null;
+  resolvedTiming?: ResolvedTiming | null;
+  resolvedTimingRoot?: string;
   title?: string | null;
   subtitle?: string | null;
   debugLayout?: boolean;
@@ -23,8 +27,10 @@ export type RenderVideoScriptOptions = Omit<RenderVideoOptions, "component" | "c
 };
 
 export const renderVideoFromScript = async ({
-  script,
+  script: originalScript,
   timeline,
+  resolvedTiming,
+  resolvedTimingRoot,
   title,
   subtitle,
   debugLayout,
@@ -35,7 +41,14 @@ export const renderVideoFromScript = async ({
   preview,
   ...options
 }: RenderVideoScriptOptions): Promise<RenderVideoResult> => {
-  const derived = deriveVideoConfig({ script, timeline });
+  if (resolvedTiming) {
+    validateResolvedTiming(resolvedTiming);
+    if (!resolvedTimingRoot) throw new Error("Frozen timing requires an audio root");
+    if ((fps !== undefined && fps !== resolvedTiming.fps) || (durationFrames !== undefined && durationFrames !== resolvedTiming.durationFrames) || (preview?.fps !== undefined && preview.fps !== resolvedTiming.fps)) throw new Error("FPS or duration conflicts with frozen timing");
+  }
+  const script = resolvedTiming ? applyResolvedTimingToScript(originalScript, resolvedTiming, timeline as any) : originalScript;
+  const projectedTimeline = resolvedTiming && timeline ? projectResolvedTimeline(timeline, resolvedTiming) : timeline;
+  const derived = deriveVideoConfig({ script, timeline: projectedTimeline });
 
   // Handle preview mode
   let resolvedFps: number;
@@ -46,7 +59,7 @@ export const renderVideoFromScript = async ({
 
   if (preview) {
     // Preview mode: use preview fps and calculate frame range
-    const previewFps = preview.fps ?? 15; // Default to 15 fps for preview
+    const previewFps = preview.fps ?? resolvedTiming?.fps ?? 15; // Default to 15 fps for preview
     const previewOffsetSec = preview.offsetSec ?? 0;
     const previewDurationSec = preview.durationSec ?? 2; // Default to 2 seconds
 
@@ -55,21 +68,22 @@ export const renderVideoFromScript = async ({
     endFrame = Math.floor((previewOffsetSec + previewDurationSec) * previewFps);
 
     // Duration frames must cover the full video for proper rendering context
-    resolvedDurationFrames = Math.max(1, Math.ceil(derived.durationSec * previewFps));
+    resolvedDurationFrames = resolvedTiming?.durationFrames ?? Math.max(1, Math.ceil(derived.durationSec * previewFps));
 
     console.log(`[Preview Mode] Rendering ${previewDurationSec}s at ${previewFps} fps from offset ${previewOffsetSec}s`);
     console.log(`[Preview Mode] Frame range: ${startFrame}-${endFrame} (total: ${endFrame - startFrame} frames)`);
   } else {
     // Normal mode
-    resolvedFps = fps ?? derived.fps;
-    resolvedDurationFrames = durationFrames ?? Math.max(1, Math.ceil(derived.durationSec * resolvedFps));
+    resolvedFps = resolvedTiming?.fps ?? fps ?? derived.fps;
+    resolvedDurationFrames = resolvedTiming?.durationFrames ?? durationFrames ?? Math.max(1, Math.ceil(derived.durationSec * resolvedFps));
   }
 
   const resolvedWidth = width ?? derived.width;
   const resolvedHeight = height ?? derived.height;
 
-  return renderVideo({
+  const render = (verifiedAudioPath: string | null | undefined) => renderVideo({
     ...options,
+    audioPath: verifiedAudioPath,
     component: ComposableRenderer,
     config: {
       fps: resolvedFps,
@@ -86,6 +100,9 @@ export const renderVideoFromScript = async ({
     startFrame,
     endFrame,
   });
+  return resolvedTiming
+    ? withVerifiedFrozenAudio(resolvedTiming, resolvedTimingRoot!, options.audioPath, render)
+    : render(options.audioPath);
 };
 
 // Deprecated: Use renderVideoFromScript instead

@@ -102,7 +102,7 @@ export type VoiceoverConfig = {
   model?: string | null;
   format?: string;
   sampleRateHz?: number;
-  seed?: number;
+  seed?: number | "random";
   leadInSeconds?: number;
   trimEndSeconds?: number;
   /**
@@ -246,6 +246,8 @@ export type VisualStyles = {
 
 export type ComponentSpec = {
   id: string; // Unique ID within scene/layer
+  /** Internal compatibility marker for XML components lacking explicit IDs. */
+  generatedId?: boolean;
   type: string | React.ComponentType<any>; // Component type or React element
   props?: Record<string, unknown>; // Static props
   bindings?: ComponentBindings; // Data bindings to scene/cue

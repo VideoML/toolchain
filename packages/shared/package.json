@@ -7,7 +7,8 @@
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./dsl-to-script": "./src/dsl-to-script.ts"
+    "./dsl-to-script": "./src/dsl-to-script.ts",
+    "./resolved-timing": "./src/resolved-timing.ts"
   },
   "dependencies": {},
   "peerDependencies": {

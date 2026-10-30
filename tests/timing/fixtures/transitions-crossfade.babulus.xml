@@ -1,0 +1,29 @@
+<vml id="transitions-crossfade" title="Transitions Crossfade" fps="30" width="1920" height="1080">
+  <voiceover provider="dry-run" />
+
+  <scene id="crossfade-a" title="Scene A" styles='{"background":"#7a1f1f"}'>
+    <layer id="bg" z="0">
+      <video-background props='{"color":"#7a1f1f"}' />
+    </layer>
+    <layer id="title" z="10">
+      <video-title props='{"text":"Scene A","color":"var(--color-primary)","textColor":"var(--color-text)","position":{"y":540},"textAlign":"center"}' />
+    </layer>
+    <cue id="hold-a" label="hold-a">
+      <pause seconds="2.5s" />
+    </cue>
+  </scene>
+
+  <transition id="crossfade-1" effect="crossfade" duration="18f" ease="power2.inOut" />
+
+  <scene id="crossfade-b" title="Scene B" styles='{"background":"#1f3a7a"}'>
+    <layer id="bg" z="0">
+      <video-background props='{"color":"#1f3a7a"}' />
+    </layer>
+    <layer id="title" z="10">
+      <video-title props='{"text":"Scene B","color":"var(--color-primary)","textColor":"var(--color-text)","position":{"y":540},"textAlign":"center"}' />
+    </layer>
+    <cue id="hold-b" label="hold-b">
+      <pause seconds="2.5s" />
+    </cue>
+  </scene>
+</vml>
