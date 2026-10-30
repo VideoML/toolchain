@@ -351,6 +351,18 @@ const parseComponent = (
   componentIndex: number,
 ): ComponentSpec => {
   const attrs = parseAttributes(element);
+  if (element.tagName.toLowerCase() === "frame-effect") {
+    if (!attrs.id || !attrs["effect-id"] || !attrs["effect-version"] || !attrs.props) throw new ParseError("frame-effect requires id, effect-id, effect-version and props");
+    const parsed = parseJson(attrs.props, "frame-effect props");
+    const validate = (value: unknown): void => {
+      if (value === null || typeof value === "string" || typeof value === "boolean" || typeof value === "number" && Number.isFinite(value)) return;
+      if (Array.isArray(value)) { value.forEach(validate); return; }
+      if (typeof value !== "object" || Object.getPrototypeOf(value) !== Object.prototype) throw new ParseError("frame-effect parameters must be plain JSON data");
+      for (const [key, item] of Object.entries(value as Record<string, unknown>)) { if (["__proto__", "constructor", "prototype"].includes(key)) throw new ParseError("frame-effect parameters contain a forbidden key"); validate(item); }
+    };
+    validate(parsed);
+    if (!parsed || Array.isArray(parsed) || typeof parsed !== "object" || Object.keys(parsed).some(key => key !== "parameters") || !parsed.parameters || typeof parsed.parameters !== "object" || Array.isArray(parsed.parameters)) throw new ParseError("frame-effect props must contain only a parameters object");
+  }
   const reserved = new Set(["id", "visible", "z", "start", "end", "duration", "styles", "markup", "props"]);
   const rawId = attrs.id;
   const id = rawId ?? `${element.tagName}-${componentIndex}`;
@@ -360,6 +372,7 @@ const parseComponent = (
   const styles = parseStylesOrMarkup(attrs.styles, "styles attribute") as VisualStyles | undefined;
   const markup = parseStylesOrMarkup(attrs.markup, "markup attribute") as SemanticMarkup | undefined;
   const props = parseProps(attrs, reserved);
+  if (element.tagName.toLowerCase() === "frame-effect") { props.effectId = attrs["effect-id"]; props.effectVersion = attrs["effect-version"]; }
   const type = toPascalCase(element.tagName);
 
   return {
@@ -798,6 +811,7 @@ export const loadVideoFileFromXml = (xml: string): VideoFileSpec => {
     throw new ParseError("XML root must be <vml>, <videoml>, or <video-ml>.");
   }
 
+  for (const element of Array.from(root.getElementsByTagName("frame-effect"))) { if (!element.getAttribute("id")) throw new ParseError("frame-effect requires an explicit id"); }
   try { normalizeSourceElement(root as unknown as SourceElement); }
   catch (error) { throw new ParseError(error instanceof Error ? error.message : String(error)); }
   const attrs = parseAttributes(asElementLike(root));
@@ -978,6 +992,17 @@ export const loadVideoFileFromXml = (xml: string): VideoFileSpec => {
     }
   }
 
+  const assetContainers = getChildElements(asElementLike(root)).filter(node => node.tagName === "assets");
+  if (assetContainers.length > 1) throw new ParseError("Only one assets element is allowed");
+  const assets = assetContainers.flatMap(node => getChildElements(node).map(asset => {
+    if (asset.tagName !== "asset") throw new ParseError("assets may contain only asset elements");
+    const attrs = parseAttributes(asset); const id = attrs.id, src = attrs.src, mediaType = attrs["media-type"];
+    if (!id || ["__proto__", "constructor", "prototype"].includes(id) || !/^[A-Za-z][A-Za-z0-9_-]*$/.test(id) || !src || !mediaType) throw new ParseError("asset requires a valid id, src and media-type");
+    if (!/^(font\/woff2|image\/(png|jpeg|webp|svg\+xml))$/.test(mediaType)) throw new ParseError("Unsupported asset media type");
+    if (src.startsWith("/") || src.includes("\\") || /[?#:%]/.test(src) || src.split("/").some(part => !part || part === "." || part === "..")) throw new ParseError("Unsafe asset source path");
+    return {id,src,mediaType};
+  }));
+  if (assets.length > 32 || new Set(assets.map(asset => asset.id)).size !== assets.length) throw new ParseError("Duplicate or excessive assets");
   const composition = {
     id,
     title,
@@ -988,6 +1013,7 @@ export const loadVideoFileFromXml = (xml: string): VideoFileSpec => {
       durationSeconds: duration,
     },
     posterTime: poster ?? undefined,
+    assets,
     voiceover,
     timeline,
   };

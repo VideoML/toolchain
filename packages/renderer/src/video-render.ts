@@ -1,6 +1,7 @@
 import { applyResolvedTimingToScript, projectResolvedTimeline, validateResolvedTiming, type ResolvedTiming } from "@videoml/shared/resolved-timing";
 import type { ScriptData } from "./shared.ts";
 import { deriveVideoConfig, type TimelineData } from "./shared.ts";
+import { resolveEffectAssets } from "./effect-assets-node.js";
 import { withVerifiedFrozenAudio } from "./resolved-audio-node.js";
 import { renderVideo, type RenderVideoOptions, type RenderVideoResult } from "./pipeline.js";
 import { ComposableRenderer } from "./ComposableRenderer.js";
@@ -24,7 +25,33 @@ export type RenderVideoScriptOptions = Omit<RenderVideoOptions, "component" | "c
   height?: number;
   durationFrames?: number;
   preview?: PreviewOptions; // Preview mode for fast iteration
+  effectAssets?: Readonly<Record<string, string>>;
+  assetBaseDir?: string;
+  effectSeed?: number;
 };
+
+/** Project authored component offsets to composition time for the browser effect adapter. */
+function absoluteFrameEffectTiming<T extends ScriptData>(input:T):T {
+ const script=structuredClone(input);
+ const project=(container:any,start:number,end:number|null|undefined)=>{
+  const resolve=(component:any,base:number,limit:number|null|undefined)=>{
+   if(component.type!=="FrameEffect")return;
+   const offset=component.timing?.startSec ?? 0, authoredEnd=component.timing?.endSec;
+   const endSec=authoredEnd===undefined?limit:base+authoredEnd;
+   if(!Number.isFinite(endSec))throw new Error('FRAME_EFFECT_INVALID: a bounded interval is required');
+   component.timing={startSec:base+offset,endSec:Math.min(endSec,limit ?? endSec)};
+  };
+  for(const component of container.components ?? [])resolve(component,start,end);
+  for(const layer of container.layers ?? []) {
+   if(!(layer.components ?? []).some((component:any)=>component.type==='FrameEffect'))continue;
+   const layerStart=start+(layer.timing?.startSec ?? 0),layerEnd=layer.timing?.endSec===undefined?end:Math.min(start+layer.timing.endSec,end ?? Infinity);
+   layer.timing={startSec:layerStart,endSec:layerEnd};for(const component of layer.components ?? [])resolve(component,layerStart,layerEnd);
+  }
+ };
+ for(const scene of script.scenes ?? [])project(scene,scene.startSec ?? 0,scene.endSec);
+ for(const item of script.timeline ?? [])if(item.kind==='transition')project(item,item.startSec ?? 0,item.endSec);
+ return script;
+}
 
 export const renderVideoFromScript = async ({
   script: originalScript,
@@ -39,6 +66,9 @@ export const renderVideoFromScript = async ({
   height,
   durationFrames,
   preview,
+  effectAssets,
+  assetBaseDir,
+  effectSeed,
   ...options
 }: RenderVideoScriptOptions): Promise<RenderVideoResult> => {
   if (resolvedTiming) {
@@ -46,7 +76,7 @@ export const renderVideoFromScript = async ({
     if (!resolvedTimingRoot) throw new Error("Frozen timing requires an audio root");
     if ((fps !== undefined && fps !== resolvedTiming.fps) || (durationFrames !== undefined && durationFrames !== resolvedTiming.durationFrames) || (preview?.fps !== undefined && preview.fps !== resolvedTiming.fps)) throw new Error("FPS or duration conflicts with frozen timing");
   }
-  const script = resolvedTiming ? applyResolvedTimingToScript(originalScript, resolvedTiming, timeline as any) : originalScript;
+  const script = resolvedTiming ? applyResolvedTimingToScript(originalScript, resolvedTiming, timeline as any) : absoluteFrameEffectTiming(originalScript);
   const projectedTimeline = resolvedTiming && timeline ? projectResolvedTimeline(timeline, resolvedTiming) : timeline;
   const derived = deriveVideoConfig({ script, timeline: projectedTimeline });
 
@@ -96,6 +126,8 @@ export const renderVideoFromScript = async ({
       title: title ?? undefined,
       subtitle: subtitle ?? undefined,
       debugLayout: !!debugLayout,
+      effectAssets: resolveEffectAssets((script.meta as any)?.assets,assetBaseDir,effectAssets),
+      effectSeed: resolvedTiming?.generationSeed ?? effectSeed ?? (script.meta as any)?.generationSeed ?? 0,
     },
     startFrame,
     endFrame,

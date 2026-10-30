@@ -216,7 +216,7 @@ export function projectResolvedTimeline<T extends Record<string, any>>(source: T
 export type SourceNodeKind = 'root' | 'scene' | 'cue' | 'narration' | 'layer' | 'component' | 'transition' | 'sequence' | 'stack' | 'other';
 export type SourceNode = {kind: SourceNodeKind; id?: string | null; children: SourceNode[]};
 export type NormalizedSourceNode = {kind: SourceNodeKind; id?: string; generated: boolean; children: NormalizedSourceNode[]};
-const builtins = new Set(['video','vml','videoml','video-ml','pause','voice','bullet','voiceover','pronunciation','mark','audio','sfx','music']);
+const builtins = new Set(['video','vml','videoml','video-ml','pause','voice','bullet','voiceover','pronunciation','mark','audio','sfx','music','assets','asset']);
 export function sourceNodeKind(tag: string): SourceNodeKind {
   const name=tag.toLowerCase();
   if (['vml','videoml','video-ml'].includes(name)) return 'root';

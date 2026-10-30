@@ -627,6 +627,12 @@ function Component({
     if (endSec !== undefined && timeSec > endSec) return null;
   }
 
+  if (spec.type === "FrameEffect") {
+    if (spec.timing?.endSec !== undefined && timeSec >= spec.timing.endSec) return null;
+    const effectId = spec.props?.effectId, effectVersion = spec.props?.effectVersion;
+    return React.createElement("frame-effect", {id:spec.id,"effect-id":String(effectId ?? ""),"effect-version":String(effectVersion ?? ""),props:JSON.stringify({parameters:spec.props?.parameters}),"data-start":String(spec.timing?.startSec ?? scene.startSec ?? 0),"data-end":String(spec.timing?.endSec ?? scene.endSec ?? 0)});
+  }
+
   // Resolve component
   const ComponentImpl = getComponent(spec.type);
   if (!ComponentImpl) {

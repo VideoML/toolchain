@@ -23,6 +23,8 @@ export type RenderVideoOptions<TInputProps extends Record<string, unknown> = Rec
   ffmpegPath?: string;
   ffmpegArgs?: string[];
   browser?: RenderFramesPngOptions["browser"];
+  effectRegistryBundlePath?: RenderFramesPngOptions["effectRegistryBundlePath"];
+  effectStageTimeoutMs?: RenderFramesPngOptions["effectStageTimeoutMs"];
   browserBundlePath?: RenderFramesPngOptions["browserBundlePath"]; // Deprecated
   browserBundlePaths?: RenderFramesPngOptions["browserBundlePaths"]; // Multiple bundles
   onFrame?: RenderFramesPngOptions["onFrame"];
@@ -52,6 +54,8 @@ export const renderVideo = async <TInputProps extends Record<string, unknown> = 
   ffmpegPath,
   ffmpegArgs,
   browser,
+  effectRegistryBundlePath,
+  effectStageTimeoutMs,
   browserBundlePath,
   browserBundlePaths,
   onFrame,
@@ -73,6 +77,8 @@ export const renderVideo = async <TInputProps extends Record<string, unknown> = 
     deviceScaleFactor,
     workers,
     browser,
+    effectRegistryBundlePath,
+    effectStageTimeoutMs,
     browserBundlePath,
     browserBundlePaths,
     onFrame,
