@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "5bb22d5e-2621-48a5-ba47-aa84b73d48c8",
+  "issue_id": "videoml-684f74cf-6b74-4476-8e12-bd25c75f1aad",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T19:29:35.057Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "P02 — Specify frame adapter and portable schemas",
+    "description": "## Dispatch packet P02\nRead initiative videoml-dbc2b1 sections D02,D06,D07,D08 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\nspecification\nPrimary paths: specs/frame-effects-v1.md; specs/voiceover-v0.1.md; schemas/. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Write normative D02/D06-D08 schemas/examples and error cases. Define EffectInstance, portable bundle, voiceover timing and process protocol. Record decisions in specs while initiative remains roadmap authority.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\nschema-valid positive examples and negative version/path/type fixtures.\n\n## Dependencies\nvideoml-207e97 (P01)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n",
+    "issue_type": "task",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-c22afbae-c4f5-4ded-9fb1-618507cecc2d",
+    "labels": [
+      "terra-packet"
+    ]
+  }
+}

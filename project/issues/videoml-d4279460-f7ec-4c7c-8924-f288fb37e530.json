@@ -1,0 +1,42 @@
+{
+  "id": "videoml-d4279460-f7ec-4c7c-8924-f288fb37e530",
+  "title": "P03 — Build the frame conformance harness",
+  "description": "## Dispatch packet P03\nRead initiative videoml-dbc2b1 sections D02,D14 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\ntoolchain\nPrimary paths: packages/renderer/src; tests/conformance; package.json. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Implement fixture runner with pinned browser/fonts, seeded order permutations, pixel comparison and artifact report. Add npm run test:conformance and a deterministic DOM fixture before testing real effects.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\ndeliberately wall-clock-driven fixture fails; pure frame fixture passes sequential/reverse/random/two-partition runs.\n\n## Dependencies\nvideoml-684f74 (P02)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n",
+  "type": "task",
+  "status": "closed",
+  "priority": 1,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-c22afbae-c4f5-4ded-9fb1-618507cecc2d",
+  "labels": [
+    "terra-packet"
+  ],
+  "dependencies": [
+    {
+      "target": "videoml-684f74cf-6b74-4476-8e12-bd25c75f1aad",
+      "type": "blocked-by"
+    }
+  ],
+  "comments": [
+    {
+      "id": "8c89416e-5695-4ca1-86da-cdd0a572834b",
+      "author": "home",
+      "text": "Primary reviewed real capture runner and accepted review corrections removing animations:disabled. Deterministic fixture 0/32 mismatches; wall-clock 32/32 and native CSS 31/32 mismatches detected intentionally. Corrected conformance suite 5 tests passed; explicit trusted-local fixture paths/hash supported and URL/missing/builtin errors tested. Primary viewed sample frame and reviewed reports under /private/tmp/videoml-execution/artifacts/p03. Mac ARM64 cached Chromium smoke only; Linux pinned runtime/font and real effect/player-export release gates remain P04/P28 work. No install, <1MiB retained evidence.",
+      "created_at": "2026-10-30T20:58:03.122475Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "14917eeb-93fb-4e99-bbb8-3532b75a57ed",
+      "author": "home",
+      "text": "Frame harness accepted after primary review. Native animation is not suppressed. Dependent effects integration may proceed.",
+      "created_at": "2026-10-30T20:58:03.184209Z",
+      "comment_type": "default"
+    }
+  ],
+  "created_at": "2026-10-30T19:29:35.087215Z",
+  "updated_at": "2026-10-30T20:58:03.195087Z",
+  "closed_at": "2026-10-30T20:58:03.194963Z",
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

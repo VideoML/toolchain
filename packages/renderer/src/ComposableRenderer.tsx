@@ -3,7 +3,7 @@ import gsapImport from "gsap";
 import { getActiveCue, getActiveScene, type ScriptData } from "./shared.ts";
 import { useCurrentFrame, useVideoConfig } from "./context.tsx";
 import { getComponent } from "./components/registry.ts";
-import type { ComponentSpec, LayerSpec, VisualStyles, SemanticMarkup } from "../../../src/dsl/types.ts";
+import type { ComponentSpec, LayerSpec, VisualStyles, SemanticMarkup } from "@videoml/toolchain/dsl";
 import { cascadeStyles, type CascadedStyles } from "./styles/cascade.ts";
 import { cascadeMarkup, type CascadedMarkup } from "./markup/cascade.ts";
 

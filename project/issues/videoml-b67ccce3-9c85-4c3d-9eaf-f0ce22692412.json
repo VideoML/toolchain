@@ -1,0 +1,22 @@
+{
+  "id": "videoml-b67ccce3-9c85-4c3d-9eaf-f0ce22692412",
+  "title": "Verify catalog effects across preview and export",
+  "description": "## Behavior\nAs a maintainer, I can catch visual regressions before publishing effects.\n\n## Acceptance scenarios\nGiven pinned browser/fonts/assets/seeds, when representative frames and short clips are generated, then sequential, random-seek, and parallel-worker results are compared with recorded tolerances. Compare player preview and export at boundaries and overlaps, and record performance/resource measurements without unmeasured claims. Baseline updates require intentional review.\n\n## Ownership\ntoolchain, videoml-org, player; Babulus integration\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-4d3c79, videoml-0bb124. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review.",
+  "type": "story",
+  "status": "open",
+  "priority": 2,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-10636dcf-4c56-4627-8110-d976b740ac59",
+  "labels": [
+    "hyperframes-inspiration"
+  ],
+  "dependencies": [],
+  "comments": [],
+  "created_at": "2026-10-30T15:53:37.152782Z",
+  "updated_at": "2026-10-30T19:29:52.767210Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

@@ -1,0 +1,22 @@
+{
+  "id": "videoml-b881c286-7f47-429d-beae-4f7343940f25",
+  "title": "Use VideoML visuals and voiceover independently of Babulus",
+  "description": "## Behavior\nVideoML authors can use visual effects alone or standard voiceover with open Auritus-backed local synthesis, without a Babulus account.\n\n## Acceptance\nGiven a visual-only composition, when previewed or exported, no voice model/provider is required.\nGiven a narrated composition and a supported installed Auritus model, when generated locally, speech and timing require no paid provider or hosted rendering service.\nBabulus-specific orchestration is optional; standard voiceover belongs in VideoML.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-207e97, videoml-684f74, videoml-d42794, videoml-fa90b2. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review.",
+  "type": "story",
+  "status": "open",
+  "priority": 2,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-c22afbae-c4f5-4ded-9fb1-618507cecc2d",
+  "labels": [
+    "hyperframes-inspiration"
+  ],
+  "dependencies": [],
+  "comments": [],
+  "created_at": "2026-10-30T15:53:36.909330Z",
+  "updated_at": "2026-10-30T19:29:52.800843Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

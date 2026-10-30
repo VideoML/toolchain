@@ -1,0 +1,35 @@
+{
+  "id": "videoml-48d9c832-a23f-42fb-8588-89ecc0f37e7d",
+  "title": "P15 — Implement exact voice timing and cache v1",
+  "description": "## Dispatch packet P15\nRead initiative videoml-dbc2b1 sections D07 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\ntoolchain\nPrimary paths: src/generate.ts; cache-resolver.ts; audio/wav.ts. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Use measured samples per segment, explicit silence, canonical cache identity and pronunciation capability checks. Freeze/validate generated WAV metadata and preserve Auritus provenance. Do not modify Auritus hosted hashes.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\ntext/speed/model/reference changes invalidate relevant cache; repeated run reuses; pause sample counts exact; corruption rejected.\n\n## Dependencies\nvideoml-fcfbb1 (P14)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n",
+  "type": "task",
+  "status": "open",
+  "priority": 1,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-692db262-13be-46f7-9256-05e602167aaf",
+  "labels": [
+    "terra-packet"
+  ],
+  "dependencies": [
+    {
+      "target": "videoml-fcfbb15e-f1ee-42fa-bd60-e45e2eaecd89",
+      "type": "blocked-by"
+    }
+  ],
+  "comments": [
+    {
+      "id": "e3090dde-abdc-48ca-87c7-460d510c10d2",
+      "author": "home",
+      "text": "P01 smoke exposed existing dry-run generation failure when no pause/audio segment creates output directories. P15 must include no-pause narrated and visual-only fixtures and remove need to precreate segments; mocked audio remains explicitly labeled simulated. Do not count a fixture workaround as a product fix.",
+      "created_at": "2026-10-30T20:48:33.123936Z",
+      "comment_type": "default"
+    }
+  ],
+  "created_at": "2026-10-30T19:29:35.556005Z",
+  "updated_at": "2026-10-30T20:48:33.124142Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

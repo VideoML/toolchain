@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "c52ffff9-794b-48f6-8b21-3b58e8235fec",
+  "issue_id": "videoml-692db262-13be-46f7-9256-05e602167aaf",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:57:19.420Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "M7 — Standardize voiceover and integrate open local Auritus TTS",
+    "description": "## Outcome\nM7 — Standardize voiceover and integrate open local Auritus TTS\n\n## Ownership\nspecification, toolchain, cli, player, videoml-org; Auritus owns reusable model backends\n\n## Decision\nVideoML includes voiceover and open Auritus-backed local synthesis. Babulus is an optional paid rendering service with portable inputs and outputs.\n\n## Completion\nChild behavior stories pass with linked evidence. Cloud account, budget, and pricing values remain decisions to resolve before provisioning or enabling paid execution.",
+    "issue_type": "epic",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-dbc2b1d7-9076-4d17-8ad0-74e546db76bb",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

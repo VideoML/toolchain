@@ -1,0 +1,63 @@
+{
+  "id": "videoml-684f74cf-6b74-4476-8e12-bd25c75f1aad",
+  "title": "P02 — Specify frame adapter and portable schemas",
+  "description": "## Dispatch packet P02\nRead initiative videoml-dbc2b1 sections D02,D06,D07,D08 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\nspecification\nPrimary paths: specs/frame-effects-v1.md; specs/voiceover-v0.1.md; schemas/. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Write normative D02/D06-D08 schemas/examples and error cases. Define EffectInstance, portable bundle, voiceover timing and process protocol. Record decisions in specs while initiative remains roadmap authority.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\nschema-valid positive examples and negative version/path/type fixtures.\n\n## Dependencies\nvideoml-207e97 (P01)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n",
+  "type": "task",
+  "status": "closed",
+  "priority": 1,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-c22afbae-c4f5-4ded-9fb1-618507cecc2d",
+  "labels": [
+    "terra-packet"
+  ],
+  "dependencies": [
+    {
+      "target": "videoml-207e97b6-a41c-4470-9b32-dee2204ddde7",
+      "type": "blocked-by"
+    }
+  ],
+  "comments": [
+    {
+      "id": "1a2a7a45-62a9-4c66-a9ae-fce9d06f229d",
+      "author": "home",
+      "text": "Primary source audit resolved Gaussian pauses, exact trims/resampling, frame rounding, frozen timing authority, legacy player cleanup compatibility, bridge response schema and bundle integrity coverage. See the P02 implementation clarification at the end of the initiative before authoring schemas.",
+      "created_at": "2026-10-30T20:44:27.503905Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "78ba5df3-215c-4f6a-aebc-608a6d3c11ec",
+      "author": "home",
+      "text": "Primary accepted normative draft contracts after two Terra review passes and independent execution: 12 positive/21 negative schema checks, semantic digest/timing/provenance/WAV-vs-PCM vectors, seeded timing tests and diff check passed. Schemas include selected-backend capabilities, visual-only timeline and provider-discriminated provenance. Files under VideoML/specification/specs, schemas, examples/contracts and tests. Actual importer/ZIP and runtime enforcement remain dependent implementation work, not claimed complete.",
+      "created_at": "2026-10-30T20:52:44.426136Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "0b340d76-7572-406d-9245-25576d146ebf",
+      "author": "home",
+      "text": "Contract/schema packet accepted. P03 and P13 may execute in parallel under separate repository ownership.",
+      "created_at": "2026-10-30T20:52:44.477867Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "719cef66-693a-4a3c-a351-6a03e7000a3f",
+      "author": "home",
+      "text": "Accepted P02 contracts checkpoint committed as specification39559f7 and submitted at https://github.com/VideoML/specification/pull/1. This PR captures draft standards/reference validation only; no runtime or ZIP enforcement claim.",
+      "created_at": "2026-10-30T21:14:19.954930Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "0e524304-b9c5-43b9-a0ab-16190ef84aa9",
+      "author": "home",
+      "text": "Specification PR1 merged to main as c474adbc09732a393d26611abf5963c5cdfaa5d0. Local specification checkout fast-forwarded to matching main. No automated CI configured in this repository; recorded primary schema/reference checks and Terra review are the validation evidence.",
+      "created_at": "2026-10-30T21:14:52.960899Z",
+      "comment_type": "default"
+    }
+  ],
+  "created_at": "2026-10-30T19:29:35.057438Z",
+  "updated_at": "2026-10-30T21:14:52.961433Z",
+  "closed_at": "2026-10-30T20:52:44.487535Z",
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

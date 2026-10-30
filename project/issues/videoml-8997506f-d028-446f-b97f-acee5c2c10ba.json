@@ -1,0 +1,22 @@
+{
+  "id": "videoml-8997506f-d028-446f-b97f-acee5c2c10ba",
+  "title": "Map Babulus demo fixtures to shared VideoML packages",
+  "description": "Inventory Babulus examples/animation-*, features/animation_systems.feature, renderer registry, and docs preview mounts. Identify a first standalone demo batch, preserve useful behavioral coverage in the new owning packages, and document Babulus imports and any compatibility aliases.\n\n## Dispatch clarification\nImplement through videoml-ca79a1. This task coordinates those packets; do not independently implement the same work twice.",
+  "type": "task",
+  "status": "open",
+  "priority": 2,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-db06d1ec-7b28-4b51-8695-cbeef8c44b4b",
+  "labels": [
+    "hyperframes-inspiration"
+  ],
+  "dependencies": [],
+  "comments": [],
+  "created_at": "2026-10-30T15:53:37.371847Z",
+  "updated_at": "2026-10-30T19:29:53.043818Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

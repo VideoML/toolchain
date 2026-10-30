@@ -1,0 +1,22 @@
+{
+  "id": "videoml-1f032931-93b6-44e3-8a36-62bbb0d03ca2",
+  "title": "Make paid rendering and fallback policy explicit",
+  "description": "## Behavior and acceptance\nGiven an author submitting work to Babulus, when paid cloud fallback is enabled, then configured limits and pricing/estimate policy are visible before submission. Local-only mode never silently falls back to paid rendering. Record local versus cloud execution and usage for billing; implement the fixed pilot pricing and ledger defined in D12.\n\n## Ownership\nBabulus rendering platform; VideoML public project/artifact contract\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-f708b4, videoml-e97334, videoml-e68602, videoml-5fd757, videoml-54b377, videoml-96c59f. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review.",
+  "type": "story",
+  "status": "open",
+  "priority": 1,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-49cdfa8f-a6cf-4c73-9f1f-76e6def3500d",
+  "labels": [
+    "hyperframes-inspiration"
+  ],
+  "dependencies": [],
+  "comments": [],
+  "created_at": "2026-10-30T15:57:19.602382Z",
+  "updated_at": "2026-10-30T19:29:52.132226Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

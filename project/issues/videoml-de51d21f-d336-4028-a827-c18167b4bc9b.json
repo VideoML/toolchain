@@ -1,0 +1,22 @@
+{
+  "id": "videoml-de51d21f-d336-4028-a827-c18167b4bc9b",
+  "title": "Reject cloud work that exceeds operational limits",
+  "description": "## Behavior and acceptance\nGiven configured quotas, duration/resolution/frame limits, concurrency, retry ceilings, and a cloud spend reservation policy, when admitting work, then requests beyond those limits fail closed before paid execution. Bound Batch capacity and job runtime, explicitly handle queued/running jobs during emergency shutdown, and prevent retries from bypassing limits. A disabled cloud path still allows permitted local processing. Use the fixed pilot limits in D10–D12; validate their enforcement before enabling cloud rendering.\n\n## Ownership\nBabulus infrastructure; dedicated Babulus/VideoML AWS member account\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-84853c, videoml-811fde, videoml-b8fc78, videoml-bcf330. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review.",
+  "type": "story",
+  "status": "open",
+  "priority": 1,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-e832b847-d162-4d5c-8a7f-c5cf94a51cce",
+  "labels": [
+    "hyperframes-inspiration"
+  ],
+  "dependencies": [],
+  "comments": [],
+  "created_at": "2026-10-30T15:57:19.657719Z",
+  "updated_at": "2026-10-30T19:29:52.939752Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

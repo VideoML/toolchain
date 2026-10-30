@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "e9092d52-4da2-4412-aac0-52fea784deee",
+  "issue_id": "videoml-7808d30f-30f3-428d-aa4f-a05a5388c0f6",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T19:29:52.591Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "## Behavior and acceptance\nGiven the isolated account, when tracking costs, then account-wide reporting and service/project/job attribution expose compute, storage, transfer, and coordination costs. Budget/anomaly notifications supplement operational controls; delayed billing alerts are not a hard real-time cap. Test the operator kill switch, stalled jobs, duplicate submissions, retry storms, and spend-triggered admission shutdown before production enablement. Include a staged migration and inventory/retirement plan for old Babulus rendering resources to prevent double billing.\n\n## Ownership\nBabulus infrastructure; dedicated Babulus/VideoML AWS member account\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.",
+        "to": "## Behavior and acceptance\nGiven the isolated account, when tracking costs, then account-wide reporting and service/project/job attribution expose compute, storage, transfer, and coordination costs. Budget/anomaly notifications supplement operational controls; delayed billing alerts are not a hard real-time cap. Test the operator kill switch, stalled jobs, duplicate submissions, retry storms, and spend-triggered admission shutdown before production enablement. Include a staged migration and inventory/retirement plan for old Babulus rendering resources to prevent double billing.\n\n## Ownership\nBabulus infrastructure; dedicated Babulus/VideoML AWS member account\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-84853c, videoml-811fde, videoml-b8fc78, videoml-bcf330. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review."
+      }
+    }
+  }
+}

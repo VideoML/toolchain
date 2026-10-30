@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "abfdb479-4dd7-4377-afa1-815a090b92a6",
+  "issue_id": "videoml-29bc6406-3e02-407d-94ad-fb836dffaead",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T19:29:52.201Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "## Behavior and acceptance\nGiven a queued render, when a compatible local worker claims it within the configured grace period, then it renders using the open VideoML toolchain and no cloud render is submitted for that active lease. Report local selection and deadline in job status. Local compute avoids cloud rendering charges but still uses hardware/electricity and may use coordination/storage services.\n\n## Ownership\nBabulus rendering platform; VideoML public project/artifact contract\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.",
+        "to": "## Behavior and acceptance\nGiven a queued render, when a compatible local worker claims it within the configured grace period, then it renders using the open VideoML toolchain and no cloud render is submitted for that active lease. Report local selection and deadline in job status. Local compute avoids cloud rendering charges but still uses hardware/electricity and may use coordination/storage services.\n\n## Ownership\nBabulus rendering platform; VideoML public project/artifact contract\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-f708b4, videoml-e97334, videoml-e68602, videoml-5fd757, videoml-54b377, videoml-96c59f. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review."
+      }
+    }
+  }
+}

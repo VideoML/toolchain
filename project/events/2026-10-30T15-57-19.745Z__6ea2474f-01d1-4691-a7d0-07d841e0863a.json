@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "6ea2474f-01d1-4691-a7d0-07d841e0863a",
+  "issue_id": "videoml-b881c286-7f47-429d-beae-4f7343940f25",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T15:57:19.745Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "title": {
+        "from": "Keep VideoML effects independent of Babulus voiceover",
+        "to": "Use VideoML visuals and voiceover independently of Babulus"
+      },
+      "description": {
+        "from": "## Behavior\nAs a VideoML author, I can preview and render visual effects without a voice provider or Babulus account.\n\n## Acceptance scenarios\nGiven a visual-only composition, when it is previewed and exported, then no TTS credentials or paid media service are required.\nGiven narration-related code in the extracted toolchain, when ownership is reconciled, then docs distinguish standard timing/cue semantics from Babulus voice synthesis and migration preserves Babulus behavior.\n\n## Ownership\ntoolchain, specification, player, stdlib; consult Babulus\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.",
+        "to": "## Behavior\nVideoML authors can use visual effects alone or standard voiceover with open Auritus-backed local synthesis, without a Babulus account.\n\n## Acceptance\nGiven a visual-only composition, when previewed or exported, no voice model/provider is required.\nGiven a narrated composition and a supported installed Auritus model, when generated locally, speech and timing require no paid provider or hosted rendering service.\nBabulus-specific orchestration is optional; standard voiceover belongs in VideoML."
+      }
+    }
+  }
+}

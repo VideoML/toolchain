@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "e30abd82-e53f-48d8-8e89-f5c0875a51d0",
+  "issue_id": "videoml-92a7a3d9-6935-49fb-abe9-61454391cfda",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T19:29:52.628Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "## Behavior\nAs an author, I can add trails that follow object motion without manually animating every copy.\n\n## Acceptance scenarios\nGiven a trajectory, when sampled in any frame order or worker partition, then the trail matches sequential playback. Document precomputation, supported targets, memory limits, and how parameter edits invalidate cached trajectories.\n\n## Ownership\nstdlib, toolchain, player\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.",
+        "to": "## Behavior\nAs an author, I can add trails that follow object motion without manually animating every copy.\n\n## Acceptance scenarios\nGiven a trajectory, when sampled in any frame order or worker partition, then the trail matches sequential playback. Document precomputation, supported targets, memory limits, and how parameter edits invalidate cached trajectories.\n\n## Ownership\nstdlib, toolchain, player\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-527ed2, videoml-eb5a8e. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review."
+      }
+    }
+  }
+}

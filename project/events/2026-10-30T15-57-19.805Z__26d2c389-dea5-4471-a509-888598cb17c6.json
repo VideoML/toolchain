@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "26d2c389-dea5-4471-a509-888598cb17c6",
+  "issue_id": "videoml-3cfb5193-e429-47be-9ac9-07241a94658d",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T15:57:19.805Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "## Behavior\nAs a human or agent author, I can combine effects into coherent VideoML scenes.\n\n## Acceptance scenarios\nGiven catalog components, when following recipes for pacing, easing, stagger, hierarchy, holds, and transitions, then complete runnable examples demonstrate the intended result. Publish a visual-only showcase and guidance on mixing compatible frameworks; keep Babulus narration workflows separate.\n\n## Ownership\ntoolchain, videoml-org, player; Babulus integration\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.",
+        "to": "## Behavior\nAs a human or agent author, I can combine effects into coherent VideoML scenes.\n\n## Acceptance scenarios\nGiven catalog components, when following recipes for pacing, easing, stagger, hierarchy, holds, and transitions, then complete runnable examples demonstrate the intended result. Publish a visual-only showcase and guidance on mixing compatible frameworks; show optional standard VideoML narration through Auritus alongside visual-only examples.\n\n## Ownership\ntoolchain, videoml-org, player; Babulus integration\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative."
+      }
+    }
+  }
+}

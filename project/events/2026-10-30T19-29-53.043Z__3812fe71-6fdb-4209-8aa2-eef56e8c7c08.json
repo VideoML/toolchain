@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "3812fe71-6fdb-4209-8aa2-eef56e8c7c08",
+  "issue_id": "videoml-8997506f-d028-446f-b97f-acee5c2c10ba",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T19:29:53.043Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "Inventory Babulus examples/animation-*, features/animation_systems.feature, renderer registry, and docs preview mounts. Identify a first standalone demo batch, preserve useful behavioral coverage in the new owning packages, and document Babulus imports and any compatibility aliases.",
+        "to": "Inventory Babulus examples/animation-*, features/animation_systems.feature, renderer registry, and docs preview mounts. Identify a first standalone demo batch, preserve useful behavioral coverage in the new owning packages, and document Babulus imports and any compatibility aliases.\n\n## Dispatch clarification\nImplement through videoml-ca79a1. This task coordinates those packets; do not independently implement the same work twice."
+      }
+    }
+  }
+}

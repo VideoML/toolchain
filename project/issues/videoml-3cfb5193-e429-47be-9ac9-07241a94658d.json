@@ -1,0 +1,22 @@
+{
+  "id": "videoml-3cfb5193-e429-47be-9ac9-07241a94658d",
+  "title": "Compose polished scenes using documented motion recipes",
+  "description": "## Behavior\nAs a human or agent author, I can combine effects into coherent VideoML scenes.\n\n## Acceptance scenarios\nGiven catalog components, when following recipes for pacing, easing, stagger, hierarchy, holds, and transitions, then complete runnable examples demonstrate the intended result. Publish a visual-only showcase and guidance on mixing compatible frameworks; show optional standard VideoML narration through Auritus alongside visual-only examples.\n\n## Ownership\ntoolchain, videoml-org, player; Babulus integration\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-4d3c79, videoml-0bb124. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review.",
+  "type": "story",
+  "status": "open",
+  "priority": 2,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-10636dcf-4c56-4627-8110-d976b740ac59",
+  "labels": [
+    "hyperframes-inspiration"
+  ],
+  "dependencies": [],
+  "comments": [],
+  "created_at": "2026-10-30T15:53:37.164471Z",
+  "updated_at": "2026-10-30T19:29:52.305061Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "2164ce6a-df83-45c5-bcab-86fc059e5a4c",
+  "issue_id": "videoml-24fdf22b-a1fa-4048-93ac-5faacb66e21d",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:57:19.584Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "Render the same portable project locally or on Babulus",
+    "description": "## Behavior and acceptance\nGiven a project exported from Babulus with source, assets, generated speech, timing, fonts/dependency versions, and render settings, when opened by the open VideoML CLI on a supported machine, then it renders without a Babulus account or proprietary-only data. Compare representative frames/audio timing within recorded tolerances. Babulus accepts the same portable input and returns downloadable artifacts; no required HeyGen or Babulus hosted dependency in the standard.\n\n## Ownership\nBabulus rendering platform; VideoML public project/artifact contract\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.",
+    "issue_type": "story",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-49cdfa8f-a6cf-4c73-9f1f-76e6def3500d",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

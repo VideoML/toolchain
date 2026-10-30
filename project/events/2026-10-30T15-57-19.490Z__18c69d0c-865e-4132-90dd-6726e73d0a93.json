@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "18c69d0c-865e-4132-90dd-6726e73d0a93",
+  "issue_id": "videoml-a88def9b-0337-42a0-a4ee-b8186d926678",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:57:19.490Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "Synchronize visuals with generated speech and reuse cached audio",
+    "description": "## Behavior and acceptance\nGiven a narration edit, when generation runs, then only affected speech is regenerated and cue-relative visuals follow measured audio durations. Cache identity includes all output-affecting inputs such as model/version, voice/reference, speed, seed, pronunciation, and text; reconcile this with Auritus’s existing cache contract rather than silently breaking it. Persist audio, timing, and provenance so exports can reuse identical assets even when model output is not bitwise reproducible.\n\n## Ownership\nspecification, toolchain, cli, player, videoml-org; Auritus owns reusable model backends\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.",
+    "issue_type": "story",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-692db262-13be-46f7-9256-05e602167aaf",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "videoml-a2767df9-4bf2-47d7-8457-f27ced45935c",
+  "title": "P12 — Add interactive catalog detail previews",
+  "description": "## Dispatch packet P12\nRead initiative videoml-dbc2b1 sections D05 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\nvideoml-org, player\nPrimary paths: catalog detail template and iframe harness. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Implement controls/parameters/copy source/provenance and lazy framework loading; use shared example source and exact package versions. Preserve valid copyable XML/TS.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\nbrowser scrub/reset/control keyboard tests, reduced motion, missing preview errors, no card autoplay.\n\n## Dependencies\nvideoml-d177d1 (P11), videoml-2779f2 (P04)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n",
+  "type": "task",
+  "status": "open",
+  "priority": 1,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-eb659c95-3465-4a82-a066-319f814354a7",
+  "labels": [
+    "terra-packet"
+  ],
+  "dependencies": [
+    {
+      "target": "videoml-d177d17e-05af-4810-8da8-7bd5e584d930",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-2779f216-c46c-4a45-8f32-7af1bae30ffd",
+      "type": "blocked-by"
+    }
+  ],
+  "comments": [],
+  "created_at": "2026-10-30T19:29:35.430026Z",
+  "updated_at": "2026-10-30T19:29:35.460878Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "21171bd3-1e37-4e47-97a1-92752606e405",
+  "issue_id": "videoml-de1b77c7-bb84-4aa2-a9cf-a32504c91d80",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T19:29:52.905Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "## Behavior\nAs a Babulus author, I can combine VideoML catalog effects with standard VideoML voiceover backed by Auritus.\n\n## Acceptance scenarios\nGiven a portable VideoML narrated fixture rendered both locally and through Babulus using shared effects, when voiceover timing changes, then supported cue-relative visuals follow correctly and preview/export remain consistent. Verify against actual package manifests rather than stale alias instructions, and document the package boundary and migration. No voiceover service is required for the separate VideoML catalog checks.\n\n## Ownership\ntoolchain, videoml-org, player; Babulus integration\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.",
+        "to": "## Behavior\nAs a Babulus author, I can combine VideoML catalog effects with standard VideoML voiceover backed by Auritus.\n\n## Acceptance scenarios\nGiven a portable VideoML narrated fixture rendered both locally and through Babulus using shared effects, when voiceover timing changes, then supported cue-relative visuals follow correctly and preview/export remain consistent. Verify against actual package manifests rather than stale alias instructions, and document the package boundary and migration. No voiceover service is required for the separate VideoML catalog checks.\n\n## Ownership\ntoolchain, videoml-org, player; Babulus integration\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-4d3c79, videoml-0bb124. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review."
+      }
+    }
+  }
+}

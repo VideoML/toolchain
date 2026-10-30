@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "0f013b56-900e-445d-ab71-844d75d2a8ff",
+  "issue_id": "videoml-b67ccce3-9c85-4c3d-9eaf-f0ce22692412",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:53:37.152Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "Verify catalog effects across preview and export",
+    "description": "## Behavior\nAs a maintainer, I can catch visual regressions before publishing effects.\n\n## Acceptance scenarios\nGiven pinned browser/fonts/assets/seeds, when representative frames and short clips are generated, then sequential, random-seek, and parallel-worker results are compared with recorded tolerances. Compare player preview and export at boundaries and overlaps, and record performance/resource measurements without unmeasured claims. Baseline updates require intentional review.\n\n## Ownership\ntoolchain, videoml-org, player; Babulus integration\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.",
+    "issue_type": "story",
+    "status": "open",
+    "priority": 2,
+    "assignee": null,
+    "parent": "videoml-10636dcf-4c56-4627-8110-d976b740ac59",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

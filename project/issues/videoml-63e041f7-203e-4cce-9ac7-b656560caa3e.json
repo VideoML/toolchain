@@ -1,0 +1,22 @@
+{
+  "id": "videoml-63e041f7-203e-4cce-9ac7-b656560caa3e",
+  "title": "Experiment with an effect and reuse its source",
+  "description": "## Behavior\nAs an author, I can scrub a demo, change supported parameters, and copy a working VideoML example.\n\n## Acceptance scenarios\nGiven a catalog detail page, when parameters or frame position change, then the live preview updates deterministically. Each page includes a reset, copyable XML or TypeScript example, package/import requirements, assets, framework/version support, and links to source. Examples run without Babulus or voice credentials; provide reduced-motion-friendly preview controls.\n\n## Ownership\nvideoml-org, stdlib, player\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-d177d1, videoml-a2767d. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review.",
+  "type": "story",
+  "status": "open",
+  "priority": 2,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-eb659c95-3465-4a82-a066-319f814354a7",
+  "labels": [
+    "hyperframes-inspiration"
+  ],
+  "dependencies": [],
+  "comments": [],
+  "created_at": "2026-10-30T15:53:37.115298Z",
+  "updated_at": "2026-10-30T19:29:52.485469Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "b603a8f7-0665-409a-ac5d-4278057e4952",
+  "issue_id": "videoml-e832b847-d162-4d5c-8a7f-c5cf94a51cce",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T19:31:41.926Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "## Outcome\nM9 — Isolate AWS costs and gate cloud rendering with spend controls\n\n## Ownership\nBabulus infrastructure; dedicated Babulus/VideoML AWS member account\n\n## Decision\nVideoML includes voiceover and open Auritus-backed local synthesis. Babulus is an optional paid rendering service with portable inputs and outputs.\n\n## Completion\nChild behavior stories pass with linked evidence. Cloud account, budget, and pricing values remain decisions to resolve before provisioning or enabling paid execution.",
+        "to": "## Outcome\nM9 — Isolate AWS costs and gate cloud rendering with spend controls\n\n## Ownership\nBabulus infrastructure; dedicated Babulus/VideoML AWS member account\n\n## Decision\nVideoML includes voiceover and open Auritus-backed local synthesis. Babulus is an optional paid rendering service with portable inputs and outputs.\n\n## Completion\nChild behavior stories pass with linked evidence. Architecture, region, budgets, grace period, pilot pricing, and limits are decided in initiative D01–D15. Only real deployment identity facts require validation before provisioning; do not invent them. Dispatch the bounded packets, not this epic as a single coding task."
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "videoml-db06d1ec-7b28-4b51-8695-cbeef8c44b4b",
+  "title": "M2 — Bring reusable animation demos into VideoML",
+  "description": "## Outcome\nSelected existing Babulus demos become reusable VideoML examples while Babulus continues to consume them.\n\n## Ownership\nstdlib, player, toolchain, videoml-org; Babulus as consumer\n\n## Completion\nAll child behavior stories have implementation and verification evidence. Update the parent initiative body with decisions, coverage, and remaining work. This is planned work, not a claim that the features already ship.",
+  "type": "epic",
+  "status": "open",
+  "priority": 2,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-dbc2b1d7-9076-4d17-8ad0-74e546db76bb",
+  "labels": [
+    "hyperframes-inspiration"
+  ],
+  "dependencies": [
+    {
+      "target": "videoml-c22afbae-c4f5-4ded-9fb1-618507cecc2d",
+      "type": "blocked-by"
+    }
+  ],
+  "comments": [],
+  "created_at": "2026-10-30T15:53:36.962752Z",
+  "updated_at": "2026-10-30T15:53:37.194982Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "6603fdd3-039e-4ab0-864b-72336a7ae03f",
+  "issue_id": "videoml-074938ac-0dba-48c3-b6c5-173f639ab6bf",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:57:19.511Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "Improve Auritus through the VideoML integration",
+    "description": "## Behavior and acceptance\nGiven reusable speech capability gaps exposed by VideoML, when implemented, then fixes belong in Auritus rather than a forked model backend inside VideoML. Provide a stable programmatic speech interface, capability discovery, completion/error metadata, and integration fixtures; file linked Auritus issues before product changes. Keep website extraction optional for direct text synthesis.\n\n## Ownership\nspecification, toolchain, cli, player, videoml-org; Auritus owns reusable model backends\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.",
+    "issue_type": "story",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-692db262-13be-46f7-9256-05e602167aaf",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "684385f6-0de2-44d1-909d-e8af6a296c36",
+  "issue_id": "videoml-a6699cb9-3a11-4bc9-99f4-f2727fd54820",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:57:19.453Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "Author portable voiceover in standard VideoML",
+    "description": "## Behavior and acceptance\nGiven a VideoML document with voice, narration cues, pauses, pronunciations, and provider configuration, when validated and compiled, then these semantics are documented by the standard and implemented by open tooling. Migrate the useful Babulus voiceover features with compatibility examples; provider-specific capabilities are explicit and portable fallbacks are documented.\n\n## Ownership\nspecification, toolchain, cli, player, videoml-org; Auritus owns reusable model backends\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.",
+    "issue_type": "story",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-692db262-13be-46f7-9256-05e602167aaf",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

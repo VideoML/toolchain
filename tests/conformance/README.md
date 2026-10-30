@@ -1,0 +1,7 @@
+# Frame conformance smoke
+
+Set `VIDEOML_CHROMIUM_EXECUTABLE_PATH` to an existing Chromium executable and run `npm run test:conformance`. The suite runs a frame-pure DOM fixture and verifies that intentional wall-clock and uncontrolled CSS-animation fixtures fail. To retain named evidence, run `node tests/conformance/run.mjs --fixture frame --output /absolute/empty/path` and repeat with `--fixture wall-clock` (the latter exits 1 by design). A trusted local JavaScript fixture can be selected with `--fixture-path /absolute/path/to/fixture.js`; remote URLs are rejected.
+
+The runner mounts a fixture exposing `mount(root, config)`, asynchronous `seek(frame)`, and `dispose()`. It captures 0, 1, 9, 10, 15, 19, 20 and 29, including both sides of the fixture's frame 10 and 20 boundaries. It compares all decoded RGBA bytes to the sequential reference for repeated, reverse, seeded random, and two concurrent browser-context partitions. The report records fixture and browser executable hashes, browser and OS details, order, captures and comparisons. Output is intentionally retained for inspection.
+
+These fixtures use geometry and solid colors, with no text or font dependency. The executable path is supplied explicitly and its hash is recorded; this does not itself establish an approved release browser or font set. A local run is a smoke test and does not satisfy the separately pinned Linux x86_64 Chromium/FFmpeg and bundled-font release gate. This harness does not yet assert player/export parity or conformance of actual effects.

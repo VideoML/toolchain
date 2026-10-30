@@ -1,0 +1,35 @@
+{
+  "id": "videoml-f708b408-e4dc-43d1-bebd-3e924e0ac918",
+  "title": "P17 — Implement portable export/import and offline render",
+  "description": "## Dispatch packet P17\nRead initiative videoml-dbc2b1 sections D08 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\ntoolchain, cli\nPrimary paths: bundle schema validation; CLI export/import/render. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Implement D08 manifest, hashes, pinned assets/fonts/audio/deps and ZIP path validation. Add vml export and import/validate paths, render from frozen bundle; no live network capture. Reject arbitrary hosted dependencies.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\nexport fixture renders on clean consumer without Babulus creds; traversal/symlink/hash/version tests; PCM timing parity.\n\n## Dependencies\nvideoml-684f74 (P02), videoml-48d9c8 (P15), videoml-2779f2 (P04)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n\n## Accepted review correction\nD08 supports local trusted TS but hosted pilot validation accepts declarative built-in/approved effects only. Exported projects stay portable; report unsupported hosted custom code without mutating the source. Enforce compressed/expanded/file-count/path/hash limits.",
+  "type": "task",
+  "status": "open",
+  "priority": 1,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-49cdfa8f-a6cf-4c73-9f1f-76e6def3500d",
+  "labels": [
+    "terra-packet"
+  ],
+  "dependencies": [
+    {
+      "target": "videoml-684f74cf-6b74-4476-8e12-bd25c75f1aad",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-48d9c832-a23f-42fb-8588-89ecc0f37e7d",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-2779f216-c46c-4a45-8f32-7af1bae30ffd",
+      "type": "blocked-by"
+    }
+  ],
+  "comments": [],
+  "created_at": "2026-10-30T19:29:35.623766Z",
+  "updated_at": "2026-10-30T19:31:41.788889Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

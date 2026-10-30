@@ -1,0 +1,43 @@
+{
+  "id": "videoml-8af021ce-943c-43ce-ab29-7fc269f09d3e",
+  "title": "C036 — Adapt components: soft-blur-in, split-tilt-cards, spotlight-card, spring-pop, spring-stack-shuffle",
+  "description": "## Dispatch packet C036: components\nBinding decisions: initiative videoml-dbc2b1 D02–D05,D14,D15. Upstream commit 28181602fe2d9ffa38474a6e8155a89909a7b8aa.\n\n## Exact upstream entries (complete all, no additions)\n- registry/components/soft-blur-in\n- registry/components/split-tilt-cards\n- registry/components/spotlight-card\n- registry/components/spring-pop\n- registry/components/spring-stack-shuffle\n\n## Owner and outputs\nVideoML/stdlib owns implementations and catalog records. Reuse player/toolchain EffectInstance. Update videoml-org only through manifest consumption; no duplicate effect code. Upstream source is read-only.\n\n## Procedure\nFor each listed entry: read its registry-item/source and dependencies; use the P05 mapping if its effect was already delivered by P06/P08/P09/P10, verify and link rather than duplicate. Otherwise adapt the source to D02 using its existing animation framework. Remove Hyperframes global timeline/runtime coupling via the VideoML adapter. Bundle neutral licensed fixture assets and preserve source notices. For interactive/network examples, record a deterministic scripted timeline and local fixture assets; no live API dependencies in capture. Expose meaningful source parameters as validated metadata, document dimensions/duration/seed/framework. Produce source example and poster/video preview. Run sequential/reverse/random/boundary captures and two-worker partition checks. Mark verified only after primary review.\n\n## Acceptance\nEvery listed item has an inventory mapping, actual reusable implementation or verified shared alias, runnable fixture, parameter schema, local dependencies, licensing/provenance, and D14 evidence. Review screenshots against upstream's intended visual behavior, not just nonempty pixels. Do not claim broader catalog completion. Unknown asset license => neutral replacement; unresolvable functionality => return to primary for a recorded decision, not a silent omission.\n\n## Handoff\nReturn a per-entry table of paths, verification commands, capture artifacts and remaining failures. No publishing or issue closure by worker. Process at most one such packet per worker; no two workers edit shared registry files concurrently.\n",
+  "type": "task",
+  "status": "open",
+  "priority": 1,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-be414bcf-7b3c-455e-af4b-c3a0888b3e00",
+  "labels": [
+    "terra-packet"
+  ],
+  "dependencies": [
+    {
+      "target": "videoml-fa90b2a7-d449-4c9f-98d0-d546ed1de9d7",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-ca79a11f-4193-4066-9fc2-e4e38e814883",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-5491a0c9-d03a-40d7-90d4-ce5bea9c2779",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-527ed294-0ce6-4575-998b-555885ad6baa",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-eb5a8e83-390d-4339-9f4c-fdcf22b2ee3d",
+      "type": "blocked-by"
+    }
+  ],
+  "comments": [],
+  "created_at": "2026-10-30T19:29:40.791313Z",
+  "updated_at": "2026-10-30T19:29:40.901535Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

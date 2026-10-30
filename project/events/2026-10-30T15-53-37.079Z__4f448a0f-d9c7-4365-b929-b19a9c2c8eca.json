@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "4f448a0f-d9c7-4365-b929-b19a9c2c8eca",
+  "issue_id": "videoml-b17a361c-1771-4da8-9fd2-62efb18bc8f8",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:53:37.079Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "Expand catalog coverage by effect family",
+    "description": "## Behavior\nAs an author, I can choose VideoML equivalents across the Hyperframes catalog.\n\n## Acceptance scenarios\nGiven the pinned inventory, when batches ship for typography, transitions, charts/data, UI/device scenes, overlays, camera motion, and 3D/procedural effects, then each completed entry has a runnable fixture, public documentation, parameters, and verification evidence. Add child work for remaining entries; every deferral stays visible and justified. Generic transforms alone do not count as reproducing a named visual.\n\n## Ownership\nstdlib, toolchain, player\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.",
+    "issue_type": "story",
+    "status": "open",
+    "priority": 2,
+    "assignee": null,
+    "parent": "videoml-be414bcf-7b3c-455e-af4b-c3a0888b3e00",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

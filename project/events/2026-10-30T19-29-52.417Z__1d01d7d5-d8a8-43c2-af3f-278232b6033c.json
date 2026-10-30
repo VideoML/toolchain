@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "1d01d7d5-d8a8-43c2-af3f-278232b6033c",
+  "issue_id": "videoml-5fa24daf-e6ae-4707-8b9a-4dd1722f8afa",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T19:29:52.417Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "## Behavior\nAs a maintainer, I can see which Hyperframes effects have VideoML equivalents and which remain to be built.\n\n## Acceptance scenarios\nGiven a pinned Hyperframes revision, when its blocks/components/shaders are inventoried, then every entry has a stable upstream identity, category, provenance, dependency, VideoML mapping, and explicit status (planned, implemented, verified, or deferred with reason).\nGiven an existing Babulus demo, when matched, then reuse or migration is assessed before rebuilding. Full coverage is the target; no claim of parity from a sample alone.\n\n## Ownership\ntoolchain, specification, player, stdlib; consult Babulus\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.",
+        "to": "## Behavior\nAs a maintainer, I can see which Hyperframes effects have VideoML equivalents and which remain to be built.\n\n## Acceptance scenarios\nGiven a pinned Hyperframes revision, when its blocks/components/shaders are inventoried, then every entry has a stable upstream identity, category, provenance, dependency, VideoML mapping, and explicit status (planned, implemented, verified, or deferred with reason).\nGiven an existing Babulus demo, when matched, then reuse or migration is assessed before rebuilding. Full coverage is the target; no claim of parity from a sample alone.\n\n## Ownership\ntoolchain, specification, player, stdlib; consult Babulus\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-207e97, videoml-684f74, videoml-d42794, videoml-fa90b2. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review."
+      }
+    }
+  }
+}

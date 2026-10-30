@@ -1,1 +1,1 @@
-export * from "../../shared/src/index.ts";
+export * from "@videoml/shared";

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "c47a8282-706d-4f9d-b942-622cbcbdb554",
+  "issue_id": "videoml-a88def9b-0337-42a0-a4ee-b8186d926678",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T19:29:52.696Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "## Behavior and acceptance\nGiven a narration edit, when generation runs, then only affected speech is regenerated and cue-relative visuals follow measured audio durations. Cache identity includes all output-affecting inputs such as model/version, voice/reference, speed, seed, pronunciation, and text; reconcile this with Auritus’s existing cache contract rather than silently breaking it. Persist audio, timing, and provenance so exports can reuse identical assets even when model output is not bitwise reproducible.\n\n## Ownership\nspecification, toolchain, cli, player, videoml-org; Auritus owns reusable model backends\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.",
+        "to": "## Behavior and acceptance\nGiven a narration edit, when generation runs, then only affected speech is regenerated and cue-relative visuals follow measured audio durations. Cache identity includes all output-affecting inputs such as model/version, voice/reference, speed, seed, pronunciation, and text; reconcile this with Auritus’s existing cache contract rather than silently breaking it. Persist audio, timing, and provenance so exports can reuse identical assets even when model output is not bitwise reproducible.\n\n## Ownership\nspecification, toolchain, cli, player, videoml-org; Auritus owns reusable model backends\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-f4f9f3, videoml-fcfbb1, videoml-48d9c8, videoml-42506c. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review."
+      }
+    }
+  }
+}

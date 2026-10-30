@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "62a6d04e-2cec-4f06-90d1-ff6d834b22dd",
+  "issue_id": "videoml-d1ad4907-4458-4915-9975-cb3449c2afce",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T19:29:52.872Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "## Behavior\nAs a maintainer, I can update a shared effect without website examples drifting from it.\n\n## Acceptance scenarios\nGiven an effect release, when catalog data and examples are built, then identifiers, parameter definitions, and runnable fixtures resolve to versioned shared implementations. Upstream inspiration and applicable notices are visible; CI catches missing assets, stale source links, and invalid examples.\n\n## Ownership\nvideoml-org, stdlib, player\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.",
+        "to": "## Behavior\nAs a maintainer, I can update a shared effect without website examples drifting from it.\n\n## Acceptance scenarios\nGiven an effect release, when catalog data and examples are built, then identifiers, parameter definitions, and runnable fixtures resolve to versioned shared implementations. Upstream inspiration and applicable notices are visible; CI catches missing assets, stale source links, and invalid examples.\n\n## Ownership\nvideoml-org, stdlib, player\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-d177d1, videoml-a2767d. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review."
+      }
+    }
+  }
+}

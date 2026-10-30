@@ -1,0 +1,22 @@
+{
+  "id": "videoml-24fdf22b-a1fa-4048-93ac-5faacb66e21d",
+  "title": "Render the same portable project locally or on Babulus",
+  "description": "## Behavior and acceptance\nGiven a project exported from Babulus with source, assets, generated speech, timing, fonts/dependency versions, and render settings, when opened by the open VideoML CLI on a supported machine, then it renders without a Babulus account or proprietary-only data. Compare representative frames/audio timing within recorded tolerances. Babulus accepts the same portable input and returns downloadable artifacts; no required HeyGen or Babulus hosted dependency in the standard.\n\n## Ownership\nBabulus rendering platform; VideoML public project/artifact contract\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-f708b4, videoml-e97334, videoml-e68602, videoml-5fd757, videoml-54b377, videoml-96c59f. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review.",
+  "type": "story",
+  "status": "open",
+  "priority": 1,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-49cdfa8f-a6cf-4c73-9f1f-76e6def3500d",
+  "labels": [
+    "hyperframes-inspiration"
+  ],
+  "dependencies": [],
+  "comments": [],
+  "created_at": "2026-10-30T15:57:19.584705Z",
+  "updated_at": "2026-10-30T19:29:52.166053Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

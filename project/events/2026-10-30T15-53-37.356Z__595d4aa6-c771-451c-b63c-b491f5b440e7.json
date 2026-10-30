@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "595d4aa6-c771-451c-b63c-b491f5b440e7",
+  "issue_id": "videoml-14f3ffec-1d7a-4250-98c6-051721e577c5",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:53:37.356Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "Record catalog provenance and reuse obligations",
+    "description": "Pin the inspected Hyperframes revision and inventory each reused source or asset. Preserve applicable LICENSE/NOTICE and attribution for adapted code; distinguish reimplementation inspired by a visual from copied code. Verify individual third-party asset/library terms before distribution. Keep provenance alongside catalog records.",
+    "issue_type": "task",
+    "status": "open",
+    "priority": 2,
+    "assignee": null,
+    "parent": "videoml-c22afbae-c4f5-4ded-9fb1-618507cecc2d",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

@@ -13,12 +13,19 @@
     "./encode": "./src/encode.ts",
     "./pipeline": "./src/pipeline.ts",
     "./render": "./src/render.tsx",
-    "./storyboard-frames": "./src/storyboard-frames.ts",
-    "./storyboard-frames-png": "./src/storyboard-frames-png.ts",
-    "./storyboard-render": "./src/storyboard-render.ts"
+    "./video-frames": "./src/video-frames.ts",
+    "./video-frames-png": "./src/video-frames-png.ts",
+    "./video-render": "./src/video-render.ts",
+    "./storyboard-frames": "./src/video-frames.ts",
+    "./storyboard-frames-png": "./src/video-frames-png.ts",
+    "./storyboard-render": "./src/video-render.ts",
+    "./components/registry": "./src/components/registry.ts",
+    "./math": "./src/math.ts",
+    "./effects": "./src/effects.ts",
+    "./effect-capture": "./src/effect-capture.ts"
   },
   "dependencies": {
-    "@videoml/shared": "file:../shared",
+    "@videoml/shared": "0.0.0",
     "animejs": "^4.1.2",
     "d3": "^7.9.0",
     "framer-motion": "^11.0.0",
@@ -34,6 +41,20 @@
   },
   "peerDependencies": {
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "@videoml/toolchain": "0.0.0",
+    "playwright": ">=1.45.0",
+    "@videoml/stdlib": "0.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@videoml/toolchain": {
+      "optional": true
+    },
+    "playwright": {
+      "optional": true
+    },
+    "@videoml/stdlib": {
+      "optional": true
+    }
   }
 }

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "afd04f3a-54ab-4703-aa7b-afa63b5afefa",
+  "issue_id": "videoml-3b66a73a-d6a5-4a2c-be7e-f53f20ff30bc",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:57:19.470Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "Synthesize narration locally through Auritus",
+    "description": "## Behavior and acceptance\nGiven a supported installed local model, when the VideoML CLI generates narration, then Auritus produces audio and measured duration metadata without Babulus authentication, cloud credentials, or paid TTS requests. Initial model selection comes from Auritus support and documented model licenses/hardware requirements. Missing models yield actionable setup errors, never silent paid fallback. Model downloads may require network; warmed local generation must not require a hosted service.\n\n## Ownership\nspecification, toolchain, cli, player, videoml-org; Auritus owns reusable model backends\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.",
+    "issue_type": "story",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-692db262-13be-46f7-9256-05e602167aaf",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

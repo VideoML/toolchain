@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "7e34ccfa-5a57-412c-8b6e-841454a98a99",
+  "issue_id": "videoml-de51d21f-d336-4028-a827-c18167b4bc9b",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:57:19.657Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "Reject cloud work that exceeds operational limits",
+    "description": "## Behavior and acceptance\nGiven configured quotas, duration/resolution/frame limits, concurrency, retry ceilings, and a cloud spend reservation policy, when admitting work, then requests beyond those limits fail closed before paid execution. Bound Batch capacity and job runtime, explicitly handle queued/running jobs during emergency shutdown, and prevent retries from bypassing limits. A disabled cloud path still allows permitted local processing. Numerical thresholds must be selected before enabling cloud rendering.\n\n## Ownership\nBabulus infrastructure; dedicated Babulus/VideoML AWS member account\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.",
+    "issue_type": "story",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-e832b847-d162-4d5c-8a7f-c5cf94a51cce",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "videoml-eb5a8e83-390d-4339-9f4c-fdcf22b2ee3d",
+  "title": "P10 — Implement deterministic echo smear",
+  "description": "## Dispatch packet P10\nRead initiative videoml-dbc2b1 sections D02,D03 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\nstdlib\nPrimary paths: src/effects/echo-smear; catalog fixtures. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Bake sampled trajectory after animation parameters are finalized; invalidate cache on edits; draw time-offset copies. Bound sample storage by duration and sample rate, reject oversized trajectories.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\ncurved/spinning/paused motion capture and two-partition equality.\n\n## Dependencies\nvideoml-2779f2 (P04), videoml-fa90b2 (P05)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n",
+  "type": "task",
+  "status": "open",
+  "priority": 1,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-be414bcf-7b3c-455e-af4b-c3a0888b3e00",
+  "labels": [
+    "terra-packet"
+  ],
+  "dependencies": [
+    {
+      "target": "videoml-2779f216-c46c-4a45-8f32-7af1bae30ffd",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-fa90b2a7-d449-4c9f-98d0-d546ed1de9d7",
+      "type": "blocked-by"
+    }
+  ],
+  "comments": [],
+  "created_at": "2026-10-30T19:29:35.336227Z",
+  "updated_at": "2026-10-30T19:29:35.367911Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

@@ -1,0 +1,22 @@
+{
+  "id": "videoml-6b0e9feb-4e71-4c5d-8166-d588d1d8189d",
+  "title": "Seek supported animation frameworks deterministically",
+  "description": "## Behavior\nAs an effect author, I can use any animation framework that satisfies VideoML’s frame contract.\n\n## Acceptance scenarios\nGiven a fixed seed and assets, when frames are requested forward, backward, repeated, and out of order, then equivalent visual states are produced within documented tolerances.\nGiven asynchronous fonts, textures, or setup, capture waits for readiness. A framework integration must not require wall-clock playback; do not mandate GSAP.\n\n## Ownership\ntoolchain, specification, player, stdlib; consult Babulus\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-207e97, videoml-684f74, videoml-d42794, videoml-fa90b2. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review.",
+  "type": "story",
+  "status": "open",
+  "priority": 2,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-c22afbae-c4f5-4ded-9fb1-618507cecc2d",
+  "labels": [
+    "hyperframes-inspiration"
+  ],
+  "dependencies": [],
+  "comments": [],
+  "created_at": "2026-10-30T15:53:36.948725Z",
+  "updated_at": "2026-10-30T19:29:52.553892Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

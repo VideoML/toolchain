@@ -1,0 +1,35 @@
+{
+  "id": "videoml-2779f216-c46c-4a45-8f32-7af1bae30ffd",
+  "title": "P04 — Share effect mounting between player and renderer",
+  "description": "## Dispatch packet P04\nRead initiative videoml-dbc2b1 sections D02 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\nstdlib, player, toolchain\nPrimary paths: stdlib/src/effects; player/src/runtime.ts; renderer browser mounting. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Implement registry/lifecycle contract and player seek/pause/dispose. Mount identical effect code in preview and capture. Preserve React component compatibility through adapter.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\nDOM and canvas fixtures seek correctly, assets settle, cleanup removes handlers/textures, conformance passes.\n\n## Dependencies\nvideoml-d42794 (P03)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n",
+  "type": "task",
+  "status": "closed",
+  "priority": 1,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-db06d1ec-7b28-4b51-8695-cbeef8c44b4b",
+  "labels": [
+    "terra-packet"
+  ],
+  "dependencies": [
+    {
+      "target": "videoml-d4279460-f7ec-4c7c-8924-f288fb37e530",
+      "type": "blocked-by"
+    }
+  ],
+  "comments": [
+    {
+      "id": "4af5d1d0-847b-483d-99f5-df52ca30d2e4",
+      "author": "home",
+      "text": "Primary accepted P04 after Terra review corrections and independent7lifecycle tests + visual capture inspection. Shared effect registry validates Draft202012 parameters; terminal mount failures clean partial resources; React/player async settle hooks; shared timeline queues serialize all synchronized controllers and await active participants. Worker10tests pass incl actual browser DOM/canvas,32/32seek comparisons per wrapper,8/8capture-preview PNG equality, disposal/error preservation and group regression. Packed public entrypoints/identity verified. Evidence artifacts/p04-group and p04-group-focused.log. Explicit trusted-bundle capture entrypoint only; automatic XML ComposableRenderer IDs and pinned Linux release gate remain unclaimed.",
+      "created_at": "2026-10-30T21:17:21.702930Z",
+      "comment_type": "default"
+    }
+  ],
+  "created_at": "2026-10-30T19:29:35.121732Z",
+  "updated_at": "2026-10-30T21:17:21.747011Z",
+  "closed_at": "2026-10-30T21:17:21.746890Z",
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

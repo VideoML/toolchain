@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "56565d6a-f39b-44ae-8106-327eae42b0f7",
+  "issue_id": "videoml-734385cf-43e4-44fc-90da-4a58b9992446",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T19:29:52.973Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "Audit CLI imports, player stdlib paths, renderer exports, package versions, and actual Babulus consumption. Establish runnable visual and narrated fixtures. Move/formalize Babulus voiceover features into standard VideoML, with open local synthesis using Auritus. Preserve migration compatibility and document standard semantics separately from provider adapters. Babulus becomes an optional paid rendering platform, not the exclusive owner of narration. Reuse Auritus backends rather than copying them into VideoML.",
+        "to": "Audit CLI imports, player stdlib paths, renderer exports, package versions, and actual Babulus consumption. Establish runnable visual and narrated fixtures. Move/formalize Babulus voiceover features into standard VideoML, with open local synthesis using Auritus. Preserve migration compatibility and document standard semantics separately from provider adapters. Babulus becomes an optional paid rendering platform, not the exclusive owner of narration. Reuse Auritus backends rather than copying them into VideoML.\n\n## Dispatch clarification\nImplement through videoml-207e97, videoml-684f74, videoml-fcfbb1. This task coordinates those packets; do not independently implement the same work twice."
+      }
+    }
+  }
+}

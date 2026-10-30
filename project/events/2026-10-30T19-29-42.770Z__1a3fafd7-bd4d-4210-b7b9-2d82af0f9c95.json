@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "event_id": "1a3fafd7-bd4d-4210-b7b9-2d82af0f9c95",
+  "issue_id": "videoml-73402bea-34e4-4f5f-b5a6-2fe1431df938",
+  "event_type": "dependency_added",
+  "occurred_at": "2026-10-30T19:29:42.770Z",
+  "actor_id": "home",
+  "payload": {
+    "dependency_type": "blocked-by",
+    "target_id": "videoml-fa90b2a7-d449-4c9f-98d0-d546ed1de9d7"
+  }
+}

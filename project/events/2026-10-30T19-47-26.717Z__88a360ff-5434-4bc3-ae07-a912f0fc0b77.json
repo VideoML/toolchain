@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "88a360ff-5434-4bc3-ae07-a912f0fc0b77",
+  "issue_id": "videoml-bd05c117-ccf7-4ae8-9c1a-cacc1806f03a",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T19:47:26.717Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "P00 — Establish resource budgets and safe execution lanes",
+    "description": "## Owner\nPrimary coordinator, with one Terra worker for read-only inventory if useful. Complete before P01.\n\n## Steps\n1. Read initiative D16 and relevant repository instructions; capture git status without resetting existing work.\n2. Measure filesystem free space, existing package/browser/model/container caches and installed dependency versions. Do not install or delete during inventory.\n3. Create a task-owned execution ledger listing repository writer ownership, immutable artifact/cache paths, heavyweight-operation owner, estimated/measured peak disk and retained artifacts. Ledger is operational state; initiative remains canonical planning document.\n4. Reserve at least 8 GiB free headroom and select the first serial bootstrap workspace. At current 13 GiB, schedule a maximum of two implementation agents and one heavyweight operation; block downloads whose peak cannot be bounded.\n5. Record exact package/build/test commands and existing runtime locations for P01/P03/P13. Confirm clean-consumer packaging can fit; otherwise report the specific required capacity and continue lightweight inspection.\n\n## Acceptance\nPrimary can dispatch P01 without conflicting writers or unbudgeted installs. A deliberately oversized operation is rejected by the scheduling policy. Existing unrelated files/caches remain intact. Add measured results as a comment; do not claim model/container/render verification from this preflight.\n",
+    "issue_type": "task",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-c22afbae-c4f5-4ded-9fb1-618507cecc2d",
+    "labels": [
+      "terra-packet"
+    ]
+  }
+}

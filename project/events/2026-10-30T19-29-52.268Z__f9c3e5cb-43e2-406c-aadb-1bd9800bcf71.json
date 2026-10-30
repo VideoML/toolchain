@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "f9c3e5cb-43e2-406c-aadb-1bd9800bcf71",
+  "issue_id": "videoml-3b66a73a-d6a5-4a2c-be7e-f53f20ff30bc",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T19:29:52.268Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "## Behavior and acceptance\nGiven a supported installed local model, when the VideoML CLI generates narration, then Auritus produces audio and measured duration metadata without Babulus authentication, cloud credentials, or paid TTS requests. Initial model selection comes from Auritus support and documented model licenses/hardware requirements. Missing models yield actionable setup errors, never silent paid fallback. Model downloads may require network; warmed local generation must not require a hosted service.\n\n## Ownership\nspecification, toolchain, cli, player, videoml-org; Auritus owns reusable model backends\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.",
+        "to": "## Behavior and acceptance\nGiven a supported installed local model, when the VideoML CLI generates narration, then Auritus produces audio and measured duration metadata without Babulus authentication, cloud credentials, or paid TTS requests. Initial model selection comes from Auritus support and documented model licenses/hardware requirements. Missing models yield actionable setup errors, never silent paid fallback. Model downloads may require network; warmed local generation must not require a hosted service.\n\n## Ownership\nspecification, toolchain, cli, player, videoml-org; Auritus owns reusable model backends\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-f4f9f3, videoml-fcfbb1, videoml-48d9c8, videoml-42506c. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review."
+      }
+    }
+  }
+}

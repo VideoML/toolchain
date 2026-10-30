@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "c6fc684d-5625-4fc8-8b73-b51938d180ac",
+  "issue_id": "videoml-96c59f47-aa0b-4901-913e-6a47b53b0430",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T19:29:35.988Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "P25 — Implement pilot credit ledger and quote UX",
+    "description": "## Dispatch packet P25\nRead initiative videoml-dbc2b1 sections D12 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\nBabulus\nPrimary paths: service credit ledger; Studio submit/export views. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. D12 prepaid credit with operator-posted invoice payment references, integer cents, idempotent reserve/settle/refund. Display fixed $2 cloud charge and limits, default local-only, export always available for owner. No card collection or payment SDK.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\nduplicate completion settles once, failed cloud refunds customer not operator cost reservation, local completes uncharged.\n\n## Dependencies\nvideoml-811fde (P21), videoml-e68602 (P19)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n",
+    "issue_type": "task",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-49cdfa8f-a6cf-4c73-9f1f-76e6def3500d",
+    "labels": [
+      "terra-packet"
+    ]
+  }
+}
