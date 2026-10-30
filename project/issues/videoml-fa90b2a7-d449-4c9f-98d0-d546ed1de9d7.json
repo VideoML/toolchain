@@ -24,10 +24,17 @@
       "text": "Primary accepted P05 after source review and independent 6/6 catalog tests against pinned upstream. Draft202012 schema and manifest independently validated using Python3.12 jsonschema. Inventory 456 registry entries +13 shaders, one-to-one 92 C packet coverage, notices/provenance, all planned/0 verified. Regeneration preserves local implementation metadata; identity/provenance tampering and incomplete verified entries fail. No asset rights or visual implementation falsely claimed. Evidence /private/tmp/videoml-execution/p05-durability.log. No product commit or release yet.",
       "created_at": "2026-10-30T21:04:04.673946Z",
       "comment_type": "default"
+    },
+    {
+      "id": "f46b8314-c2e3-428d-aa54-97cd629c615b",
+      "author": "home",
+      "text": "Inventory correction found during P08: pinned shader registry includes unquoted glitch key at line144, omitted by original importer. Exact scope is14 shaders plus456 registry entries=470 total. P08 now owns importer regression, preserved-metadata regeneration and shader/glitch implementation; canonical initiative corrected. Earlier13/469 counts were incomplete evidence, not an authorized scope reduction.",
+      "created_at": "2026-10-30T23:50:03.080877Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.152055Z",
-  "updated_at": "2026-10-30T21:04:04.715883Z",
+  "updated_at": "2026-10-30T23:50:03.081372Z",
   "closed_at": "2026-10-30T21:04:04.715760Z",
   "right_now_summary": null,
   "right_now_updated_at": null,
