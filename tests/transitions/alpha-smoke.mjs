@@ -1,0 +1,3 @@
+import {chromium} from 'playwright';import assert from 'node:assert/strict';
+const browser=await chromium.launch({executablePath:'/Users/home/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell'});
+try{const page=await browser.newPage();await page.addScriptTag({path:'/private/tmp/videoml-execution/p07-bundles/alpha.js'});const actual=await page.evaluate(()=>window.checkAlpha());console.log(JSON.stringify(actual));const expected=[[255,0,0,64],[85,0,170,96],[0,0,255,128]];for(let i=0;i<3;i++)for(let j=0;j<4;j++)assert.ok(Math.abs(actual[i][j]-expected[i][j])<=2,`${i},${j}: ${actual[i][j]} != ${expected[i][j]}`);}finally{await browser.close();}
