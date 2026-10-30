@@ -17,9 +17,17 @@
       "type": "blocked-by"
     }
   ],
-  "comments": [],
+  "comments": [
+    {
+      "id": "4354d0d1-956e-41e0-814e-ef4f4a388a5a",
+      "author": "home",
+      "text": "Real offline Kokoro and narrated packed VideoML render succeeded with OS outbound denial and credentials removed. 265200samples/24kHz/11.05s; video23frames/2fps/11.5s. Corrected setup exact3files/revisions/hashes passed empty-cache verification. P16 scope includes CLI setup correction and fixture/docs; PR https://github.com/VideoML/cli/pull/4. Primary focused tests and second Terra setup review passed. Full-clip listening user review pending; no closure.",
+      "created_at": "2026-10-30T22:48:05.140327Z",
+      "comment_type": "default"
+    }
+  ],
   "created_at": "2026-10-30T19:29:35.591180Z",
-  "updated_at": "2026-10-30T22:36:18.345117Z",
+  "updated_at": "2026-10-30T22:48:05.140539Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,

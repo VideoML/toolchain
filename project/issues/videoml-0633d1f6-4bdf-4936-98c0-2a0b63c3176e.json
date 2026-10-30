@@ -3,7 +3,7 @@
   "title": "P07 — Implement two-scene shader compositor",
   "description": "## Dispatch packet P07\nRead initiative videoml-dbc2b1 sections D02,D03 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\nstdlib, toolchain\nPrimary paths: stdlib/src/effects/transitions; renderer scene capture. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Implement frame-driven sampling of animated from/to scenes and shader progress with readiness and disposal. First crossfade and domain warp; frames remain correct while scenes move.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\nboundary frames, random seeking and unsupported-WebGL fallback pass conformance.\n\n## Dependencies\nvideoml-2779f2 (P04)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n",
   "type": "task",
-  "status": "open",
+  "status": "in_progress",
   "priority": 1,
   "assignee": null,
   "creator": null,
@@ -17,9 +17,17 @@
       "type": "blocked-by"
     }
   ],
-  "comments": [],
+  "comments": [
+    {
+      "id": "58c98323-9318-4c3f-b063-162b15c3ddbc",
+      "author": "home",
+      "text": "Primary approved D03a capture boundary in initiative: shared SceneFrameSource compositor, real Playwright isolated scene screenshots for general DOM/canvas/WebGL; native/injected providers for player. Explicit SCENE_CAPTURE_UNAVAILABLE without provider, opt-in named crossfade fallback, no false parity. P07 owns stdlib/toolchain/player for integration; no CLI writes. P11 owns website and sole heavy slot; P07 source-only until transfer.",
+      "created_at": "2026-10-30T22:49:01.363355Z",
+      "comment_type": "default"
+    }
+  ],
   "created_at": "2026-10-30T19:29:35.210430Z",
-  "updated_at": "2026-10-30T19:29:35.226160Z",
+  "updated_at": "2026-10-30T22:49:01.381920Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,

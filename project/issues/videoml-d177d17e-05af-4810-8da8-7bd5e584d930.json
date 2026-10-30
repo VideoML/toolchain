@@ -3,7 +3,7 @@
   "title": "P11 — Generate searchable catalog listing and routes",
   "description": "## Dispatch packet P11\nRead initiative videoml-dbc2b1 sections D05 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\nvideoml-org\nPrimary paths: gatsby-node; src/pages/catalog; catalog page template. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Consume packed stdlib manifest and implement stable routes/search/category/framework filters, poster-first cards and keyboard navigation. Planned entries are marked unavailable.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\nGatsby build, no missing routes, browser filter/query/back-button checks.\n\n## Dependencies\nvideoml-fa90b2 (P05), videoml-ca79a1 (P06)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n",
   "type": "task",
-  "status": "open",
+  "status": "in_progress",
   "priority": 1,
   "assignee": null,
   "creator": null,
@@ -21,9 +21,17 @@
       "type": "blocked-by"
     }
   ],
-  "comments": [],
+  "comments": [
+    {
+      "id": "b8ddffdb-9828-4f08-a379-6701959d6e49",
+      "author": "home",
+      "text": "Primary sequencing refinement: P06 producer stdlib source4fb36e9 and shared demos are accepted/merged and sufficient for P11 frozen-package consumption. Remaining P06 Babulus commit approval does not gate website code. Consume new immutable accepted P10 stdlib pack; no moving sibling source imports. P11 includes all469 metadata routes, planned entries explicitly unavailable; zero verified-count marketing until release gates.",
+      "created_at": "2026-10-30T22:48:05.159251Z",
+      "comment_type": "default"
+    }
+  ],
   "created_at": "2026-10-30T19:29:35.383128Z",
-  "updated_at": "2026-10-30T19:29:35.415175Z",
+  "updated_at": "2026-10-30T22:48:05.176113Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
