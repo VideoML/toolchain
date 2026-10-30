@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "bd5efffa-6026-434c-a381-f0e648b1951b",
+  "issue_id": "videoml-f6a4fc00-fc11-4465-b0c6-7075653a19ee",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T22:56:47.653Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "P12a — Mount registered frame effects from XML",
+    "description": "Implement the missing shared registry effect mounting in actual XML player and renderer so P12 source snippets run. Depends on P07 repository release, accepted P04/P15 and P12 consumer integration. Own specification/player/toolchain; stdlib only if shared adapter changes required. Primary owns boards.\n\nPrimary syntax decision: additive <frame-effect id=\"component-id\" effect-id=\"registered-id\" effect-version=\"exact-version\" props='{\"parameters\":{...}}' start=\"...\" duration=\"...\"/>. Preserve existing XML timing syntax and component IDs; renderer component type is FrameEffect. props.parameters is data only and validated against registered descriptor; reject unknown registry ID/version/parameters instead of silently rendering nothing. No executable expressions or dynamic imports from user data. JSON must be a plain object and dangerous prototype keys rejected. All existing standard scene/layer timing/frozen-ID handling applies. Context width/height/fps/seed/assets comes from composition; seek is composition-absolute integer frame, interval visibility [startFrame,endFrame), no implicit local clock restart. Resolve bundled assets before mounting; caller supplies approved registry and local asset mapping, default built-in registry explicit and deterministic.\n\nUse one shared mount/seek/dispose implementation in both player and renderer, preserve cancellation and readiness. Wire the real XML DOM player and script-based renderer, not just new helper exports. Add spec draft section and working examples. Prove copied XML renders the actual particle/echo examples via clean packed consumer, no Babulus/TTS/network dependency. Repeated/reverse/random frames and frozen timing IDs must match direct TS preview. Include unknown ID/version, invalid params/JSON, cancellation/remount, visual-only provider-free and asset failure checks. Update P12 iframe/source generator only after package handoff. Primary and independent source review required; do not close P12 without executable XML evidence.",
+    "issue_type": "task",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-eb659c95-3465-4a82-a066-319f814354a7",
+    "labels": [
+      "terra-packet"
+    ]
+  }
+}

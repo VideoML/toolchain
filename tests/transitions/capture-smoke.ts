@@ -1,0 +1,11 @@
+import {captureTransitionFrames} from '../../packages/renderer/src/transition-capture';
+import {readFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+const base='/private/tmp/videoml-execution/p07-bundles/';
+const options={fromBundlePath:base+'from.js',toBundlePath:base+'to.js',compositorBundlePath:base+'compositor.js',width:320,height:240,fps:24,seed:71,assets:{accent:"fixture"},fromSceneId:"scene-a",toSceneId:"scene-b",startFrame:0,endFrame:24,frames:[0,12,24,12,23,1,0],shader:'domain-warp' as const,outDir:'/private/tmp/videoml-execution/p07-captures',executablePath:'/Users/home/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell'};
+const paths=await captureTransitionFrames(options);
+const hash=async(p:string)=>createHash('sha256').update(await readFile(p)).digest('hex');
+const hashes=await Promise.all(paths.map(hash));
+if(hashes[1]!==hashes[3] || hashes[0]!==hashes[6])throw new Error('Repeated frames differ');
+if(new Set(hashes).size<5)throw new Error('Animated scenes or transition are static');
+console.log(JSON.stringify({paths,hashes},null,2));

@@ -32,10 +32,17 @@
       "text": "P15 intentionally does not add a copied source digest that cannot independently validate all normalized source content. P17 must enforce D08 whole-bundle manifest hashes for source/script/frozen timing/audio and reject any mutated file; include narration text and component property tampering tests. This is the full content-integrity boundary, separate from P15 ordered-ID/timing/audio verification.",
       "created_at": "2026-10-30T21:59:36.102315Z",
       "comment_type": "default"
+    },
+    {
+      "id": "f1dd264e-650a-47f3-b77a-ab725ef0a337",
+      "author": "home",
+      "text": "Primary D08a decisions now in initiative: one explicitly selected composition, required script/timing/assembled-audio roles, all files hashed with immutable job expected digest, canonical cross-platform paths, strict staged ZIP/directory import and AST+asset hosted validation. P17 scope includes specification schema/fixtures semantic validators as well as CLI/toolchain. No implementation started; P07 currently owns toolchain.",
+      "created_at": "2026-10-30T22:52:45.409421Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.623766Z",
-  "updated_at": "2026-10-30T21:59:36.102535Z",
+  "updated_at": "2026-10-30T22:52:45.409639Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
