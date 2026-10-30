@@ -3,7 +3,7 @@
   "title": "P12a — Mount registered frame effects from XML",
   "description": "Implement the missing shared registry effect mounting in actual XML player and renderer so P12 source snippets run. Depends on P07 repository release, accepted P04/P15 and P12 consumer integration. Own specification/player/toolchain; stdlib only if shared adapter changes required. Primary owns boards.\n\nPrimary syntax decision: additive <frame-effect id=\"component-id\" effect-id=\"registered-id\" effect-version=\"exact-version\" props='{\"parameters\":{...}}' start=\"...\" duration=\"...\"/>. Preserve existing XML timing syntax and component IDs; renderer component type is FrameEffect. props.parameters is data only and validated against registered descriptor; reject unknown registry ID/version/parameters instead of silently rendering nothing. No executable expressions or dynamic imports from user data. JSON must be a plain object and dangerous prototype keys rejected. All existing standard scene/layer timing/frozen-ID handling applies. Context width/height/fps/seed/assets comes from composition; seek is composition-absolute integer frame, interval visibility [startFrame,endFrame), no implicit local clock restart. Resolve bundled assets before mounting; caller supplies approved registry and local asset mapping, default built-in registry explicit and deterministic.\n\nUse one shared mount/seek/dispose implementation in both player and renderer, preserve cancellation and readiness. Wire the real XML DOM player and script-based renderer, not just new helper exports. Add spec draft section and working examples. Prove copied XML renders the actual particle/echo examples via clean packed consumer, no Babulus/TTS/network dependency. Repeated/reverse/random frames and frozen timing IDs must match direct TS preview. Include unknown ID/version, invalid params/JSON, cancellation/remount, visual-only provider-free and asset failure checks. Update P12 iframe/source generator only after package handoff. Primary and independent source review required; do not close P12 without executable XML evidence.",
   "type": "task",
-  "status": "in_progress",
+  "status": "closed",
   "priority": 1,
   "assignee": null,
   "creator": null,
@@ -45,11 +45,18 @@
       "text": "Primary acceptance: actual extracted six-package consumer, no VideoML dependency symlinks, local font/image and provider-free CLI pipelines for three effects. Primary reran42 exact decoded RGBA comparisons at24fps/seed42 including repeated/reverse/random frames, plus9 scene/layer/transition player vs standalone-script capture comparisons. Authored FPS/seed and generated script seed persisted; frozen timing authoritative. Independent review cleared asset/network/lifecycle findings; real stalled effects/network regressions passed. Primary parser/assets6, shared adapter2, timeout adapter2 pass; worker lint/player tsc/legacy6 pass. Dependency tree reused, not a fresh network install. P12a product accepted for landing; Linux release/P28 and website copied-source acceptance remain separate.",
       "created_at": "2026-10-30T23:40:01.965306Z",
       "comment_type": "default"
+    },
+    {
+      "id": "251f64ab-baf7-4b70-8e92-8d8d8549c0e5",
+      "author": "home",
+      "text": "Landed and verified MERGED: stdlib PR6 main5e4d5cb; player PR4 main5dc2580; toolchain PR5 main6747fd7; CLI PR5 main5871657; specification PR3 main970a76d. All local checkouts fast-forwarded to those main commits. Acceptance evidence in prior comment; final frozen pack SHA256 in /tmp/videoml-p12a-pack-hashes.txt. P12 website copied-source/build verification proceeds next; P08 and later full-plan work remain.",
+      "created_at": "2026-10-30T23:42:33.868264Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T22:56:47.653003Z",
-  "updated_at": "2026-10-30T23:40:01.965799Z",
-  "closed_at": null,
+  "updated_at": "2026-10-30T23:42:33.868703Z",
+  "closed_at": "2026-10-30T23:42:33.834198Z",
   "right_now_summary": null,
   "right_now_updated_at": null,
   "custom": {}
