@@ -173,36 +173,6 @@ export function getDefaultProvider(config: Config): string | null {
     return explicit;
   }
 
-  const openaiCfg = getProviderConfig(config, "openai");
-  const openaiKey =
-    process.env.OPENAI_API_KEY ||
-    String(openaiCfg.api_key ?? "") ||
-    (typeof (config as any)?.openai_api_key === "string" ? String((config as any).openai_api_key) : "");
-  if (openaiKey && !openaiKey.startsWith("test-")) {
-    return "openai";
-  }
-
-  const elevenCfg = getProviderConfig(config, "elevenlabs");
-  const elevenKey = process.env.ELEVENLABS_API_KEY || String(elevenCfg.api_key ?? "");
-  const elevenVoice = String(elevenCfg.voice_id ?? "");
-  if (elevenKey && !elevenKey.startsWith("test-") && elevenVoice) {
-    return "elevenlabs";
-  }
-
-  const hasAwsCreds =
-    Boolean(process.env.AWS_ACCESS_KEY_ID) ||
-    Boolean(process.env.AWS_PROFILE) ||
-    Boolean(process.env.AWS_WEB_IDENTITY_TOKEN_FILE);
-  if (hasAwsCreds) {
-    return "aws-polly";
-  }
-
-  const azureCfg = getProviderConfig(config, "azure_speech");
-  const azureKey = process.env.AZURE_SPEECH_KEY || String(azureCfg.api_key ?? "");
-  const azureRegion = process.env.AZURE_SPEECH_REGION || String(azureCfg.region ?? "");
-  if (azureKey && !azureKey.startsWith("test-") && azureRegion) {
-    return "azure-speech";
-  }
 
   return null;
 }

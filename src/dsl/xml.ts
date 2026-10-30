@@ -910,8 +910,15 @@ export const loadVideoFileFromXml = (xml: string): VideoFileSpec => {
   for (const child of getChildElements(asElementLike(root))) {
     if (child.tagName === "voiceover") {
       const voiceoverAttrs = parseAttributes(child);
+      if (voiceoverAttrs.speed !== undefined && (!Number.isFinite(Number(voiceoverAttrs.speed)) || !voiceoverAttrs.speed.trim() || Number(voiceoverAttrs.speed) <= 0)) throw new ParseError("voiceover speed must be a positive finite number");
       voiceover = {
+        pronunciations: getChildElements(child).filter(node => node.tagName === "pronunciation").map(node => {
+          const attrs = parseAttributes(node);
+          if (!attrs.grapheme || ((!attrs.alias || attrs.phoneme || attrs.alphabet) && (!attrs.phoneme || !attrs.alphabet || attrs.alias))) throw new ParseError("pronunciation requires grapheme and either alias or phoneme with alphabet");
+          return {grapheme: attrs.grapheme, alias: attrs.alias, phoneme: attrs.phoneme, alphabet: attrs.alphabet};
+        }),
         provider: voiceoverAttrs.provider ?? undefined,
+        speed: voiceoverAttrs.speed === undefined ? undefined : Number(voiceoverAttrs.speed),
         voice: voiceoverAttrs.voice ?? undefined,
         model: voiceoverAttrs.model ?? undefined,
         format: voiceoverAttrs.format ?? undefined,
