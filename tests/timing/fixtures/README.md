@@ -1,0 +1,1 @@
+The three `.babulus.xml` fixtures are copied from Babulus `examples/` at revision `2992ff1358978ef41bb3eca4475344b8900df28a`, under the accompanying MIT license. They exercise compatibility with existing documents that omit visual component IDs.

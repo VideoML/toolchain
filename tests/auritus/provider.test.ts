@@ -147,3 +147,18 @@ test('session rejects invalid or conflicting process configuration', async () =>
   assert.throws(()=>session.getAuritus({python:fake,voices_dir:'/voice-b'}),/cannot change/);
  } finally {await session.dispose();}
 });
+
+test('versioned cache reuses verified audio and regenerates on corruption', async () => {
+ const dir=mkdtempSync(join(tmpdir(),'vml-provider-cache-')); const prior=process.env.VML_FAKE_CACHE; process.env.VML_FAKE_CACHE='1';
+ const p=new AuritusProvider(fake,undefined,1000); const path=join(dir,'out.wav');
+ try {const req={text:'hello',sampleRateHz:24000,extra:{ffmpegIdentity:{executableSha256:'a'.repeat(64),versionOutputSha256:'b'.repeat(64)}}}; assert.equal((await p.synthesize(req,path)).cached,false); assert.equal((await p.synthesize(req,path)).cached,true); const cache=join(dir,'.voice-cache-v1'); const wav=(await import('node:fs')).readdirSync(cache).find(x=>x.endsWith('.wav'))!; writeFileSync(join(cache,wav),'corrupt'); assert.equal((await p.synthesize(req,path)).cached,false);}
+ finally {await p.dispose();if(prior===undefined) delete process.env.VML_FAKE_CACHE; else process.env.VML_FAKE_CACHE=prior;rmSync(dir,{recursive:true,force:true});}
+});
+
+test('returned voice revision and cache reason must match capabilities before caching', async () => {
+ const dir=mkdtempSync(join(tmpdir(),'vml-provenance-'));const old=process.env.VML_FAKE_CACHE;process.env.VML_FAKE_CACHE='1';
+ try {for(const text of ['bad-voice-revision','missing-voice-revision','wrong-cache-reason']) {const p=new AuritusProvider(fake,undefined,1000);
+  try {await assert.rejects(p.synthesize({text,sampleRateHz:24000,extra:{ffmpegIdentity:{executableSha256:'a'.repeat(64),versionOutputSha256:'b'.repeat(64)}}},join(dir,'out.wav')),/provenance/);assert.equal(existsSync(join(dir,'.voice-cache-v1')),false);}
+  finally {await assert.rejects(p.dispose());}}
+ } finally {if(old===undefined)delete process.env.VML_FAKE_CACHE;else process.env.VML_FAKE_CACHE=old;rmSync(dir,{recursive:true,force:true});}
+});

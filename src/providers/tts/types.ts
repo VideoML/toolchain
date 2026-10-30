@@ -10,6 +10,7 @@ export type TTSRequest = {
 export type TTSSegment = {
   path: string;
   durationSec: number;
+  cached?: boolean;
 };
 
 export interface TTSProvider {

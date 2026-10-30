@@ -27,6 +27,7 @@
     "test:package-wiring": "node --test tests/package-wiring.test.mjs",
     "test:packed-consumer": "sh tests/packed-consumer-smoke.sh",
     "test:conformance": "node --test tests/conformance/runner.test.mjs",
+    "test:voiceover": "node --import tsx --test tests/timing/*.test.ts tests/auritus/provider.test.ts",
     "test:effects": "node --import tsx --test tests/effects/*.test.mjs"
   },
   "dependencies": {

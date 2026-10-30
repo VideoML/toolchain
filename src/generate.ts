@@ -1,10 +1,13 @@
+import { randomBytes, createHash } from "node:crypto";
+import { implicitTransitionId, qualifiedTimingId, validateResolvedTiming } from "@videoml/shared/resolved-timing";
+import { normalizeCompositionIds } from "./dsl/normalize.js";
 import { GenerationSession } from "./providers/tts/auritus.js";
-import { writeFileSync, existsSync, mkdirSync, copyFileSync, readdirSync, unlinkSync } from "fs";
-import { dirname, join, resolve, sep } from "path";
+import { writeFileSync, existsSync, mkdirSync, copyFileSync, readdirSync, unlinkSync, renameSync, mkdtempSync, rmSync, lstatSync } from "fs";
+import { dirname, join, resolve, sep, relative } from "path";
 import { CompileError } from "./errors.js";
 import { getDefaultMusicProvider, getDefaultProvider, getDefaultSfxProvider, type Config } from "./config.js";
 import { getEnvironment, resolveEnvCacheDir } from "./env.js";
-import { loadManifest, getManifestDuration, resolveCachedSegment, resolveCachedSfx, resolveCachedMusic } from "./cache-resolver.js";
+import { loadManifest, getManifestDuration, resolveCachedSfx, resolveCachedMusic } from "./cache-resolver.js";
 import { hashKey, safePrefix, ensureDir } from "./util.js";
 import { makeBullet, type Script, type TransitionTimelineItem, scriptToJson } from "./models.js";
 import { getProviderConfig } from "./config.js";
@@ -24,12 +27,12 @@ import {
   type AudioElementSpec,
   type AudioPlan,
   type NarrationSpec,
-  type ComponentSpec,
-  type LayerSpec,
 } from "./dsl/types.js";
 import { pause as pauseHelper } from "./dsl/pause.js";
-import { concatAudioFiles, estimateTrailingSilenceSec, probeDurationSec, trimAudioToDuration } from "./media.js";
-import { writeSilenceWav } from "./audio/wav.js";
+import { probeDurationSec } from "./media.js";
+import { writeSilenceWav, parseWav, writePcmWav, exactTrimPcm } from "./audio/wav.js";
+import { prepareVoicePcm } from "./audio/voice-pcm.js";
+import { readFileSync } from "node:fs";
 import { loadSelections, selectionPath } from "./sfx-workflow.js";
 import { ensureDictionaryFromRules, rulesHash, type PronunciationRule } from "./elevenlabs-pronunciation.js";
 import { ElevenLabsTTSProvider } from "./providers/tts/elevenlabs.js";
@@ -42,6 +45,8 @@ export type GeneratedArtifact = {
   audioPath: string | null;
   timelinePath: string;
   didSynthesize: boolean;
+  resolvedTimingPath?: string;
+  frozenAudioPath?: string | null;
   runId?: string;
   runPath?: string;
 };
@@ -67,19 +72,36 @@ export type GenerateOptions = {
 
 export async function generateComposition(options: GenerateOptions): Promise<GeneratedArtifact> {
   const session = options.generationSession ?? new GenerationSession();
+  const lockPath = join(resolve(options.outDir), '.generation-lock');
+  ensureDir(resolve(options.outDir));
+  try { mkdirSync(lockPath); } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === 'EEXIST') throw new CompileError(`Generation output is already in use: ${options.outDir}`);
+    throw error;
+  }
+  const lockIdentity = lstatSync(lockPath);
+  const token = randomBytes(16).toString('hex');
   let primaryError: unknown;
-  try { return await generateWithSession(options, session); }
-  catch (error) { primaryError = error; throw error; }
+  try {
+    writeFileSync(join(lockPath, 'owner'), token, {flag:'wx'});
+    return await generateWithSession(options, session);
+  } catch (error) { primaryError = error; throw error; }
   finally {
-    if (!options.generationSession) {
-      try { await session.dispose(); } catch (error) { if (!primaryError) throw error; }
-    }
+    try { if (!options.generationSession) await session.dispose(); } catch (error) { if (!primaryError) primaryError = error; }
+    try {
+      if (existsSync(lockPath)) {
+        const current = lstatSync(lockPath), ownerPath = join(lockPath, 'owner');
+        const sameDirectory = current.isDirectory() && current.dev === lockIdentity.dev && current.ino === lockIdentity.ino;
+        const ours = !existsSync(ownerPath) || readFileSync(ownerPath, 'utf8') === token;
+        if (sameDirectory && ours) rmSync(lockPath, {recursive:true});
+      }
+    } catch (error) { if (!primaryError) primaryError = error; }
+    if (primaryError) throw primaryError;
   }
 }
 
 async function generateWithSession(options: GenerateOptions, session: GenerationSession): Promise<GeneratedArtifact> {
   const {
-    composition,
+    composition: sourceComposition,
     dslPath,
     scriptOut,
     audioOut,
@@ -95,6 +117,7 @@ async function generateWithSession(options: GenerateOptions, session: Generation
     verboseLogs = true,
   } = options;
 
+  const composition = normalizeCompositionIds(sourceComposition);
   const _log = (msg: string) => {
     if (log) {
       log(msg);
@@ -104,8 +127,11 @@ async function generateWithSession(options: GenerateOptions, session: Generation
   const voiceover = composition.voiceover ?? {};
   const selectedProvider = providerOverride ?? voiceover.provider ?? getDefaultProvider(config);
   const providerName = selectedProvider ?? "none";
-  const sampleRateHz = voiceover.sampleRateHz ?? (["openai", "auritus"].includes(providerName ?? "") ? 24000 : 44100);
-  const leadInSec = voiceover.leadInSeconds ?? 0;
+  const sampleRateHz = voiceover.sampleRateHz ?? 24000;
+  if (!Number.isInteger(sampleRateHz) || sampleRateHz <= 0) throw new CompileError("voiceover.sampleRateHz must be a positive integer");
+  const leadInInput = voiceover.leadInSeconds ?? 0;
+  if (!Number.isFinite(leadInInput) || leadInInput < 0) throw new CompileError("lead-in must be finite and nonnegative");
+  const leadInSec = Math.floor(leadInInput * sampleRateHz + 0.5) / sampleRateHz;
   const defaultTrimEnd = voiceover.trimEndSeconds ?? 0;
   const hasNarration = composition.timeline.some(item => "items" in item && item.items.some(i => i.kind === "cue" && i.segments.some(s => s.kind === "text" && s.text.trim())));
   if (!selectedProvider && hasNarration) {
@@ -113,13 +139,16 @@ async function generateWithSession(options: GenerateOptions, session: Generation
       "No TTS provider configured. Set tts.default_provider or pass --provider.",
     );
   }
+  const ffmpegIdentity = hasNarration && providerName !== "dry-run" ? session.getFfmpegIdentity() : null;
   const provider = selectedProvider && hasNarration ? getTtsProvider(providerName, config, session) : { name: "none", async synthesize(): Promise<never> { throw new CompileError("No TTS provider configured"); } };
   const auritusConfig = providerName === "auritus" ? getProviderConfig(config, "auritus") : {};
   const selectedVoice = voiceover.voice ?? (typeof auritusConfig.voice === "string" ? auritusConfig.voice : null);
   if (hasNarration && auritusConfig.speed !== undefined && typeof auritusConfig.speed !== "number") throw new CompileError("providers.auritus.speed must be a positive finite number");
   const selectedSpeed = voiceover.speed ?? (typeof auritusConfig.speed === "number" ? auritusConfig.speed : 1);
   if (hasNarration && (!Number.isFinite(selectedSpeed) || selectedSpeed <= 0)) throw new CompileError("voiceover speed must be a positive finite number");
-  const selectedSeed = seedOverride ?? voiceover.seed ?? (typeof auritusConfig.seed === "number" ? auritusConfig.seed : 0);
+  const seedInput = seedOverride ?? voiceover.seed ?? (typeof auritusConfig.seed === "number" ? auritusConfig.seed : providerName === "auritus" ? 0 : "random");
+  const selectedSeed = seedInput === "random" ? randomBytes(4).readUInt32LE() : seedInput;
+  if (!Number.isInteger(selectedSeed) || selectedSeed < 0 || selectedSeed > 0xffffffff) throw new CompileError("voiceover seed must be a uint32 or random");
   const dryRunMode = providerName === "dry-run";
   const resolvedModel = voiceover.model ?? (provider as { defaultModel?: string }).defaultModel ?? null;
   const resolvedVoice = selectedVoice ?? (provider as { defaultVoice?: string }).defaultVoice ?? null;
@@ -131,14 +160,12 @@ async function generateWithSession(options: GenerateOptions, session: Generation
     _log(`meta: fps=${composition.meta?.fps ?? "undefined"} width=${composition.meta?.width ?? "undefined"} height=${composition.meta?.height ?? "undefined"}`);
   }
 
-  const rng = makeRng(seedOverride ?? voiceover.seed ?? (providerName === "auritus" ? selectedSeed : null));
+  const rng = makeRng(selectedSeed);
 
   const currentEnv = getEnvironment();
   const envCacheDir = resolveEnvCacheDir(outDir, currentEnv);
   const segmentsDir = join(envCacheDir, "segments");
-  if (!dryRunMode) {
-    ensureDir(segmentsDir);
-  }
+  ensureDir(segmentsDir);
   const usagePath = options.usagePath === undefined ? join(envCacheDir, "usage.jsonl") : options.usagePath;
   const usageLedger = usagePath ? createUsageLedger(usagePath) : null;
   const rateCard = getRateCard(config);
@@ -152,7 +179,8 @@ async function generateWithSession(options: GenerateOptions, session: Generation
 
   const pronunciations = voiceover.pronunciations ?? [];
   if (providerName !== "elevenlabs" && pronunciations.some(rule => rule.phoneme)) throw new CompileError(`TTS provider "${providerName}" does not advertise phoneme support`);
-  const expandText = (text: string) => providerName === "elevenlabs" ? text : pronunciations.reduce((value, rule) => rule.alias ? value.split(rule.grapheme).join(rule.alias) : value, text);
+  const auditExpandedText = (text: string) => pronunciations.reduce((value, rule) => rule.alias ? value.split(rule.grapheme).join(rule.alias) : value, text);
+  const expandText = (text: string) => providerName === "elevenlabs" ? text : auditExpandedText(text);
 
   let didSynthesize = false;
   let pronunciationRulesHash: string | null = null;
@@ -215,8 +243,12 @@ async function generateWithSession(options: GenerateOptions, session: Generation
     effectivePronunciationLocators = merged;
   }
 
+  if (hasNarration && providerName !== "auritus" && providerName !== "dry-run") {
+    _log(`voice cache disabled: ${providerName} does not provide the complete v1 identity`);
+  }
   const ttsContext = {
     voice: selectedVoice,
+    speed: selectedSpeed, seed: selectedSeed,
     model: voiceover.model ?? null,
     format: voiceover.format ?? "wav",
     sample_rate_hz: sampleRateHz,
@@ -228,12 +260,33 @@ async function generateWithSession(options: GenerateOptions, session: Generation
   const legacyScenes = (composition as { scenes?: SceneSpec[] }).scenes ?? [];
   const timelineSpec: TimelineItemSpec[] = composition.timeline ?? legacyScenes;
   const sceneItems = timelineSpec.filter((item): item is SceneSpec => !("kind" in item));
+  // Draw in source document order, even though scene and narration layout are resolved in separate passes.
+  const pauseChoices = new Map<object, number[]>();
+  const recordPause = (key: object, spec: PauseSpec) => {
+    const samples = Math.floor(samplePause(spec, rng) * sampleRateHz + 0.5);
+    const choices = pauseChoices.get(key) ?? []; choices.push(samples); pauseChoices.set(key, choices);
+  };
+  for (const item of timelineSpec) {
+    if (!("items" in item)) continue;
+    item.items.forEach((entry, index) => {
+      const between = index > 0 ? normalizePauseSpec(voiceover.pauseBetweenItems) : null;
+      if (between) recordPause(entry, between);
+      if (entry.kind === "pause") recordPause(entry, entry);
+      else for (const segment of entry.segments) if (segment.kind === "pause") recordPause(segment, segment.pause);
+    });
+  }
+  const roundedPause = (key: object) => {
+    const samples = pauseChoices.get(key)?.shift();
+    if (samples === undefined) throw new CompileError("Missing resolved pause sample");
+    return samples / sampleRateHz;
+  };
+
 
   let now = 0;
   const timelineItems: Array<Record<string, unknown>> = [];
   const outScenes: Script["scenes"] = [];
   const segmentKeyCounts: Record<string, number> = {};
-  const segmentPathsForConcat: string[] = [];
+  const voiceEvents: Array<{startSec: number; startSample: number; path: string; rawPath: string; sceneId: string; cueId: string; originalText: string; expandedText: string; trimSamples: number; segmentIndex: number}> = [];
   const narrationSegmentClips: Array<Record<string, unknown>> = [];
   const cueStartIndex: Record<string, number> = {};
   const cueSceneIndex: Record<string, string> = {};
@@ -254,15 +307,6 @@ async function generateWithSession(options: GenerateOptions, session: Generation
     now = leadInSec;
     timelineItems.push({ type: "lead_in", startSec: 0, endSec: now, seconds: now });
 
-    if (!dryRunMode) {
-      // Generate silence audio file for lead-in
-      const silenceKey = hashKey({ kind: "silence", durationSec: leadInSec, sampleRateHz });
-      const silencePath = join(segmentsDir, `silence-${safePrefix(silenceKey)}.wav`);
-      if (!existsSync(silencePath)) {
-        writeSilenceWav(silencePath, leadInSec, sampleRateHz);
-      }
-      segmentPathsForConcat.push(silencePath);
-    }
   }
 
   const recordUsageEvent = (entry: Omit<UsageEntry, "timestamp">) => {
@@ -294,42 +338,21 @@ async function generateWithSession(options: GenerateOptions, session: Generation
       if (idx > 0) {
         const pauseSpec = normalizePauseSpec(voiceover.pauseBetweenItems);
         if (pauseSpec) {
-          const pause = samplePause(pauseSpec, rng);
+          const pause = roundedPause(item);
           if (pause > 0) {
             const start = now;
             now += pause;
             timelineItems.push({ type: "pause", sceneId: scene.id, startSec: start, endSec: now, seconds: pause });
 
-            if (!dryRunMode) {
-              // Generate silence audio file for this pause
-              const silenceKey = hashKey({ kind: "silence", durationSec: pause, sampleRateHz });
-              const silencePath = join(segmentsDir, `silence-${safePrefix(silenceKey)}.wav`);
-              if (!existsSync(silencePath)) {
-                writeSilenceWav(silencePath, pause, sampleRateHz);
-              }
-              segmentPathsForConcat.push(silencePath);
-            }
           }
         }
       }
 
       if (item.kind === "pause") {
-        const pauseSec = samplePause(item, rng);
+        const pauseSec = roundedPause(item);
         const start = now;
         now += pauseSec;
         timelineItems.push({ type: "pause", sceneId: scene.id, startSec: start, endSec: now, seconds: pauseSec });
-
-        if (!dryRunMode) {
-          if (!dryRunMode) {
-            // Generate silence audio file for this pause
-            const silenceKey = hashKey({ kind: "silence", durationSec: pauseSec, sampleRateHz });
-            const silencePath = join(segmentsDir, `silence-${safePrefix(silenceKey)}.wav`);
-            if (!existsSync(silencePath)) {
-              writeSilenceWav(silencePath, pauseSec, sampleRateHz);
-            }
-            segmentPathsForConcat.push(silencePath);
-          }
-        }
 
         continue;
       }
@@ -341,18 +364,10 @@ async function generateWithSession(options: GenerateOptions, session: Generation
       for (let segIndex = 0; segIndex < cue.segments.length; segIndex += 1) {
         const segSpec = cue.segments[segIndex];
         if (segSpec.kind === "pause") {
-          const pauseSec = samplePause(segSpec.pause, rng);
+          const pauseSec = roundedPause(segSpec);
           const segStart = now;
           now += pauseSec;
           cueSegments.push({ type: "pause", startSec: segStart, endSec: now, seconds: pauseSec });
-
-          // Generate silence audio file for this pause
-          const silenceKey = hashKey({ kind: "silence", durationSec: pauseSec, sampleRateHz });
-          const silencePath = join(segmentsDir, `silence-${safePrefix(silenceKey)}.wav`);
-          if (!existsSync(silencePath)) {
-            writeSilenceWav(silencePath, pauseSec, sampleRateHz);
-          }
-          segmentPathsForConcat.push(silencePath);
 
           continue;
         }
@@ -371,77 +386,48 @@ async function generateWithSession(options: GenerateOptions, session: Generation
 
         if (dryRunMode) {
           const wpm = (provider as { wpm?: number }).wpm ?? 165;
-          duration = estimateDurationSec(segSpec.text, wpm);
+          duration = Math.floor(estimateDurationSec(segSpec.text, wpm) * sampleRateHz + 0.5) / sampleRateHz;
+          segPath = join(segmentsDir, `simulated-${safePrefix(segKey)}-${segIndex}.wav`);
+          writeSilenceWav(segPath, duration, sampleRateHz);
         } else {
           segmentKeyCounts[segKey] = (segmentKeyCounts[segKey] ?? 0) + 1;
           const occurrence = segmentKeyCounts[segKey];
           const ttsExt = providerName === "elevenlabs" ? ".mp3" : ".wav";
           segPath = join(segmentsDir, `${scene.id}--${cue.id}--tts--${safePrefix(segKey)}--${occurrence}${ttsExt}`);
 
-          const cached = resolveCachedSegment(outDir, currentEnv, segKey, scene.id, cue.id, occurrence, ttsExt, _log);
-          // Verify the cached file actually exists before using it
-          const cacheValid = providerName !== "auritus" && cached.path && !fresh && existsSync(cached.path);
-          if (cacheValid) {
-            segPath = cached.path!;
-            const manifestDuration = getManifestDuration(manifest, "segments", segPath, segKey);
-            const probedDuration = probeDurationSec(segPath);
-            duration = probedDuration;
-            if (cached.env !== currentEnv) {
-              _log(`tts: fallback scene=${scene.id} cue=${cue.id} seg=${segIndex + 1} using env=${cached.env}`);
-            } else if (verboseLogs) {
-              _log(`tts: cache scene=${scene.id} cue=${cue.id} seg=${segIndex + 1} key=${safePrefix(segKey).slice(0, 8)}`);
-            }
-            if (manifestDuration == null || Math.abs(manifestDuration - probedDuration) > 0.02) {
-              setManifestEntry(manifest, "segments", segPath, segKey, probedDuration, {
-                provider: providerName,
-                sceneId: scene.id,
-                cueId: cue.id,
-                text: segSpec.text,
-                sample_rate_hz: sampleRateHz,
-                format: segPath.split(".").pop(),
-                rawDurationSec: probedDuration,
-                trimEndSec: 0,
-              });
-            }
-          } else {
-            // Log if cache entry exists but file is missing
-            if (cached.path && !fresh && !existsSync(cached.path)) {
-              _log(`tts: cache miss scene=${scene.id} cue=${cue.id} seg=${segIndex + 1} (manifest entry exists but file missing)`);
-            }
-            _log(`tts: synth scene=${scene.id} cue=${cue.id} seg=${segIndex + 1} -> ${segPath.split(sep).pop()}`);
-            try {
-              const seg = await provider.synthesize(
-                {
-                  text: expandText(segSpec.text),
-                  voice: selectedVoice,
-                  model: voiceover.model ?? null,
-                  format: voiceover.format ?? "wav",
-                  sampleRateHz,
-                  extra: { ...(effectivePronunciationLocators ? { pronunciation_dictionary_locators: effectivePronunciationLocators } : {}), speed: selectedSpeed, seed: selectedSeed },
-                },
-                segPath,
-              );
-              recordUsageEvent({
-                kind: "tts",
-                unitType: "chars",
-                quantity: segSpec.text.length,
-                provider: providerName,
-                compositionId: composition.id,
-                sceneId: scene.id,
-                cueId: cue.id,
-                segmentIndex: segIndex,
-                model: resolvedModel,
-                voice: resolvedVoice,
-                env: currentEnv,
-              });
-              duration = seg.durationSec;
-              didSynthesize = true;
-            } catch (err) {
-              const message = err instanceof Error ? err.message : String(err);
-              throw new CompileError(
-                `${message}\n\nLocation: ${dslPath}\n  Scene: ${scene.id}\n  Cue: ${cue.id}\n  Segment: ${segIndex + 1}`,
-              );
-            }
+          _log(`tts: synth scene=${scene.id} cue=${cue.id} seg=${segIndex + 1} -> ${segPath.split(sep).pop()}`);
+          try {
+            const seg = await provider.synthesize(
+              {
+                text: expandText(segSpec.text),
+                voice: selectedVoice,
+                model: voiceover.model ?? null,
+                format: voiceover.format ?? "wav",
+                sampleRateHz,
+                extra: { ...(effectivePronunciationLocators ? { pronunciation_dictionary_locators: effectivePronunciationLocators } : {}), speed: selectedSpeed, seed: selectedSeed, fresh, ffmpegIdentity: ffmpegIdentity ? {executableSha256: ffmpegIdentity.executableSha256, versionOutputSha256: ffmpegIdentity.versionOutputSha256} : undefined },
+              },
+              segPath,
+            );
+            recordUsageEvent({
+              kind: "tts",
+              unitType: "chars",
+              quantity: segSpec.text.length,
+              provider: providerName,
+              compositionId: composition.id,
+              sceneId: scene.id,
+              cueId: cue.id,
+              segmentIndex: segIndex,
+              model: resolvedModel,
+              voice: resolvedVoice,
+              env: currentEnv,
+            });
+            duration = seg.durationSec;
+            didSynthesize = !seg.cached || didSynthesize;
+          } catch (err) {
+            const message = err instanceof Error ? err.message : String(err);
+            throw new CompileError(
+              `${message}\n\nLocation: ${dslPath}\n  Scene: ${scene.id}\n  Cue: ${cue.id}\n  Segment: ${segIndex + 1}`,
+            );
           }
         }
 
@@ -460,7 +446,7 @@ async function generateWithSession(options: GenerateOptions, session: Generation
               model: voiceover.model ?? null,
               format: voiceover.format ?? "wav",
               sampleRateHz,
-              extra: { ...(effectivePronunciationLocators ? { pronunciation_dictionary_locators: effectivePronunciationLocators } : {}), speed: selectedSpeed, seed: selectedSeed },
+              extra: { ...(effectivePronunciationLocators ? { pronunciation_dictionary_locators: effectivePronunciationLocators } : {}), speed: selectedSpeed, seed: selectedSeed, fresh, ffmpegIdentity: ffmpegIdentity ? {executableSha256: ffmpegIdentity.executableSha256, versionOutputSha256: ffmpegIdentity.versionOutputSha256} : undefined },
             },
             segPath,
           );
@@ -478,16 +464,31 @@ async function generateWithSession(options: GenerateOptions, session: Generation
             env: currentEnv,
           });
           duration = seg.durationSec;
-          didSynthesize = true;
+          didSynthesize = !seg.cached || didSynthesize;
         }
 
-        let trimEnd = 0;
-        if (!dryRunMode && trimEndCfg > 0 && segPath) {
-          const trailing = estimateTrailingSilenceSec(segPath, sampleRateHz, 80, 6.0);
-          const safety = 0.08;
-          trimEnd = trailing >= (trimEndCfg + safety) ? trimEndCfg : 0;
+        if (!Number.isFinite(trimEndCfg) || trimEndCfg < 0) throw new CompileError("trim must be finite and nonnegative");
+        let trimEnd = trimEndCfg;
+        let trimSamples = 0;
+        let preparedPath: string | null = null;
+        let effectiveDuration = duration;
+        if (segPath) {
+          const stageDir = mkdtempSync(join(segmentsDir, '.vml-pcm-'));
+          let pcm: {sampleCount: number; trimSamples: number};
+          try {
+            const stagedPcm = join(stageDir, 'audio.wav');
+            pcm = dryRunMode
+              ? prepareSimulatedPcm(segPath, stagedPcm, sampleRateHz, trimEndCfg)
+              : prepareVoicePcm(segPath, stagedPcm, sampleRateHz, trimEndCfg, ffmpegIdentity!.executablePath, ffmpegIdentity!.executableSha256);
+            const pcmFileHash = createHash("sha256").update(readFileSync(stagedPcm)).digest("hex");
+            preparedPath = join(segmentsDir, `pcm-${pcmFileHash}.wav`);
+            renameSync(stagedPcm, preparedPath);
+          } finally { rmSync(stageDir, {recursive:true, force:true}); }
+          duration = pcm.sampleCount / sampleRateHz + pcm.trimSamples / sampleRateHz;
+          trimSamples = pcm.trimSamples;
+          trimEnd = pcm.trimSamples / sampleRateHz;
+          effectiveDuration = pcm.sampleCount / sampleRateHz;
         }
-        const effectiveDuration = trimEnd > 0 ? Math.max(0, duration - trimEnd) : duration;
         if (segPath) {
           setManifestEntry(manifest, "segments", segPath, segKey, effectiveDuration, {
             provider: providerName,
@@ -507,10 +508,8 @@ async function generateWithSession(options: GenerateOptions, session: Generation
 
         let concatPath: string | null = null;
         if (segPath) {
-          concatPath = trimEnd > 0
-            ? ensureTrimmed(segPath, envCacheDir, effectiveDuration, sampleRateHz, fresh)
-            : segPath;
-          segmentPathsForConcat.push(concatPath);
+          concatPath = preparedPath;
+          if (concatPath) voiceEvents.push({startSec: segStart, startSample: 0, path: concatPath, rawPath: segPath, sceneId: scene.id, cueId: cue.id, originalText: segSpec.text, expandedText: auditExpandedText(segSpec.text), trimSamples, segmentIndex: segIndex});
         }
 
         if (publicSegmentsDir && concatPath) {
@@ -530,6 +529,7 @@ async function generateWithSession(options: GenerateOptions, session: Generation
 
         cueSegments.push({
           type: "tts",
+          segmentIndex: segIndex,
           startSec: segStart,
           endSec: segEnd,
           text: segSpec.text,
@@ -684,27 +684,6 @@ async function generateWithSession(options: GenerateOptions, session: Generation
     }
   }
 
-  const shiftTiming = (timing: { startSec?: number; endSec?: number } | undefined, delta: number) => {
-    if (!timing) return;
-    if (timing.startSec != null) timing.startSec += delta;
-    if (timing.endSec != null) timing.endSec += delta;
-  };
-
-  const shiftComponentTiming = (component: ComponentSpec, delta: number) => {
-    if (component.timing) {
-      shiftTiming(component.timing, delta);
-    }
-  };
-
-  const shiftLayerTiming = (layer: LayerSpec, delta: number) => {
-    if (layer.timing) {
-      shiftTiming(layer.timing, delta);
-    }
-    for (const component of layer.components ?? []) {
-      shiftComponentTiming(component, delta);
-    }
-  };
-
   for (const scene of outScenes) {
     const delta = shiftBySceneId.get(scene.id) ?? 0;
     if (!delta) continue;
@@ -719,11 +698,14 @@ async function generateWithSession(options: GenerateOptions, session: Generation
       }
     }
     for (const layer of scene.layers ?? []) {
-      shiftLayerTiming(layer as LayerSpec, delta);
+      for (const component of layer.components ?? []) {
+        if (component.props) component.props.sceneStartSec = scene.startSec;
+      }
     }
-    for (const component of scene.components ?? []) {
-      shiftComponentTiming(component as ComponentSpec, delta);
-    }
+  }
+
+  for (const event of voiceEvents) {
+    event.startSec += shiftBySceneId.get(event.sceneId) ?? 0;
   }
 
   for (const item of timelineItems) {
@@ -785,7 +767,7 @@ async function generateWithSession(options: GenerateOptions, session: Generation
       if (idx > 0) {
         const pauseSpec = normalizePauseSpec(voiceover.pauseBetweenItems);
         if (pauseSpec) {
-          const pause = samplePause(pauseSpec, rng);
+          const pause = roundedPause(entry);
           if (pause > 0) {
             const start = narrationNow;
             narrationNow += pause;
@@ -801,7 +783,7 @@ async function generateWithSession(options: GenerateOptions, session: Generation
       }
 
       if (entry.kind === "pause") {
-        const pauseSec = samplePause(entry, rng);
+        const pauseSec = roundedPause(entry);
         const start = narrationNow;
         narrationNow += pauseSec;
         timelineItems.push({
@@ -821,7 +803,7 @@ async function generateWithSession(options: GenerateOptions, session: Generation
       for (let segIndex = 0; segIndex < cue.segments.length; segIndex += 1) {
         const segSpec = cue.segments[segIndex];
         if (segSpec.kind === "pause") {
-          const pauseSec = samplePause(segSpec.pause, rng);
+          const pauseSec = roundedPause(segSpec);
           const segStart = narrationNow;
           narrationNow += pauseSec;
           cueSegments.push({ type: "pause", startSec: segStart, endSec: narrationNow, seconds: pauseSec });
@@ -842,7 +824,9 @@ async function generateWithSession(options: GenerateOptions, session: Generation
 
         if (dryRunMode) {
           const wpm = (provider as { wpm?: number }).wpm ?? 165;
-          duration = estimateDurationSec(segSpec.text, wpm);
+          duration = Math.floor(estimateDurationSec(segSpec.text, wpm) * sampleRateHz + 0.5) / sampleRateHz;
+          segPath = join(segmentsDir, `simulated-${safePrefix(segKey)}-${segIndex}.wav`);
+          writeSilenceWav(segPath, duration, sampleRateHz);
         } else {
           segmentKeyCounts[segKey] = (segmentKeyCounts[segKey] ?? 0) + 1;
           const occurrence = segmentKeyCounts[segKey];
@@ -852,107 +836,76 @@ async function generateWithSession(options: GenerateOptions, session: Generation
             `${narrationSceneId}--${cue.id}--tts--${safePrefix(segKey)}--${occurrence}${ttsExt}`,
           );
 
-          const cached = resolveCachedSegment(
-            outDir,
-            currentEnv,
-            segKey,
-            narrationSceneId,
-            cue.id,
-            occurrence,
-            ttsExt,
-            _log,
-          );
-          const cacheValid = providerName !== "auritus" && cached.path && !fresh && existsSync(cached.path);
-          if (cacheValid) {
-            segPath = cached.path!;
-            const manifestDuration = getManifestDuration(manifest, "segments", segPath, segKey);
-            const probedDuration = probeDurationSec(segPath);
-            duration = probedDuration;
-            if (cached.env !== currentEnv) {
-              _log(`tts: fallback scene=${narrationSceneId} cue=${cue.id} seg=${segIndex + 1} using env=${cached.env}`);
-            } else if (verboseLogs) {
-              _log(
-                `tts: cache scene=${narrationSceneId} cue=${cue.id} seg=${segIndex + 1} key=${safePrefix(segKey).slice(0, 8)}`,
-              );
-            }
-            if (manifestDuration != null) {
-              duration = manifestDuration;
-            } else if (duration != null) {
-              setManifestEntry(manifest, "segments", segPath, segKey, duration, {
-                provider: providerName,
-                sceneId: narrationSceneId,
-                cueId: cue.id,
-                text: segSpec.text,
-                sample_rate_hz: sampleRateHz,
-                format: segPath.split(".").pop(),
-                rawDurationSec: duration,
-                trimEndSec: trimEndCfg,
-              });
-            }
-          } else {
-            if (cached.path) {
-              _log(`tts: cache miss scene=${narrationSceneId} cue=${cue.id} seg=${segIndex + 1} (manifest entry exists but file missing)`);
-            }
-            _log(`tts: synth scene=${narrationSceneId} cue=${cue.id} seg=${segIndex + 1} -> ${segPath.split(sep).pop()}`);
-            if (!segPath) {
-              throw new CompileError(
-                `Missing segment path for TTS regeneration.\n\nLocation: ${dslPath}\n  Narration: ${item.id}\n  Cue: ${cue.id}\n  Segment: ${segIndex + 1}`,
-              );
-            }
-            if (!provider?.synthesize) {
-              throw new CompileError(
-                `TTS provider "${providerName}" does not support synthesis.\n\nLocation: ${dslPath}\n  Narration: ${item.id}\n  Cue: ${cue.id}\n  Segment: ${segIndex + 1}`,
-              );
-            }
-            ensureDir(dirname(segPath));
-            const seg = await provider.synthesize(
-              {
-                text: expandText(segSpec.text),
-                voice: selectedVoice,
-                model: voiceover.model ?? null,
-                format: voiceover.format ?? "wav",
-                sampleRateHz,
-                extra: { ...(effectivePronunciationLocators ? { pronunciation_dictionary_locators: effectivePronunciationLocators } : {}), speed: selectedSpeed, seed: selectedSeed },
-              },
-              segPath,
+          _log(`tts: synth scene=${narrationSceneId} cue=${cue.id} seg=${segIndex + 1} -> ${segPath.split(sep).pop()}`);
+          if (!segPath) {
+            throw new CompileError(
+              `Missing segment path for TTS regeneration.\n\nLocation: ${dslPath}\n  Narration: ${item.id}\n  Cue: ${cue.id}\n  Segment: ${segIndex + 1}`,
             );
-            duration = seg.durationSec ?? probeDurationSec(segPath);
-            if (!duration || !Number.isFinite(duration)) {
-              throw new CompileError(
-                `TTS provider returned invalid duration.\n\nLocation: ${dslPath}\n  Narration: ${item.id}\n  Cue: ${cue.id}\n  Segment: ${segIndex + 1}`,
-              );
-            }
-            if (duration < 0.01) {
-              _log(
-                `tts: corrupt-duration scene=${narrationSceneId} cue=${cue.id} seg=${segIndex + 1} duration=${duration.toFixed(1)}s -> regen`,
-              );
-              unlinkSync(segPath);
-              segIndex -= 1;
-              continue;
-            }
-            setManifestEntry(manifest, "segments", segPath, segKey, duration, {
-              provider: providerName,
-              sceneId: narrationSceneId,
-              cueId: cue.id,
-              text: segSpec.text,
-              sample_rate_hz: sampleRateHz,
-              format: segPath.split(".").pop(),
-              rawDurationSec: duration,
-              trimEndSec: trimEndCfg,
-            });
           }
+          if (!provider?.synthesize) {
+            throw new CompileError(
+              `TTS provider "${providerName}" does not support synthesis.\n\nLocation: ${dslPath}\n  Narration: ${item.id}\n  Cue: ${cue.id}\n  Segment: ${segIndex + 1}`,
+            );
+          }
+          ensureDir(dirname(segPath));
+          const seg = await provider.synthesize(
+            {
+              text: expandText(segSpec.text),
+              voice: selectedVoice,
+              model: voiceover.model ?? null,
+              format: voiceover.format ?? "wav",
+              sampleRateHz,
+              extra: { ...(effectivePronunciationLocators ? { pronunciation_dictionary_locators: effectivePronunciationLocators } : {}), speed: selectedSpeed, seed: selectedSeed, fresh, ffmpegIdentity: ffmpegIdentity ? {executableSha256: ffmpegIdentity.executableSha256, versionOutputSha256: ffmpegIdentity.versionOutputSha256} : undefined },
+            },
+            segPath,
+          );
+          didSynthesize = !seg.cached || didSynthesize;
+          duration = seg.durationSec ?? probeDurationSec(segPath);
+          if (!duration || !Number.isFinite(duration)) {
+            throw new CompileError(
+              `TTS provider returned invalid duration.\n\nLocation: ${dslPath}\n  Narration: ${item.id}\n  Cue: ${cue.id}\n  Segment: ${segIndex + 1}`,
+            );
+          }
+          setManifestEntry(manifest, "segments", segPath, segKey, duration, {
+            provider: providerName,
+            sceneId: narrationSceneId,
+            cueId: cue.id,
+            text: segSpec.text,
+            sample_rate_hz: sampleRateHz,
+            format: segPath.split(".").pop(),
+            rawDurationSec: duration,
+            trimEndSec: trimEndCfg,
+          });
         }
 
-        const effectiveDuration = duration - Math.max(0, trimEndCfg);
+        if (!Number.isFinite(trimEndCfg) || trimEndCfg < 0) throw new CompileError("trim must be finite and nonnegative");
+        let preparedPath: string | null = null;
+        let trimSamples = 0;
+        let effectiveDuration = duration;
+        if (segPath) {
+          const stageDir = mkdtempSync(join(segmentsDir, '.vml-pcm-'));
+          let pcm: {sampleCount: number; trimSamples: number};
+          try {
+            const stagedPcm = join(stageDir, 'audio.wav');
+            pcm = dryRunMode
+              ? prepareSimulatedPcm(segPath, stagedPcm, sampleRateHz, trimEndCfg)
+              : prepareVoicePcm(segPath, stagedPcm, sampleRateHz, trimEndCfg, ffmpegIdentity!.executablePath, ffmpegIdentity!.executableSha256);
+            const pcmFileHash = createHash("sha256").update(readFileSync(stagedPcm)).digest("hex");
+            preparedPath = join(segmentsDir, `pcm-${pcmFileHash}.wav`);
+            renameSync(stagedPcm, preparedPath);
+          } finally { rmSync(stageDir, {recursive:true, force:true}); }
+          trimSamples = pcm.trimSamples;
+          duration = (pcm.sampleCount + pcm.trimSamples) / sampleRateHz;
+          effectiveDuration = pcm.sampleCount / sampleRateHz;
+        }
         const segStart = narrationNow;
         const segEnd = segStart + effectiveDuration;
         narrationNow = segEnd;
 
         let concatPath: string | null = null;
         if (segPath) {
-          concatPath = trimEndCfg > 0
-            ? ensureTrimmed(segPath, envCacheDir, effectiveDuration, sampleRateHz, fresh)
-            : segPath;
+          concatPath = preparedPath;
+          if (concatPath) voiceEvents.push({startSec: segStart, startSample: 0, path: concatPath, rawPath: segPath, sceneId: narrationSceneId, cueId: cue.id, originalText: segSpec.text, expandedText: auditExpandedText(segSpec.text), trimSamples, segmentIndex: segIndex});
         }
 
         if (publicSegmentsDir && concatPath) {
@@ -972,6 +925,7 @@ async function generateWithSession(options: GenerateOptions, session: Generation
 
         cueSegments.push({
           type: "tts",
+          segmentIndex: segIndex,
           startSec: segStart,
           endSec: segEnd,
           text: segSpec.text,
@@ -1073,19 +1027,7 @@ async function generateWithSession(options: GenerateOptions, session: Generation
       const nextItem = timelineSpec[i + 1];
       if (item.transitionToNext && (!nextItem || !isTransitionItem(nextItem))) {
         const nextSceneId = findNextSceneId(i);
-        timeline.push(
-          buildTransitionTimelineItem(
-            {
-              id: `${item.id}__to_next`,
-              effect: item.transitionToNext.effect,
-              ease: item.transitionToNext.ease,
-              props: item.transitionToNext.props,
-              durationSeconds: item.transitionToNext.durationSeconds,
-            },
-            item.id,
-            nextSceneId,
-          ),
-        );
+        timeline.push(buildTransitionTimelineItem({id: implicitTransitionId(item.id, nextSceneId ?? null), effect:item.transitionToNext.effect, ease:item.transitionToNext.ease, props:item.transitionToNext.props, durationSeconds:item.transitionToNext.durationSeconds}, item.id, nextSceneId));
       }
       continue;
     }
@@ -1109,6 +1051,28 @@ async function generateWithSession(options: GenerateOptions, session: Generation
       const shift = shiftBefore[i] ?? 0;
       timeline.push({ kind: "mark", id: item.id, atSec: item.at + shift });
     }
+  }
+
+  const sampleTime = (seconds: number) => Math.floor(seconds * sampleRateHz + 0.5) / sampleRateHz;
+  for (const event of voiceEvents) event.startSample = Math.floor(event.startSec * sampleRateHz + 0.5);
+  for (const item of timelineItems) {
+    if (typeof item.startSec === "number") item.startSec = sampleTime(item.startSec);
+    if (typeof item.endSec === "number") item.endSec = sampleTime(item.endSec);
+    if (Array.isArray(item.segments)) for (const segment of item.segments) {
+      if (typeof segment.startSec === "number") segment.startSec = sampleTime(segment.startSec);
+      if (typeof segment.endSec === "number") segment.endSec = sampleTime(segment.endSec);
+    }
+  }
+  for (const scene of outScenes) for (const cue of scene.cues) {
+    cue.startSec = sampleTime(cue.startSec); cue.endSec = sampleTime(cue.endSec);
+    for (const segment of cue.segments ?? []) { segment.startSec = sampleTime(segment.startSec); segment.endSec = sampleTime(segment.endSec); }
+  }
+  const sortedVoiceEvents = [...voiceEvents].sort((a,b) => a.startSample - b.startSample);
+  let lastVoiceEnd = 0;
+  for (const event of sortedVoiceEvents) {
+    const samples = parseWav(readFileSync(event.path), event.path).data.length / 2;
+    if (event.startSample < lastVoiceEnd) throw new CompileError("Overlapping narration on the same voice track");
+    lastVoiceEnd = event.startSample + samples;
   }
 
   const script: Script = {
@@ -1344,7 +1308,7 @@ async function generateWithSession(options: GenerateOptions, session: Generation
               model_id: clip.modelId,
               force_instrumental: clip.forceInstrumental,
               provider: defaultMusicProvider,
-              seed: voiceover.seed ?? null,
+              seed: selectedSeed,
             });
             const seed = parseInt(musicKey.slice(0, 8), 16) % 2147483647;
             let outPath = join(musicOutDir, `${cacheId}--v${v + 1}--${safePrefix(musicKey)}${musicExt}`);
@@ -1477,7 +1441,7 @@ async function generateWithSession(options: GenerateOptions, session: Generation
               prompt: clip.prompt,
               durationSec: clip.durationSeconds ?? null,
               ctx: sfxCtx,
-              seed: voiceover.seed ?? null,
+              seed: selectedSeed,
             });
             const seed = parseInt(sfxKey.slice(0, 8), 16) % 2147483647;
             let outPath = join(sfxOutDir, `${cacheId}--v${v + 1}--${safePrefix(sfxKey)}${sfxExt}`);
@@ -1554,8 +1518,84 @@ async function generateWithSession(options: GenerateOptions, session: Generation
     }
   }
 
+  const resolvedTimingPath = timelineOut.replace(/(?:\.json)?$/, ".resolved.json");
+  const fps = composition.meta?.fps ?? 30;
+  if (!Number.isFinite(fps) || fps <= 0) throw new CompileError("fps must be positive and finite");
+  const frameInterval = (start: number, end: number) => {
+    const startFrame = Math.floor(start * fps);
+    return {startFrame, endFrame: end === start ? startFrame : Math.ceil(end * fps)};
+  };
+  const scenes = outScenes.map(scene => ({id: qualifiedTimingId("scene", [scene.id]), ...frameInterval(scene.startSec, scene.endSec)}));
+  const cueTimings = new Map(timelineItems.filter(item => item.type === "tts").map(item => [String(item.cueId), item]));
+  const sourceCueOrder = timelineSpec.flatMap(item => "items" in item ? item.items.filter(entry => entry.kind === "cue").map(entry => entry.id) : []);
+  const cues = sourceCueOrder.map(cueId => {
+    const item = cueTimings.get(cueId);
+    if (!item) throw new CompileError(`Missing resolved cue: ${cueId}`);
+    return {id: qualifiedTimingId("cue", [cueId]), ...frameInterval(Number(item.startSec), Number(item.endSec))};
+  });
+  const layers: Array<{id: string; startFrame: number; endFrame: number}> = [];
+  const components: Array<{id: string; startFrame: number; endFrame: number}> = [];
+  for (const scene of outScenes) {
+    for (const layer of scene.layers ?? []) {
+      if (!layer.id) throw new CompileError("Frozen timing requires explicit layer IDs");
+      const layerStart = scene.startSec + (layer.timing?.startSec ?? 0);
+      const layerEnd = layer.timing?.endSec === undefined ? scene.endSec : scene.startSec + layer.timing.endSec;
+      layers.push({id: qualifiedTimingId("layer", [scene.id, layer.id]), ...frameInterval(layerStart, layerEnd)});
+      for (const component of layer.components ?? []) {
+        if (!component.id) throw new CompileError("Frozen timing requires explicit component IDs");
+        components.push({id: qualifiedTimingId("component", [scene.id, layer.id, component.id]), ...frameInterval(layerStart + (component.timing?.startSec ?? 0), component.timing?.endSec === undefined ? layerEnd : layerStart + component.timing.endSec)});
+      }
+    }
+    for (const component of scene.components ?? []) {
+      if (!component.id) throw new CompileError("Frozen timing requires explicit component IDs");
+      components.push({id: qualifiedTimingId("component", [scene.id, component.id]), ...frameInterval(scene.startSec + (component.timing?.startSec ?? 0), component.timing?.endSec === undefined ? scene.endSec : scene.startSec + component.timing.endSec)});
+    }
+  }
+  const transitionItems = timeline.filter(item => item.kind === "transition");
+  const transitions = transitionItems.map(item => ({id: qualifiedTimingId("transition", [item.id]), ...frameInterval(item.startSec, item.endSec)}));
+  for (const transition of transitionItems) {
+    for (const layer of transition.layers ?? []) {
+      if (!layer.id) throw new CompileError("Frozen timing requires explicit transition layer IDs");
+      const layerStart = transition.startSec + (layer.timing?.startSec ?? 0);
+      const layerEnd = layer.timing?.endSec === undefined ? transition.endSec : transition.startSec + layer.timing.endSec;
+      layers.push({id: qualifiedTimingId("transition-layer", [transition.id, layer.id]), ...frameInterval(layerStart, layerEnd)});
+      for (const component of layer.components ?? []) {
+        if (!component.id) throw new CompileError("Frozen timing requires explicit transition component IDs");
+        components.push({id: qualifiedTimingId("transition-component", [transition.id, layer.id, component.id]), ...frameInterval(layerStart + (component.timing?.startSec ?? 0), component.timing?.endSec === undefined ? layerEnd : layerStart + component.timing.endSec)});
+      }
+    }
+    for (const component of transition.components ?? []) {
+      if (!component.id) throw new CompileError("Frozen timing requires explicit transition component IDs");
+      components.push({id: qualifiedTimingId("transition-component", [transition.id, component.id]), ...frameInterval(transition.startSec + (component.timing?.startSec ?? 0), component.timing?.endSec === undefined ? transition.endSec : transition.startSec + component.timing.endSec)});
+    }
+  }
+  const pauses = timelineItems.flatMap(item => [item, ...(Array.isArray(item.segments) ? item.segments : [])]).filter(item => item.type === "pause");
+  for (const pause of pauses) pause.sampleCount = Math.floor(Number(pause.seconds) * sampleRateHz + 0.5);
+  const digest = (data: Buffer) => createHash("sha256").update(data).digest("hex");
+  const frozenSegments = voiceEvents.map((event, index) => {
+    const wav = readFileSync(event.path); const info = parseWav(wav, event.path);
+    const audioSha256 = digest(wav), pcmSha256 = digest(info.data);
+    const rawMeta = existsSync(event.rawPath + ".json") ? JSON.parse(readFileSync(event.rawPath + ".json", "utf8")) : null;
+    const ffmpegExtension = ffmpegIdentity ? {"videoml.ffmpeg": {executableSha256: ffmpegIdentity.executableSha256, versionOutputSha256: ffmpegIdentity.versionOutputSha256, versionBuildOutput: ffmpegIdentity.versionBuildOutput}} : {};
+    const provenance = providerName === "auritus" ? {...rawMeta?.provenance, provider: "auritus", simulated: false, audioSha256, pcmSha256, extensions: {...rawMeta?.provenance?.extensions, ...ffmpegExtension}} : {provider: providerName, simulated: dryRunMode, audioSha256, pcmSha256, extensions: ffmpegExtension};
+    const endSample = event.startSample + info.data.length / 2;
+    let pauseEnd = endSample;
+    const orderedPauses = pauses.map(p => ({start: Math.floor(Number(p.startSec) * sampleRateHz + 0.5), samples: Number(p.sampleCount)})).sort((a,b) => a.start - b.start);
+    for (const pause of orderedPauses) if (pause.start === pauseEnd) pauseEnd += pause.samples;
+    const pauseSamples = pauseEnd - endSample;
+    return {id: qualifiedTimingId("segment", [event.cueId, event.segmentIndex]), cueId: qualifiedTimingId("cue", [event.cueId]), track: "main", originalText: event.originalText, expandedText: event.expandedText, startSample: event.startSample, endSample, ...frameInterval(event.startSample / sampleRateHz, endSample / sampleRateHz), trimSamples: event.trimSamples, pauseSamples, audioPath: relative(outDir, event.path).split(sep).join("/"), audioSha256, pcmSha256, provenance};
+  });
+  const allIntervals = [...scenes, ...cues, ...layers, ...components, ...transitions];
+  const audioTotalSamples = Math.max(lastVoiceEnd, Math.floor(leadInSec * sampleRateHz + 0.5), ...pauses.map(p => Math.floor(Number(p.endSec) * sampleRateHz + 0.5)));
+  const durationFrames = Math.max(0, ...allIntervals.map(item => item.endFrame), ...frozenSegments.map(item => item.endFrame), Math.ceil(audioTotalSamples / sampleRateHz * fps), Math.ceil((composition.meta?.durationSeconds ?? 0) * fps));
+  const ids = [...allIntervals, ...frozenSegments].map(item => item.id);
+  if (new Set(ids).size !== ids.length || allIntervals.some(item => item.startFrame < 0 || item.endFrame < item.startFrame)) throw new CompileError("Invalid or duplicate resolved timeline IDs or intervals");
+  ensureDir(dirname(resolvedTimingPath));
+  const resolvedTiming = {schemaVersion: 1, sampleRateHz, fps, durationFrames, audioTotalSamples, generationSeed: selectedSeed, leadInSamples: Math.floor(leadInSec * sampleRateHz + 0.5), scenes, cues, layers, components, transitions, segments: frozenSegments};
+  validateResolvedTiming(resolvedTiming);
+  writeFileSync(resolvedTimingPath, JSON.stringify(resolvedTiming, null, 2) + "\n");
   ensureDir(dirname(timelineOut));
-  writeFileSync(timelineOut, JSON.stringify({ items: timelineItems, audio: { tracks: audioTracksOut }, ...(selectedProvider === "dry-run" ? { simulated: true } : {}) }, null, 2) + "\n");
+  writeFileSync(timelineOut, JSON.stringify({ items: timelineItems, sourceCueOrder, audio: { tracks: audioTracksOut }, ...(selectedProvider === "dry-run" ? { simulated: true } : {}) }, null, 2) + "\n");
   if (verboseLogs) {
     _log(`write: timeline=${timelineOut} items=${timelineItems.length} tracks=${audioTracksOut.length}`);
   }
@@ -1574,11 +1614,24 @@ async function generateWithSession(options: GenerateOptions, session: Generation
   }
 
   let audioPath: string | null = null;
-  if (audioOutPath && segmentPathsForConcat.length > 0) {
-    concatAudioFiles(audioOutPath, segmentPathsForConcat);
+  let frozenAudioPath: string | null = null;
+  if (audioOutPath && audioTotalSamples > 0) {
+    const chunks: Buffer[] = [];
+    let cursor = 0;
+    for (const event of sortedVoiceEvents) {
+      chunks.push(Buffer.alloc((event.startSample - cursor) * 2));
+      const wav = parseWav(readFileSync(event.path), event.path);
+      chunks.push(wav.data); cursor = event.startSample + wav.data.length / 2;
+    }
+    if (audioTotalSamples > cursor) chunks.push(Buffer.alloc((audioTotalSamples - cursor) * 2));
+    writePcmWav(audioOutPath, Buffer.concat(chunks), sampleRateHz);
+    const assembledHash = createHash("sha256").update(readFileSync(audioOutPath)).digest("hex");
+    frozenAudioPath = join(resolve(outDir), "frozen-audio", `${assembledHash}.wav`);
+    ensureDir(dirname(frozenAudioPath));
+    if (!existsSync(frozenAudioPath)) copyFileSync(audioOutPath, frozenAudioPath);
     audioPath = audioOutPath;
     if (verboseLogs) {
-      _log(`write: audio=${audioOutPath} segments=${segmentPathsForConcat.length}`);
+      _log(`write: audio=${audioOutPath} segments=${voiceEvents.length}`);
     }
   }
 
@@ -1589,6 +1642,7 @@ async function generateWithSession(options: GenerateOptions, session: Generation
     dslPath,
     scriptPath: scriptOut,
     timelinePath: timelineOut,
+    resolvedTimingPath,
     audioPath,
   });
   if (verboseLogs) {
@@ -1599,6 +1653,8 @@ async function generateWithSession(options: GenerateOptions, session: Generation
     script,
     audioPath,
     timelinePath: timelineOut,
+    resolvedTimingPath,
+    frozenAudioPath,
     didSynthesize,
     runId: runArtifacts.runId,
     runPath: runArtifacts.runPath,
@@ -1690,8 +1746,12 @@ function normalizePauseSpec(value: PauseSpec | number | undefined | null): Pause
 
 function samplePause(spec: PauseSpec, rng: () => number): number {
   if (spec.mode === "fixed") {
+    if (!Number.isFinite(spec.seconds)) throw new CompileError("Pause must be finite");
     return Math.max(0, spec.seconds);
   }
+  if (!Number.isFinite(spec.mean) || !Number.isFinite(spec.std) || spec.std < 0 ||
+      (spec.min != null && !Number.isFinite(spec.min)) || (spec.max != null && !Number.isFinite(spec.max)) ||
+      (spec.min != null && spec.max != null && spec.min > spec.max)) throw new CompileError("Invalid Gaussian pause");
   let val = gaussianSample(rng, spec.mean, spec.std);
   if (spec.min != null) {
     val = Math.max(val, spec.min);
@@ -1725,16 +1785,6 @@ function makeRng(seed: number | null): () => number {
   };
 }
 
-function ensureTrimmed(path: string, envCacheDir: string, duration: number, sampleRateHz: number, fresh: boolean): string {
-  const trimmedDir = join(envCacheDir, "segments_trimmed");
-  ensureDir(trimmedDir);
-  const filename = path.split(sep).pop() ?? "segment.wav";
-  const trimmed = join(trimmedDir, filename);
-  if (!existsSync(trimmed) || fresh) {
-    trimAudioToDuration(path, trimmed, duration, sampleRateHz);
-  }
-  return trimmed;
-}
 
 function toPublicPath(path: string): string {
   const parts = path.split(`${sep}public${sep}`);
@@ -1893,4 +1943,12 @@ function cleanupStagedDir(dir: string, keepFilename: string): void {
       // Ignore cleanup errors.
     }
   }
+}
+
+
+function prepareSimulatedPcm(input: string, output: string, sampleRateHz: number, trimSec: number): {sampleCount: number; trimSamples: number} {
+  const data = parseWav(readFileSync(input), input).data;
+  const {pcm, trimSamples} = exactTrimPcm(data, trimSec, sampleRateHz);
+  writePcmWav(output, pcm, sampleRateHz);
+  return {sampleCount: pcm.length / 2, trimSamples};
 }

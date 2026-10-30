@@ -3,6 +3,8 @@ import { createHash } from 'node:crypto';
 import { mkdir, mkdtemp, readFile, rename, rm, lstat } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { createInterface } from 'node:readline';
+import { inspectFfmpeg, type FfmpegIdentity } from '../../audio/ffmpeg-identity.js';
+import { identityFromCapabilities, readVoiceCache, voiceCacheKey, writeVoiceCache } from '../../audio/voice-cache.js';
 import type { TTSProvider, TTSRequest, TTSSegment } from './types.js';
 
 const hash = (data: Buffer) => createHash('sha256').update(data).digest('hex');
@@ -150,6 +152,17 @@ export class AuritusProvider implements TTSProvider {
       if (req.format !== undefined && req.format.toLowerCase() !== 'wav') throw new Error(`Auritus supports WAV output only, not ${req.format}`);
       const caps = await this.capabilities(voice);
       if (req.model != null && req.model !== caps.modelId) throw new Error(`Requested Auritus model ${req.model} does not match installed model ${caps.modelId ?? '(unavailable)'}`);
+      const {identity, reason} = identityFromCapabilities(caps, {
+        text: req.text, voice, speed: speed as number, seed: seed as number, sampleRateHz: req.sampleRateHz,
+        ffmpeg: req.extra?.ffmpegIdentity as {executableSha256: string; versionOutputSha256: string} | undefined,
+      });
+      const key = identity ? voiceCacheKey(identity) : null;
+      const cacheDir = join(dirname(outPath), '.voice-cache-v1');
+      if (reason) process.stderr.write(`Auritus cache disabled: ${reason}\n`);
+      if (key && !req.extra?.fresh) {
+        const cached = readVoiceCache(cacheDir, key, outPath);
+        if (cached) return {path: outPath, durationSec: cached.durationSec, cached: true};
+      }
       const result = await this.request('synthesize', {text: req.text, voice, speed, seed, outputDir: resolve(dir)});
       if (!exact(result, resultKeys) || !extensions(result.extensions) || result.audioPath !== 'speech.wav' || result.metadataPath !== 'speech.json'
         || !digest(result.audioSha256) || !digest(result.pcmSha256) || !Number.isInteger(result.sampleRate) || result.sampleRate <= 0
@@ -164,6 +177,8 @@ export class AuritusProvider implements TTSProvider {
       if (!exact(p, provenanceKeys) || !extensions(p.extensions) || !digest(p.requestKey)
         || p.backend !== caps.backend || p.modelId !== caps.modelId || p.modelRevision !== caps.modelRevision
         || p.auritusVersion !== caps.auritusVersion || p.voice !== caps.voice || p.speed !== speed || p.seed !== seed
+        || p.cacheDisabledReason !== caps.cacheDisabledReason
+        || (caps.extensions?.['auritus.kokoro']?.voiceRevision !== undefined && p.extensions?.['auritus.kokoro']?.voiceRevision !== caps.extensions['auritus.kokoro'].voiceRevision)
         || (p.modelRevision === null && !(typeof p.cacheDisabledReason === 'string' && p.cacheDisabledReason))
         || !(p.cacheDisabledReason === null || typeof p.cacheDisabledReason === 'string' && !!p.cacheDisabledReason)
         || !(p.contentHash === null || digest(p.contentHash))
@@ -207,7 +222,8 @@ export class AuritusProvider implements TTSProvider {
       metadataPublished = true;
       await rename(join(dir, 'speech.wav'), outPath);
       metadataPublished = false;
-      return {path: outPath, durationSec: result.durationSec};
+      if (key) writeVoiceCache(cacheDir, key, outPath, result);
+      return {path: outPath, durationSec: result.durationSec, cached: false};
     } catch (error) {
       primaryError = error;
       if (metadataPublished) {
@@ -267,6 +283,7 @@ export class GenerationSession {
   private auritus?: AuritusProvider;
   private terminal = false;
   private settings?: {python: string; voicesDir?: string};
+  private ffmpeg?: {configured: string; identity: FfmpegIdentity};
 
   getAuritus(config: Record<string, unknown>) {
     if (this.terminal) throw new Error('Generation session is closed');
@@ -292,6 +309,14 @@ export class GenerationSession {
     }
     this.settings ??= {python, voicesDir};
     return this.auritus ??= new AuritusProvider(python, voicesDir);
+  }
+
+  getFfmpegIdentity(): FfmpegIdentity {
+    if (this.terminal) throw new Error('Generation session is closed');
+    const configured = process.env.VIDEOML_FFMPEG ?? 'ffmpeg';
+    if (this.ffmpeg && this.ffmpeg.configured !== configured) throw new Error('FFmpeg configuration cannot change within a generation session');
+    this.ffmpeg ??= {configured, identity: inspectFfmpeg(configured)};
+    return this.ffmpeg.identity;
   }
 
   cancel() {

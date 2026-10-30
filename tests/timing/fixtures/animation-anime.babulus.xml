@@ -1,0 +1,11 @@
+<vml id="animation-anime" title="Animation Anime" fps="30" width="1920" height="1080">
+  <voiceover provider="dry-run" />
+  <scene id="anime" title="anime" styles='{"background":"var(--color-bg)"}'>
+    <layer id="anime" z="10">
+      <anime-harness-demo />
+    </layer>
+    <cue id="hold" label="hold">
+      <pause seconds="6s" />
+    </cue>
+  </scene>
+</vml>

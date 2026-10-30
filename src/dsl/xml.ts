@@ -1,3 +1,4 @@
+import { normalizeSourceElement, normalizedSourceIds, type SourceElement } from "@videoml/shared/resolved-timing";
 import { DOMParser } from "@xmldom/xmldom";
 import { ParseError } from "../errors.js";
 import { applyVomPatches } from "./xml-patch.js";
@@ -363,6 +364,7 @@ const parseComponent = (
 
   return {
     id,
+    generatedId: rawId == null,
     type,
     props,
     styles,
@@ -796,6 +798,8 @@ export const loadVideoFileFromXml = (xml: string): VideoFileSpec => {
     throw new ParseError("XML root must be <vml>, <videoml>, or <video-ml>.");
   }
 
+  try { normalizeSourceElement(root as unknown as SourceElement); }
+  catch (error) { throw new ParseError(error instanceof Error ? error.message : String(error)); }
   const attrs = parseAttributes(asElementLike(root));
   const id = attrs.id;
   if (!id) {
@@ -910,6 +914,7 @@ export const loadVideoFileFromXml = (xml: string): VideoFileSpec => {
   for (const child of getChildElements(asElementLike(root))) {
     if (child.tagName === "voiceover") {
       const voiceoverAttrs = parseAttributes(child);
+      if (voiceoverAttrs.seed !== undefined && voiceoverAttrs.seed !== "random" && (!/^\d+$/.test(voiceoverAttrs.seed) || Number(voiceoverAttrs.seed) > 0xffffffff)) throw new ParseError("voiceover seed must be a uint32 or random");
       if (voiceoverAttrs.speed !== undefined && (!Number.isFinite(Number(voiceoverAttrs.speed)) || !voiceoverAttrs.speed.trim() || Number(voiceoverAttrs.speed) <= 0)) throw new ParseError("voiceover speed must be a positive finite number");
       voiceover = {
         pronunciations: getChildElements(child).filter(node => node.tagName === "pronunciation").map(node => {
@@ -923,7 +928,7 @@ export const loadVideoFileFromXml = (xml: string): VideoFileSpec => {
         model: voiceoverAttrs.model ?? undefined,
         format: voiceoverAttrs.format ?? undefined,
         sampleRateHz: voiceoverAttrs.sampleRateHz ? parseNumber(voiceoverAttrs.sampleRateHz) ?? undefined : undefined,
-        seed: voiceoverAttrs.seed ? parseNumber(voiceoverAttrs.seed) ?? undefined : undefined,
+        seed: voiceoverAttrs.seed === "random" ? "random" : voiceoverAttrs.seed ? parseNumber(voiceoverAttrs.seed) ?? undefined : undefined,
         leadInSeconds: voiceoverAttrs.leadInSeconds
           ? parseTimeValue(voiceoverAttrs.leadInSeconds, baseCtx)
           : undefined,
@@ -987,6 +992,7 @@ export const loadVideoFileFromXml = (xml: string): VideoFileSpec => {
     timeline,
   };
 
+  Object.defineProperty(composition, normalizedSourceIds, {value: true});
   const videoFile: VideoFileSpec = {
     compositions: [composition],
   };

@@ -4,7 +4,7 @@ import { computeSha256 } from "./baseline.js";
 import { ensureDir, hashKey, safePrefix } from "./util.js";
 
 export type RunArtifact = {
-  kind: "script" | "timeline" | "audio";
+  kind: "script" | "timeline" | "resolved-timing" | "audio";
   path: string;
   sha256: string;
 };
@@ -32,6 +32,7 @@ type RunWriteOptions = {
   dslPath: string;
   scriptPath: string;
   timelinePath: string;
+  resolvedTimingPath?: string;
   audioPath?: string | null;
 };
 
@@ -44,10 +45,12 @@ export const writeRunArtifacts = ({
   dslPath,
   scriptPath,
   timelinePath,
+  resolvedTimingPath,
   audioPath,
 }: RunWriteOptions): RunWriteResult => {
   const scriptHash = computeSha256(scriptPath);
   const timelineHash = computeSha256(timelinePath);
+  const resolvedTimingHash = resolvedTimingPath ? computeSha256(resolvedTimingPath) : null;
   const audioHash = audioPath && existsSync(audioPath) ? computeSha256(audioPath) : null;
 
   const runId = hashKey({
@@ -55,6 +58,7 @@ export const writeRunArtifacts = ({
     env,
     scriptHash,
     timelineHash,
+    resolvedTimingHash,
     audioHash,
   });
 
@@ -70,6 +74,12 @@ export const writeRunArtifacts = ({
   const timelineName = artifactName("timeline", timelineHash, ".json");
   copyFileSync(timelinePath, join(runDir, timelineName));
   artifacts.push({ kind: "timeline", path: timelineName, sha256: timelineHash });
+
+  if (resolvedTimingPath && resolvedTimingHash) {
+    const name = artifactName("resolved-timing", resolvedTimingHash, ".json");
+    copyFileSync(resolvedTimingPath, join(runDir, name));
+    artifacts.push({kind: "resolved-timing", path: name, sha256: resolvedTimingHash});
+  }
 
   if (audioPath && audioHash) {
     const audioName = artifactName("audio", audioHash, extname(audioPath));
