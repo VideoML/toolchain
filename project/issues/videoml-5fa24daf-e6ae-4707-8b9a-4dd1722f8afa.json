@@ -1,0 +1,22 @@
+{
+  "id": "videoml-5fa24daf-e6ae-4707-8b9a-4dd1722f8afa",
+  "title": "Inventory Hyperframes catalog coverage and existing Babulus equivalents",
+  "description": "## Behavior\nAs a maintainer, I can see which Hyperframes effects have VideoML equivalents and which remain to be built.\n\n## Acceptance scenarios\nGiven a pinned Hyperframes revision, when its blocks/components/shaders are inventoried, then every entry has a stable upstream identity, category, provenance, dependency, VideoML mapping, and explicit status (planned, implemented, verified, or deferred with reason).\nGiven an existing Babulus demo, when matched, then reuse or migration is assessed before rebuilding. Full coverage is the target; no claim of parity from a sample alone.\n\n## Ownership\ntoolchain, specification, player, stdlib; consult Babulus\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-207e97, videoml-684f74, videoml-d42794, videoml-fa90b2. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review.",
+  "type": "story",
+  "status": "open",
+  "priority": 2,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-c22afbae-c4f5-4ded-9fb1-618507cecc2d",
+  "labels": [
+    "hyperframes-inspiration"
+  ],
+  "dependencies": [],
+  "comments": [],
+  "created_at": "2026-10-30T15:53:36.921025Z",
+  "updated_at": "2026-10-30T19:29:52.417303Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

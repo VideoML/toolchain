@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "f5589fe4-abdd-42ce-8556-c44aa43f6cd5",
+  "issue_id": "videoml-54b377aa-a02f-4979-b1c7-72d9347a8bbb",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T19:29:35.905Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "P23 — Build bounded Batch worker and dispatch recovery",
+    "description": "## Dispatch packet P23\nRead initiative videoml-dbc2b1 sections D08,D09,D10 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\nBabulus\nPrimary paths: Dockerfile.render-worker; infra/rendering; outbox dispatch/reconcile. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Package pinned Chromium/FFmpeg and portable renderer. Batch/Fargate 4vCPU/8GiB, runtime/queue watchdogs; persisted ambiguous submit reconciliation by attempt ID, no blind resubmit. Enforce cloud allowlist and no capture-time egress.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\nmock launch/unknown ack/duplicate dispatch tests, local container shader smoke and scope-limited role assertions.\n\n## Dependencies\nvideoml-5fd757 (P22), videoml-84853c (P20)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n",
+    "issue_type": "task",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-49cdfa8f-a6cf-4c73-9f1f-76e6def3500d",
+    "labels": [
+      "terra-packet"
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "d1ade066-90b7-4443-a006-191bddd8a0e9",
+  "issue_id": "videoml-3385df53-9755-45f1-b774-32c45fa4ea61",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:57:19.641Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "Provision an isolated account before new cloud rendering",
+    "description": "## Behavior and acceptance\nGiven the existing AWS Organization, when the dedicated Babulus/VideoML member account is provisioned through the agreed account process, then rendering resources and attributed costs reside there. Confirm account name/email, OU, region, access roles, budget recipients and limits before provisioning. Use infrastructure as code and temporary role-based credentials. No AWS resources or accounts are created by this planning issue.\n\n## Ownership\nBabulus infrastructure; dedicated Babulus/VideoML AWS member account\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.",
+    "issue_type": "story",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-e832b847-d162-4d5c-8a7f-c5cf94a51cce",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

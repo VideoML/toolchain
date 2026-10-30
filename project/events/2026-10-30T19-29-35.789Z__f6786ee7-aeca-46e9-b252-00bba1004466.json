@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "f6786ee7-aeca-46e9-b252-00bba1004466",
+  "issue_id": "videoml-811fde28-bf85-4eed-9a68-92aca4734e11",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T19:29:35.789Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "P21 — Implement atomic cloud reservations and admission",
+    "description": "## Dispatch packet P21\nRead initiative videoml-dbc2b1 sections D11 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\nBabulus\nPrimary paths: service admission/ledger; features/render_cost_controls.feature. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. D11 reservation ledger and concurrency transaction precede every launch. Fail closed on pricing staleness, ledger errors, quota or slot exhaustion. Preserve reservation on unknown submission.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\nsimultaneous admissions cannot overspend reserved ceilings; day/month boundaries; retries/failed attempts still accounted.\n\n## Dependencies\nvideoml-e97334 (P18)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n",
+    "issue_type": "task",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-e832b847-d162-4d5c-8a7f-c5cf94a51cce",
+    "labels": [
+      "terra-packet"
+    ]
+  }
+}

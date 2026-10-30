@@ -1,0 +1,42 @@
+{
+  "id": "videoml-f4f9f3a7-c1e9-4938-b79f-6b4b1a7c3f4e",
+  "title": "P13 — Expose Auritus JSON speech bridge",
+  "description": "## Dispatch packet P13\nRead initiative videoml-dbc2b1 sections D06,D07 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\nAuritus\nPrimary paths: cli/src/auritus/speech_bridge.py; features/speech_bridge.feature. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Wrap existing auritus.speech API using D06 protocol, redirect model stdout to stderr, implement readiness/capabilities and offline model checks. No changes to remote content_hash. File linked native Auritus work item before code.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\nGherkin protocol/error/path tests, explicit fake backend tests, make check; real smoke recorded separately.\n\n## Dependencies\nvideoml-684f74 (P02)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n\n## Accepted review correction\nD06 correction: recoverable synthesis error is one structured response, process remains alive. Fatal protocol/transport exits nonzero. Test good request, recoverable bad request, then good request in one process.",
+  "type": "task",
+  "status": "in_progress",
+  "priority": 1,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-692db262-13be-46f7-9256-05e602167aaf",
+  "labels": [
+    "terra-packet"
+  ],
+  "dependencies": [
+    {
+      "target": "videoml-684f74cf-6b74-4476-8e12-bd25c75f1aad",
+      "type": "blocked-by"
+    }
+  ],
+  "comments": [
+    {
+      "id": "33b1cc98-2211-46c5-8aae-43449dec5855",
+      "author": "home",
+      "text": "Native Auritus story auritus-96cb17 created under existing speech-library epic auritus-9ffcc2; board recorded on develop per Auritus policy. Auritus checkout fast-forwarded to current develop before work. Product P13 remains gated by P02 contracts.",
+      "created_at": "2026-10-30T20:49:40.448985Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "1f3fb7e8-29d2-4799-99d1-7ec64c32e775",
+      "author": "home",
+      "text": "P13 implementation accepted by primary and Terra review at Auritus 5836302; PR https://github.com/AnthusAI/Auritus/pull/91 pending CI/merge. Literal make check passed, 250 behavior scenarios with5 skipped; primary independently passed11 bridge scenarios. All four review findings fixed, backend loader args/reset tested with explicit stubs. Actual Kokoro runtime installed but model not cached; real inference remains P16. README documents protocol. Keeping packet in_progress until integration lands; code may be consumed from immutable accepted revision for later local integration.",
+      "created_at": "2026-10-30T21:10:48.042173Z",
+      "comment_type": "default"
+    }
+  ],
+  "created_at": "2026-10-30T19:29:35.475597Z",
+  "updated_at": "2026-10-30T21:10:48.043115Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

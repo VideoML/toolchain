@@ -1,0 +1,22 @@
+{
+  "id": "videoml-92a7a3d9-6935-49fb-abe9-61454391cfda",
+  "title": "Apply motion trails and echo smear",
+  "description": "## Behavior\nAs an author, I can add trails that follow object motion without manually animating every copy.\n\n## Acceptance scenarios\nGiven a trajectory, when sampled in any frame order or worker partition, then the trail matches sequential playback. Document precomputation, supported targets, memory limits, and how parameter edits invalidate cached trajectories.\n\n## Ownership\nstdlib, toolchain, player\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-527ed2, videoml-eb5a8e. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review.",
+  "type": "story",
+  "status": "open",
+  "priority": 2,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-be414bcf-7b3c-455e-af4b-c3a0888b3e00",
+  "labels": [
+    "hyperframes-inspiration"
+  ],
+  "dependencies": [],
+  "comments": [],
+  "created_at": "2026-10-30T15:53:37.066954Z",
+  "updated_at": "2026-10-30T19:29:52.628244Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

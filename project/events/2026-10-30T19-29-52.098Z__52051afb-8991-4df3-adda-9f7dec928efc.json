@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "52051afb-8991-4df3-adda-9f7dec928efc",
+  "issue_id": "videoml-1e460120-e596-4ca4-841b-9e38828761fe",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T19:29:52.098Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "## Behavior\nAs a visitor, I can browse visual examples and find an effect by category, name, or animation framework.\n\n## Acceptance scenarios\nGiven catalog metadata, when browsing, then searchable/filterable cards lead to stable detail URLs with representative previews. Categories reflect the inventory. Only implemented examples are presented as usable; planned coverage is clearly distinguished. The site remains usable on mobile and with keyboard navigation.\n\n## Ownership\nvideoml-org, stdlib, player\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.",
+        "to": "## Behavior\nAs a visitor, I can browse visual examples and find an effect by category, name, or animation framework.\n\n## Acceptance scenarios\nGiven catalog metadata, when browsing, then searchable/filterable cards lead to stable detail URLs with representative previews. Categories reflect the inventory. Only implemented examples are presented as usable; planned coverage is clearly distinguished. The site remains usable on mobile and with keyboard navigation.\n\n## Ownership\nvideoml-org, stdlib, player\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-d177d1, videoml-a2767d. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review."
+      }
+    }
+  }
+}

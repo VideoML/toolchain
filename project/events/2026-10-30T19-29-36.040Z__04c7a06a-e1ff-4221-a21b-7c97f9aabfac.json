@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "04c7a06a-e1ff-4221-a21b-7c97f9aabfac",
+  "issue_id": "videoml-bcf33062-25eb-44bf-88bc-6793c62d6de6",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T19:29:36.040Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "P26 — Provision dedicated pilot account and run cloud drills",
+    "description": "## Dispatch packet P26\nRead initiative videoml-dbc2b1 sections D10,D11,D13,D14 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\nBabulus\nPrimary paths: deployment manifest and CDK outputs. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Deployment-only packet. Requires real verified D13 inputs and primary deployment authorization; apply reviewed account/CDK plan with cloud disabled. Run one bounded fixture, failure/timeout/cancel tests and emergency stop, record account-wide costs and old ECS inventory. Keep production cloud disabled until primary accepts report.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\nactual dedicated-account outputs and kill-switch evidence; mocks/synth do not close this gate.\n\n## Dependencies\nvideoml-b8fc78 (P24), videoml-96c59f (P25), videoml-84853c (P20)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n",
+    "issue_type": "task",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-e832b847-d162-4d5c-8a7f-c5cf94a51cce",
+    "labels": [
+      "terra-packet"
+    ]
+  }
+}

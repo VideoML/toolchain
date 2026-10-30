@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "c5b7247a-85c9-4855-a873-456329688bfc",
+  "issue_id": "videoml-734385cf-43e4-44fc-90da-4a58b9992446",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T15:57:19.767Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "title": {
+        "from": "Reconcile extracted package wiring and voiceover ownership",
+        "to": "Reconcile package wiring and standardize voiceover ownership"
+      },
+      "description": {
+        "from": "Audit CLI imports, player stdlib paths, renderer exports, published package versions, and Babulus consumption. Establish a minimal runnable visual fixture. Record the intended boundary: VideoML standard/player/effects and Babulus voiceover production. Propose any code relocation with migration compatibility; do not move TTS code simply because it is present in the extracted toolchain.",
+        "to": "Audit CLI imports, player stdlib paths, renderer exports, package versions, and actual Babulus consumption. Establish runnable visual and narrated fixtures. Move/formalize Babulus voiceover features into standard VideoML, with open local synthesis using Auritus. Preserve migration compatibility and document standard semantics separately from provider adapters. Babulus becomes an optional paid rendering platform, not the exclusive owner of narration. Reuse Auritus backends rather than copying them into VideoML."
+      }
+    }
+  }
+}

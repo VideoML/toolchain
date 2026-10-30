@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "096ccddb-d835-4bf6-81ee-815be23a49d2",
+  "issue_id": "videoml-b8fc7815-37b6-4173-808e-139f737b0565",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T19:29:35.953Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "P24 — Implement shutdown, monitoring and retention",
+    "description": "## Dispatch packet P24\nRead initiative videoml-dbc2b1 sections D11 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\nBabulus\nPrimary paths: infra/rendering; operator CLI; watchdog. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. D11 soft pause/emergency stop, account budget/alerts, job cost reports. Retain customer source/output until explicit deletion; expire nonauthoritative temporary artifacts after 7 days and cap log retention at 14 days. Do not auto-delete valid customer exports.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\nshutdown tests include queued/starting/running jobs and stale attempts; local processing unaffected.\n\n## Dependencies\nvideoml-54b377 (P23)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n",
+    "issue_type": "task",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-e832b847-d162-4d5c-8a7f-c5cf94a51cce",
+    "labels": [
+      "terra-packet"
+    ]
+  }
+}

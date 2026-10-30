@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "5b8c3034-5ef2-4037-9dd4-4e7a1e3baa02",
+  "issue_id": "videoml-42f62e32-92e9-4c31-b5d1-96f410cb0d34",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:53:36.990Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "Reuse shared effects from Babulus without forks",
+    "description": "## Behavior\nAs a Babulus author, I can use the shared VideoML effects after demos move.\n\n## Acceptance scenarios\nGiven the actual published package dependencies and any development aliases, when Babulus consumes the new components, then existing demo names remain compatible or have a documented migration. Preview and export smoke tests use the same shared implementation; do not maintain duplicate effect code.\n\n## Ownership\nstdlib, player, toolchain, videoml-org; Babulus as consumer\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.",
+    "issue_type": "story",
+    "status": "open",
+    "priority": 2,
+    "assignee": null,
+    "parent": "videoml-db06d1ec-7b28-4b51-8695-cbeef8c44b4b",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

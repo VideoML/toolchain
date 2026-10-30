@@ -1,0 +1,35 @@
+{
+  "id": "videoml-10636dcf-4c56-4627-8110-d976b740ac59",
+  "title": "M6 — Verify visual quality and Babulus adoption",
+  "description": "## Outcome\nDemonstrate reliable visual results, useful authoring guidance, and compatibility in a real consuming product.\n\n## Ownership\ntoolchain, videoml-org, player; Babulus integration\n\n## Completion\nAll child behavior stories have implementation and verification evidence. Update the parent initiative body with decisions, coverage, and remaining work. This is planned work, not a claim that the features already ship.",
+  "type": "epic",
+  "status": "open",
+  "priority": 2,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-dbc2b1d7-9076-4d17-8ad0-74e546db76bb",
+  "labels": [
+    "hyperframes-inspiration"
+  ],
+  "dependencies": [
+    {
+      "target": "videoml-db06d1ec-7b28-4b51-8695-cbeef8c44b4b",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-a0007f8a-9e25-4a87-bbeb-8ce18c8704f8",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-be414bcf-7b3c-455e-af4b-c3a0888b3e00",
+      "type": "blocked-by"
+    }
+  ],
+  "comments": [],
+  "created_at": "2026-10-30T15:53:37.140314Z",
+  "updated_at": "2026-10-30T19:29:49.203652Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

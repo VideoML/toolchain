@@ -1,0 +1,411 @@
+{
+  "id": "videoml-0bb124aa-182c-4294-846d-32380afa4807",
+  "title": "P28 — Run final acceptance and controlled service cutover",
+  "description": "## Dispatch packet P28\nRead initiative videoml-dbc2b1 sections D14,D15 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\nall owning repositories\nPrimary paths: release manifest; migration report; acceptance evidence. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Primary-owned release review: complete catalog count, package lock manifest, offline rendering, narration smoke, Babulus preview/export, cloud drills and pricing UI. Deploy package changes before consumer changes. Disable old paid dispatch permanently, migrate jobs explicitly, retain artifacts. Rollback stops cloud and restores last verified application packages. No auto-enable on passing CI.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\nfull evidence report; primary accepts each gate; no unverified catalog entries counted complete.\n\n## Dependencies\nvideoml-bcf330 (P26), videoml-4d3c79 (P27), videoml-5491a0 (P08), videoml-527ed2 (P09), videoml-eb5a8e (P10)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n",
+  "type": "task",
+  "status": "open",
+  "priority": 1,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-10636dcf-4c56-4627-8110-d976b740ac59",
+  "labels": [
+    "terra-packet"
+  ],
+  "dependencies": [
+    {
+      "target": "videoml-bcf33062-25eb-44bf-88bc-6793c62d6de6",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-4d3c791b-2794-49d5-a904-93a442e23790",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-5491a0c9-d03a-40d7-90d4-ce5bea9c2779",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-527ed294-0ce6-4575-998b-555885ad6baa",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-eb5a8e83-390d-4339-9f4c-fdcf22b2ee3d",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-9e6657bb-948e-4d89-a702-aa79462d40cd",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-0107e5f2-d568-4273-9c89-8c512dec22b4",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-855a021f-1dc1-4da3-9108-db05764e2c4f",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-aed27e87-9cb7-4393-aac8-728a6c471d61",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-964ba9e4-505f-446f-ba94-7e7939afc760",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-4eb17333-ac77-4042-b89b-e295d4454d5a",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-873f9c43-1d43-4042-8044-ea593e62cea1",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-85984f72-f255-4fd6-b2b8-c8e1103bd4bd",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-bab15b85-da99-4f14-9fb2-e5bcf2901025",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-6af51aa1-f4e4-4a7b-84a9-e961c3255f0e",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-aa256f53-ff64-47bc-a636-dbddd5d4613f",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-f7a576e3-c813-4374-9e1e-79d67afb1630",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-1b0b596d-b457-4b55-b54a-fc18c6bbdb79",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-3549e41c-5375-492c-954e-99ceec5df56a",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-0a93af12-9e23-4ef7-89eb-6870fcf5213e",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-b98a179c-94fd-4fd6-81cc-0bd30497f722",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-ee253ee3-9f9e-4b1d-a539-b2ba6d733d37",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-4a9459dc-066a-43a1-8fa1-56ba6ff901f6",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-4fe1d5b5-f4fc-4424-a03c-cb459134c40a",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-bae6bd71-bc49-4fd9-bb48-b7fd0e4bf3cd",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-fa3f6ec7-5968-453f-91b4-403396e4687e",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-69161c93-246c-41e6-8bbd-f33a3536cbba",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-b5cf60d4-ef91-425c-a60a-96a474c0c904",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-8990df0f-60f4-490d-9f1f-4ca7f360ba5e",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-5dcd9483-5e48-4f9e-8462-9427558698cb",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-d0ad1c24-0d7b-4659-ae85-b72036c26f6e",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-cebc3050-bc5c-4a16-9c30-13cf945a906c",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-21a9cdb7-11fa-4694-8969-2db7e19467f9",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-f053fe29-0437-42d6-b1de-21fdc2254707",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-24518672-c15a-41ed-a155-3352acdeeedc",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-bbda7cd3-ff61-4256-a22d-31a78550a709",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-a190b54a-60f9-43ee-a690-9dd0015bc2a8",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-d1d3ebe3-1a4b-4ee5-a404-451a846f4b26",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-c0705837-17a7-444a-93f9-cf08917fbb42",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-0256aa34-5c9e-46e5-95bd-d8c7c8bfb0f2",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-8af021ce-943c-43ce-ab29-7fc269f09d3e",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-117011e2-7940-4a44-b913-2b742fdd4e03",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-80720142-2ecb-481b-b44e-d98d7506f70d",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-bedfada7-1241-488f-a6bc-116bcdb97a05",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-23158d4b-c35d-4c0b-8957-28fc25124d25",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-ea3e1aa6-59a4-4cd7-a22a-0dded7c7bc12",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-f2012269-9318-4c1b-9af1-8fc3d831ed94",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-c31eafd2-9a57-4ef1-90f2-874a4b683436",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-3339c1a8-c2f9-480a-bad4-7ac43dcbe112",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-c576e22f-d77b-4deb-8986-8ab4ac6b123f",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-f9700b57-2cf2-455a-88e9-7d6e2daba4ee",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-160fd75b-d010-4a12-90fe-fa234a1d7866",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-885a7cf8-b980-45d4-b34b-1c845f719eab",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-7b333a55-7d67-4d07-9832-fb6622592ffb",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-73402bea-34e4-4f5f-b5a6-2fe1431df938",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-a6310ea7-5d43-480a-add9-8243d2564c2e",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-56b7d03a-af18-46ac-99dd-075256964456",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-2431bf14-886c-409e-9376-b811f76c1d40",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-d8b8c20c-6324-4024-8a65-89e41711c517",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-ceb422c3-e46a-45df-be08-87e4d8782340",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-601ad85f-c165-4829-a19e-a08498ef642a",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-a74d9890-6bbd-48c5-954a-910f422c94f1",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-36b3d6fb-6331-4775-bfbc-680d9cabbdd0",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-a2dc1fa5-e496-4744-be59-5fa418150458",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-bc92b5d1-16f9-435c-8333-adeed7eef69a",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-505359c8-93d2-4a6b-8cf9-f807e9449f04",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-cf6bfe58-b6e2-4b27-8c9b-93fa63a575c9",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-d3e92363-93e6-455b-b3ba-42b95f0ab98b",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-6d446d93-98e6-434b-bb2d-98d9b0c6dffb",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-3be9801c-d398-4c35-ae6e-dd6060bc1eb9",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-d001ce26-05d1-42a9-8209-0fa876dc8807",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-90ba45ea-a1e7-42b4-9500-f8cb536fed5c",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-80c1876b-2289-411d-bb6b-fcd850c49cf6",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-05ad61f1-6cae-462f-aecf-7f4dcd91b0a7",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-2695eb00-b0c8-4b52-ab1d-6a4ea4adc0c8",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-221d9d13-4d70-4461-bb57-46ef69c7c951",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-cfefde77-f0e6-4ef4-83da-1fd43a1b9c50",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-5a651e33-593d-4fd9-b197-c70f7654f7bf",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-b80d7cc0-6fdf-40ea-afde-b88f0cb4a39b",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-b613b03a-286f-4fb2-a19f-c2d96f798ce4",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-280466d6-d9b9-477d-8d5b-2862e8f87d5f",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-ae76d48d-718e-4cf2-a9a4-cfd8a71a0551",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-01b6ec36-8f33-4abb-adec-5defd4fac46e",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-9ad10e1c-b5f1-420a-95b7-afd0ceeedfd4",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-98f4e76a-e411-45ec-b195-c870c23a0753",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-3203f816-d10e-460d-8680-a9b20114731a",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-072eb9e1-bf65-4faf-a4a7-11a3e23a66e1",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-c571d218-94fc-4d7d-a130-19493dbd871f",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-6e24c59f-792b-435b-872d-2d2e3378a0b9",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-e6b92619-917a-45db-a18d-b5eda0ebaaeb",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-fdef50bb-f0ef-418c-9eaf-399272ee7016",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-41bcc0d4-727f-4189-8559-ee295fcef735",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-4c047214-f74a-4857-b2ca-4012332dc7de",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-678cf23d-d669-4b5d-8121-7dc6feddafb1",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-c41cc194-b2db-4e5e-8733-5f46d0b0d047",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-842abb9a-7da7-4f7a-91c2-c27a98712b7e",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-5e1b4388-0bec-4bce-ab08-6b989e700f86",
+      "type": "blocked-by"
+    }
+  ],
+  "comments": [],
+  "created_at": "2026-10-30T19:29:36.178908Z",
+  "updated_at": "2026-10-30T19:29:51.926689Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

@@ -1,0 +1,22 @@
+{
+  "id": "videoml-7808d30f-30f3-428d-aa4f-a05a5388c0f6",
+  "title": "Observe cost and prove emergency shutdown behavior",
+  "description": "## Behavior and acceptance\nGiven the isolated account, when tracking costs, then account-wide reporting and service/project/job attribution expose compute, storage, transfer, and coordination costs. Budget/anomaly notifications supplement operational controls; delayed billing alerts are not a hard real-time cap. Test the operator kill switch, stalled jobs, duplicate submissions, retry storms, and spend-triggered admission shutdown before production enablement. Include a staged migration and inventory/retirement plan for old Babulus rendering resources to prevent double billing.\n\n## Ownership\nBabulus infrastructure; dedicated Babulus/VideoML AWS member account\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-84853c, videoml-811fde, videoml-b8fc78, videoml-bcf330. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review.",
+  "type": "story",
+  "status": "open",
+  "priority": 1,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-e832b847-d162-4d5c-8a7f-c5cf94a51cce",
+  "labels": [
+    "hyperframes-inspiration"
+  ],
+  "dependencies": [],
+  "comments": [],
+  "created_at": "2026-10-30T15:57:19.676108Z",
+  "updated_at": "2026-10-30T19:29:52.591771Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

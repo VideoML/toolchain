@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "fad66134-693b-4440-baa6-2c8d06bc1f56",
+  "issue_id": "videoml-1e460120-e596-4ca4-841b-9e38828761fe",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:53:37.102Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "Browse and find effects in the VideoML website",
+    "description": "## Behavior\nAs a visitor, I can browse visual examples and find an effect by category, name, or animation framework.\n\n## Acceptance scenarios\nGiven catalog metadata, when browsing, then searchable/filterable cards lead to stable detail URLs with representative previews. Categories reflect the inventory. Only implemented examples are presented as usable; planned coverage is clearly distinguished. The site remains usable on mobile and with keyboard navigation.\n\n## Ownership\nvideoml-org, stdlib, player\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.",
+    "issue_type": "story",
+    "status": "open",
+    "priority": 2,
+    "assignee": null,
+    "parent": "videoml-eb659c95-3465-4a82-a066-319f814354a7",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

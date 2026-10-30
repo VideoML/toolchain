@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "a097955d-9b08-4429-b796-a5acf07b12f1",
+  "issue_id": "videoml-42506cd6-608a-4e7c-91be-1723f95a5ce0",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T19:29:35.591Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "P16 — Verify real local speech and document setup",
+    "description": "## Dispatch packet P16\nRead initiative videoml-dbc2b1 sections D06,D07,D14 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\nAuritus, toolchain, videoml-org\nPrimary paths: integration fixture and voiceover docs. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Run Kokoro af_heart warm-model offline synthesis with credentials removed and outbound network disabled; listen to full clip and verify first/last sentence. Record resolved model revision, dependencies, hardware and license sources. Show same narrated VideoML locally.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\nreal audible output and duration report; fake backend cannot satisfy this gate.\n\n## Dependencies\nvideoml-48d9c8 (P15)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n",
+    "issue_type": "task",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-692db262-13be-46f7-9256-05e602167aaf",
+    "labels": [
+      "terra-packet"
+    ]
+  }
+}

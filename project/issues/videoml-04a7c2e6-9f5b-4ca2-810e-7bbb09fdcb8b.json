@@ -1,0 +1,22 @@
+{
+  "id": "videoml-04a7c2e6-9f5b-4ca2-810e-7bbb09fdcb8b",
+  "title": "Fall back to AWS Batch safely when local work is unavailable",
+  "description": "## Behavior and acceptance\nGiven an unclaimed job after the grace period, when cloud policy permits, then submit bounded AWS Batch work. Local and cloud workers acquire atomic fenced claims; late claims, duplicate messages, and retries cannot publish competing authoritative results. A crashed/stalled worker has heartbeat/lease expiry and bounded recovery; distinguish the claim window from maximum render duration. Cancellation and retries are observable and bounded.\n\n## Ownership\nBabulus rendering platform; VideoML public project/artifact contract\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-f708b4, videoml-e97334, videoml-e68602, videoml-5fd757, videoml-54b377, videoml-96c59f. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review.",
+  "type": "story",
+  "status": "open",
+  "priority": 1,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-49cdfa8f-a6cf-4c73-9f1f-76e6def3500d",
+  "labels": [
+    "hyperframes-inspiration"
+  ],
+  "dependencies": [],
+  "comments": [],
+  "created_at": "2026-10-30T15:57:19.565534Z",
+  "updated_at": "2026-10-30T19:29:52.023395Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

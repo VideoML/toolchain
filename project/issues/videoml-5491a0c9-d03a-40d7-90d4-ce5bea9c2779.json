@@ -1,0 +1,31 @@
+{
+  "id": "videoml-5491a0c9-d03a-40d7-90d4-ce5bea9c2779",
+  "title": "P08 — Adapt every pinned Hyperframes shader",
+  "description": "## Dispatch packet P08\nRead initiative videoml-dbc2b1 sections D03,D04 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\nstdlib\nPrimary paths: src/effects/transitions; catalog shader entries. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Enumerate every key in pinned shaders/registry.ts, adapt to P07 compositor and retain notices; parameterize accent/background. Do not use the global Hyperframes runtime.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\neach shader has start/mid/end captures and no blank/glitched boundary; shader count matches inventory.\n\n## Dependencies\nvideoml-0633d1 (P07), videoml-fa90b2 (P05)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n",
+  "type": "task",
+  "status": "open",
+  "priority": 1,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-a0007f8a-9e25-4a87-bbeb-8ce18c8704f8",
+  "labels": [
+    "terra-packet"
+  ],
+  "dependencies": [
+    {
+      "target": "videoml-0633d1f6-4bdf-4936-98c0-2a0b63c3176e",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-fa90b2a7-d449-4c9f-98d0-d546ed1de9d7",
+      "type": "blocked-by"
+    }
+  ],
+  "comments": [],
+  "created_at": "2026-10-30T19:29:35.240751Z",
+  "updated_at": "2026-10-30T19:29:35.275487Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "5b29d55d-0a9a-4528-9909-bd90acf59f4e",
+  "issue_id": "videoml-d0162c05-2f2d-48de-b176-263793ccda7b",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:53:36.975Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "Run migrated framework demos outside Babulus",
+    "description": "## Behavior\nAs a VideoML visitor, I can explore representative framework demos without running Babulus.\n\n## Acceptance scenarios\nGiven selected demos from Babulus examples and renderer registry, when migrated, then their assets, dependencies, and frame-driven controls run in a standalone VideoML fixture. Include representative Anime.js, Three.js, Lottie, D3, p5, and existing frame-driven motion examples where support is verified. No Babulus auth or voiceover is required.\n\n## Ownership\nstdlib, player, toolchain, videoml-org; Babulus as consumer\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.",
+    "issue_type": "story",
+    "status": "open",
+    "priority": 2,
+    "assignee": null,
+    "parent": "videoml-db06d1ec-7b28-4b51-8695-cbeef8c44b4b",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

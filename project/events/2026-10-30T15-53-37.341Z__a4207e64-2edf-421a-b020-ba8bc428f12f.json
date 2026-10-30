@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "a4207e64-2edf-421a-b020-ba8bc428f12f",
+  "issue_id": "videoml-734385cf-43e4-44fc-90da-4a58b9992446",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:53:37.341Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "Reconcile extracted package wiring and voiceover ownership",
+    "description": "Audit CLI imports, player stdlib paths, renderer exports, published package versions, and Babulus consumption. Establish a minimal runnable visual fixture. Record the intended boundary: VideoML standard/player/effects and Babulus voiceover production. Propose any code relocation with migration compatibility; do not move TTS code simply because it is present in the extracted toolchain.",
+    "issue_type": "task",
+    "status": "open",
+    "priority": 2,
+    "assignee": null,
+    "parent": "videoml-c22afbae-c4f5-4ded-9fb1-618507cecc2d",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

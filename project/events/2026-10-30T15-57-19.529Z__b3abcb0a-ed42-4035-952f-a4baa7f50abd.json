@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "b3abcb0a-ed42-4035-952f-a4baa7f50abd",
+  "issue_id": "videoml-49cdfa8f-a6cf-4c73-9f1f-76e6def3500d",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:57:19.529Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "M8 — Deliver portable Babulus rendering with local-first AWS Batch fallback",
+    "description": "## Outcome\nM8 — Deliver portable Babulus rendering with local-first AWS Batch fallback\n\n## Ownership\nBabulus rendering platform; VideoML public project/artifact contract\n\n## Decision\nVideoML includes voiceover and open Auritus-backed local synthesis. Babulus is an optional paid rendering service with portable inputs and outputs.\n\n## Completion\nChild behavior stories pass with linked evidence. Cloud account, budget, and pricing values remain decisions to resolve before provisioning or enabling paid execution.",
+    "issue_type": "epic",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-dbc2b1d7-9076-4d17-8ad0-74e546db76bb",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

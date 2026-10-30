@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "3abbf495-ae47-42a7-8ff0-a37379843408",
+  "issue_id": "videoml-1f032931-93b6-44e3-8a36-62bbb0d03ca2",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:57:19.602Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "Make paid rendering and fallback policy explicit",
+    "description": "## Behavior and acceptance\nGiven an author submitting work to Babulus, when paid cloud fallback is enabled, then configured limits and pricing/estimate policy are visible before submission. Local-only mode never silently falls back to paid rendering. Record local versus cloud execution and usage for billing; define commercial pricing separately rather than inventing it in implementation.\n\n## Ownership\nBabulus rendering platform; VideoML public project/artifact contract\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.",
+    "issue_type": "story",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-49cdfa8f-a6cf-4c73-9f1f-76e6def3500d",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "dfda4121-b4a0-46ab-a9cb-24128bf1e821",
+  "issue_id": "videoml-a6699cb9-3a11-4bc9-99f4-f2727fd54820",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T19:29:52.661Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "## Behavior and acceptance\nGiven a VideoML document with voice, narration cues, pauses, pronunciations, and provider configuration, when validated and compiled, then these semantics are documented by the standard and implemented by open tooling. Migrate the useful Babulus voiceover features with compatibility examples; provider-specific capabilities are explicit and portable fallbacks are documented.\n\n## Ownership\nspecification, toolchain, cli, player, videoml-org; Auritus owns reusable model backends\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.",
+        "to": "## Behavior and acceptance\nGiven a VideoML document with voice, narration cues, pauses, pronunciations, and provider configuration, when validated and compiled, then these semantics are documented by the standard and implemented by open tooling. Migrate the useful Babulus voiceover features with compatibility examples; provider-specific capabilities are explicit and portable fallbacks are documented.\n\n## Ownership\nspecification, toolchain, cli, player, videoml-org; Auritus owns reusable model backends\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-f4f9f3, videoml-fcfbb1, videoml-48d9c8, videoml-42506c. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review."
+      }
+    }
+  }
+}

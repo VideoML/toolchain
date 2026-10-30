@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "b33c1be5-cefa-45fc-932b-7e253f409b7a",
+  "issue_id": "videoml-04a7c2e6-9f5b-4ca2-810e-7bbb09fdcb8b",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T19:29:52.023Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "## Behavior and acceptance\nGiven an unclaimed job after the grace period, when cloud policy permits, then submit bounded AWS Batch work. Local and cloud workers acquire atomic fenced claims; late claims, duplicate messages, and retries cannot publish competing authoritative results. A crashed/stalled worker has heartbeat/lease expiry and bounded recovery; distinguish the claim window from maximum render duration. Cancellation and retries are observable and bounded.\n\n## Ownership\nBabulus rendering platform; VideoML public project/artifact contract\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.",
+        "to": "## Behavior and acceptance\nGiven an unclaimed job after the grace period, when cloud policy permits, then submit bounded AWS Batch work. Local and cloud workers acquire atomic fenced claims; late claims, duplicate messages, and retries cannot publish competing authoritative results. A crashed/stalled worker has heartbeat/lease expiry and bounded recovery; distinguish the claim window from maximum render duration. Cancellation and retries are observable and bounded.\n\n## Ownership\nBabulus rendering platform; VideoML public project/artifact contract\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-f708b4, videoml-e97334, videoml-e68602, videoml-5fd757, videoml-54b377, videoml-96c59f. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review."
+      }
+    }
+  }
+}

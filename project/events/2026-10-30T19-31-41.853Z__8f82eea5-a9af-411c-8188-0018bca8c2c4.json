@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "8f82eea5-a9af-411c-8188-0018bca8c2c4",
+  "issue_id": "videoml-692db262-13be-46f7-9256-05e602167aaf",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T19:31:41.853Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "## Outcome\nM7 — Standardize voiceover and integrate open local Auritus TTS\n\n## Ownership\nspecification, toolchain, cli, player, videoml-org; Auritus owns reusable model backends\n\n## Decision\nVideoML includes voiceover and open Auritus-backed local synthesis. Babulus is an optional paid rendering service with portable inputs and outputs.\n\n## Completion\nChild behavior stories pass with linked evidence. Cloud account, budget, and pricing values remain decisions to resolve before provisioning or enabling paid execution.",
+        "to": "## Outcome\nM7 — Standardize voiceover and integrate open local Auritus TTS\n\n## Ownership\nspecification, toolchain, cli, player, videoml-org; Auritus owns reusable model backends\n\n## Decision\nVideoML includes voiceover and open Auritus-backed local synthesis. Babulus is an optional paid rendering service with portable inputs and outputs.\n\n## Completion\nChild behavior stories pass with linked evidence. Architecture, region, budgets, grace period, pilot pricing, and limits are decided in initiative D01–D15. Only real deployment identity facts require validation before provisioning; do not invent them. Dispatch the bounded packets, not this epic as a single coding task."
+      }
+    }
+  }
+}

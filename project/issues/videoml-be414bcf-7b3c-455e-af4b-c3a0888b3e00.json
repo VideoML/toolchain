@@ -1,0 +1,27 @@
+{
+  "id": "videoml-be414bcf-7b3c-455e-af4b-c3a0888b3e00",
+  "title": "M4 — Build out the reusable effects catalog",
+  "description": "## Outcome\nImplement catalog coverage in reviewable category batches, prioritizing distinctive reusable effects.\n\n## Ownership\nstdlib, toolchain, player\n\n## Completion\nAll child behavior stories have implementation and verification evidence. Update the parent initiative body with decisions, coverage, and remaining work. This is planned work, not a claim that the features already ship.",
+  "type": "epic",
+  "status": "open",
+  "priority": 2,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-dbc2b1d7-9076-4d17-8ad0-74e546db76bb",
+  "labels": [
+    "hyperframes-inspiration"
+  ],
+  "dependencies": [
+    {
+      "target": "videoml-c22afbae-c4f5-4ded-9fb1-618507cecc2d",
+      "type": "blocked-by"
+    }
+  ],
+  "comments": [],
+  "created_at": "2026-10-30T15:53:37.041334Z",
+  "updated_at": "2026-10-30T15:53:37.230921Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

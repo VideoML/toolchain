@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "9fb26d43-c688-45e0-a683-249caee789de",
+  "issue_id": "videoml-92a7a3d9-6935-49fb-abe9-61454391cfda",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:53:37.066Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "Apply motion trails and echo smear",
+    "description": "## Behavior\nAs an author, I can add trails that follow object motion without manually animating every copy.\n\n## Acceptance scenarios\nGiven a trajectory, when sampled in any frame order or worker partition, then the trail matches sequential playback. Document precomputation, supported targets, memory limits, and how parameter edits invalidate cached trajectories.\n\n## Ownership\nstdlib, toolchain, player\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.",
+    "issue_type": "story",
+    "status": "open",
+    "priority": 2,
+    "assignee": null,
+    "parent": "videoml-be414bcf-7b3c-455e-af4b-c3a0888b3e00",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

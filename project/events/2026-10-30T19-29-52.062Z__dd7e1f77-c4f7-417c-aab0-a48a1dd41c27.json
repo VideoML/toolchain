@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "dd7e1f77-c4f7-417c-aab0-a48a1dd41c27",
+  "issue_id": "videoml-074938ac-0dba-48c3-b6c5-173f639ab6bf",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T19:29:52.062Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "## Behavior and acceptance\nGiven reusable speech capability gaps exposed by VideoML, when implemented, then fixes belong in Auritus rather than a forked model backend inside VideoML. Provide a stable programmatic speech interface, capability discovery, completion/error metadata, and integration fixtures; file linked Auritus issues before product changes. Keep website extraction optional for direct text synthesis.\n\n## Ownership\nspecification, toolchain, cli, player, videoml-org; Auritus owns reusable model backends\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.",
+        "to": "## Behavior and acceptance\nGiven reusable speech capability gaps exposed by VideoML, when implemented, then fixes belong in Auritus rather than a forked model backend inside VideoML. Provide a stable programmatic speech interface, capability discovery, completion/error metadata, and integration fixtures; file linked Auritus issues before product changes. Keep website extraction optional for direct text synthesis.\n\n## Ownership\nspecification, toolchain, cli, player, videoml-org; Auritus owns reusable model backends\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-f4f9f3, videoml-fcfbb1, videoml-48d9c8, videoml-42506c. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review."
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "053d1404-8a95-49f8-8cf3-96ef08e0e9ab",
+  "issue_id": "videoml-3cfb5193-e429-47be-9ac9-07241a94658d",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:53:37.164Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "Compose polished scenes using documented motion recipes",
+    "description": "## Behavior\nAs a human or agent author, I can combine effects into coherent VideoML scenes.\n\n## Acceptance scenarios\nGiven catalog components, when following recipes for pacing, easing, stagger, hierarchy, holds, and transitions, then complete runnable examples demonstrate the intended result. Publish a visual-only showcase and guidance on mixing compatible frameworks; keep Babulus narration workflows separate.\n\n## Ownership\ntoolchain, videoml-org, player; Babulus integration\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.",
+    "issue_type": "story",
+    "status": "open",
+    "priority": 2,
+    "assignee": null,
+    "parent": "videoml-10636dcf-4c56-4627-8110-d976b740ac59",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "8b4b28f5-8892-421c-89cd-2b3c515c87ab",
+  "issue_id": "videoml-de1b77c7-bb84-4aa2-a9cf-a32504c91d80",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:53:37.177Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "Use catalog effects in a narrated Babulus production",
+    "description": "## Behavior\nAs a Babulus author, I can combine VideoML catalog effects with Babulus voiceover.\n\n## Acceptance scenarios\nGiven a Babulus narrated fixture using shared effects, when voiceover timing changes, then supported cue-relative visuals follow correctly and preview/export remain consistent. Verify against actual package manifests rather than stale alias instructions, and document the package boundary and migration. No voiceover service is required for the separate VideoML catalog checks.\n\n## Ownership\ntoolchain, videoml-org, player; Babulus integration\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.",
+    "issue_type": "story",
+    "status": "open",
+    "priority": 2,
+    "assignee": null,
+    "parent": "videoml-10636dcf-4c56-4627-8110-d976b740ac59",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

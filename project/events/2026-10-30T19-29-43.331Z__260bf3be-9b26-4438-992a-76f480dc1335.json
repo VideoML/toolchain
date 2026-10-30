@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "260bf3be-9b26-4438-992a-76f480dc1335",
+  "issue_id": "videoml-d8b8c20c-6324-4024-8a65-89e41711c517",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T19:29:43.331Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "C054 — Adapt blocks: carousel-path-4, carousel-path-5, carousel-text-circle-1, carousel-text-circle-2, carousel-text-circle-3",
+    "description": "## Dispatch packet C054: blocks\nBinding decisions: initiative videoml-dbc2b1 D02–D05,D14,D15. Upstream commit 28181602fe2d9ffa38474a6e8155a89909a7b8aa.\n\n## Exact upstream entries (complete all, no additions)\n- registry/blocks/carousel-path-4\n- registry/blocks/carousel-path-5\n- registry/blocks/carousel-text-circle-1\n- registry/blocks/carousel-text-circle-2\n- registry/blocks/carousel-text-circle-3\n\n## Owner and outputs\nVideoML/stdlib owns implementations and catalog records. Reuse player/toolchain EffectInstance. Update videoml-org only through manifest consumption; no duplicate effect code. Upstream source is read-only.\n\n## Procedure\nFor each listed entry: read its registry-item/source and dependencies; use the P05 mapping if its effect was already delivered by P06/P08/P09/P10, verify and link rather than duplicate. Otherwise adapt the source to D02 using its existing animation framework. Remove Hyperframes global timeline/runtime coupling via the VideoML adapter. Bundle neutral licensed fixture assets and preserve source notices. For interactive/network examples, record a deterministic scripted timeline and local fixture assets; no live API dependencies in capture. Expose meaningful source parameters as validated metadata, document dimensions/duration/seed/framework. Produce source example and poster/video preview. Run sequential/reverse/random/boundary captures and two-worker partition checks. Mark verified only after primary review.\n\n## Acceptance\nEvery listed item has an inventory mapping, actual reusable implementation or verified shared alias, runnable fixture, parameter schema, local dependencies, licensing/provenance, and D14 evidence. Review screenshots against upstream's intended visual behavior, not just nonempty pixels. Do not claim broader catalog completion. Unknown asset license => neutral replacement; unresolvable functionality => return to primary for a recorded decision, not a silent omission.\n\n## Handoff\nReturn a per-entry table of paths, verification commands, capture artifacts and remaining failures. No publishing or issue closure by worker. Process at most one such packet per worker; no two workers edit shared registry files concurrently.\n",
+    "issue_type": "task",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-be414bcf-7b3c-455e-af4b-c3a0888b3e00",
+    "labels": [
+      "terra-packet"
+    ]
+  }
+}

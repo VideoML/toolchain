@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "7f9ea57b-b143-4b30-ba94-99e4d1d9c932",
+  "issue_id": "videoml-0bb124aa-182c-4294-846d-32380afa4807",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T19:29:36.178Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "P28 — Run final acceptance and controlled service cutover",
+    "description": "## Dispatch packet P28\nRead initiative videoml-dbc2b1 sections D14,D15 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\nall owning repositories\nPrimary paths: release manifest; migration report; acceptance evidence. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Primary-owned release review: complete catalog count, package lock manifest, offline rendering, narration smoke, Babulus preview/export, cloud drills and pricing UI. Deploy package changes before consumer changes. Disable old paid dispatch permanently, migrate jobs explicitly, retain artifacts. Rollback stops cloud and restores last verified application packages. No auto-enable on passing CI.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\nfull evidence report; primary accepts each gate; no unverified catalog entries counted complete.\n\n## Dependencies\nvideoml-bcf330 (P26), videoml-4d3c79 (P27), videoml-5491a0 (P08), videoml-527ed2 (P09), videoml-eb5a8e (P10)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n",
+    "issue_type": "task",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-10636dcf-4c56-4627-8110-d976b740ac59",
+    "labels": [
+      "terra-packet"
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "5a8fda83-bea8-4a3e-9b3c-7f36bedcded1",
+  "issue_id": "videoml-562772db-63a8-40b6-8355-3c05e81e9e01",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:53:37.054Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "Create seeded particle text and image reveals",
+    "description": "## Behavior\nAs an author, I can assemble or dissolve text and images using particles.\n\n## Acceptance scenarios\nGiven seed, text/image, density, and dimensions, when any frame is requested, then the particle state is reproducible without incremental wall-clock simulation. Expose reveal/dissolve direction, color tokens, duration, and cue-relative placement; retain source/asset provenance.\n\n## Ownership\nstdlib, toolchain, player\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.",
+    "issue_type": "story",
+    "status": "open",
+    "priority": 2,
+    "assignee": null,
+    "parent": "videoml-be414bcf-7b3c-455e-af4b-c3a0888b3e00",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

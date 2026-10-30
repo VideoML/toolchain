@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "e41af887-49c7-47ff-bc4c-3a58e75dc2df",
+  "issue_id": "videoml-3385df53-9755-45f1-b774-32c45fa4ea61",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T19:29:52.234Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "## Behavior and acceptance\nGiven the existing AWS Organization, when the dedicated Babulus/VideoML member account is provisioned through the agreed account process, then rendering resources and attributed costs reside there. Confirm account name/email, OU, region, access roles, budget recipients and limits before provisioning. Use infrastructure as code and temporary role-based credentials. No AWS resources or accounts are created by this planning issue.\n\n## Ownership\nBabulus infrastructure; dedicated Babulus/VideoML AWS member account\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.",
+        "to": "## Behavior and acceptance\nGiven the existing AWS Organization, when the dedicated Babulus/VideoML member account is provisioned through the agreed account process, then rendering resources and attributed costs reside there. Use D10–D13 defaults; validate deployment identity facts before provisioning. Use infrastructure as code and temporary role-based credentials. No AWS resources or accounts are created by this planning issue.\n\n## Ownership\nBabulus infrastructure; dedicated Babulus/VideoML AWS member account\n\n## Verification\nSpecify Given/When/Then fixtures before implementation and link results before closing. This issue is planned work, not a claim of shipped functionality.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-84853c, videoml-811fde, videoml-b8fc78, videoml-bcf330. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review."
+      }
+    }
+  }
+}

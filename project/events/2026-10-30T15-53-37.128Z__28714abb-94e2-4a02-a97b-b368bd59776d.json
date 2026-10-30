@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "28714abb-94e2-4a02-a97b-b368bd59776d",
+  "issue_id": "videoml-d1ad4907-4458-4915-9975-cb3449c2afce",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:53:37.128Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "Maintain one source for demos and catalog documentation",
+    "description": "## Behavior\nAs a maintainer, I can update a shared effect without website examples drifting from it.\n\n## Acceptance scenarios\nGiven an effect release, when catalog data and examples are built, then identifiers, parameter definitions, and runnable fixtures resolve to versioned shared implementations. Upstream inspiration and applicable notices are visible; CI catches missing assets, stale source links, and invalid examples.\n\n## Ownership\nvideoml-org, stdlib, player\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.",
+    "issue_type": "story",
+    "status": "open",
+    "priority": 2,
+    "assignee": null,
+    "parent": "videoml-eb659c95-3465-4a82-a066-319f814354a7",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

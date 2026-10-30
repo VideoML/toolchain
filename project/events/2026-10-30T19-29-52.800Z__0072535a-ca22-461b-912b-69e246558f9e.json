@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "0072535a-ca22-461b-912b-69e246558f9e",
+  "issue_id": "videoml-b881c286-7f47-429d-beae-4f7343940f25",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T19:29:52.800Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "## Behavior\nVideoML authors can use visual effects alone or standard voiceover with open Auritus-backed local synthesis, without a Babulus account.\n\n## Acceptance\nGiven a visual-only composition, when previewed or exported, no voice model/provider is required.\nGiven a narrated composition and a supported installed Auritus model, when generated locally, speech and timing require no paid provider or hosted rendering service.\nBabulus-specific orchestration is optional; standard voiceover belongs in VideoML.",
+        "to": "## Behavior\nVideoML authors can use visual effects alone or standard voiceover with open Auritus-backed local synthesis, without a Babulus account.\n\n## Acceptance\nGiven a visual-only composition, when previewed or exported, no voice model/provider is required.\nGiven a narrated composition and a supported installed Auritus model, when generated locally, speech and timing require no paid provider or hosted rendering service.\nBabulus-specific orchestration is optional; standard voiceover belongs in VideoML.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-207e97, videoml-684f74, videoml-d42794, videoml-fa90b2. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review."
+      }
+    }
+  }
+}

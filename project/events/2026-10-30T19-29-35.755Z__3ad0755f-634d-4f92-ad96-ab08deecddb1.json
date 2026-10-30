@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "3ad0755f-634d-4f92-ad96-ab08deecddb1",
+  "issue_id": "videoml-84853cbc-ca85-45c4-bbc6-abe3b2a56a1e",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T19:29:35.755Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "P20 — Resolve account manifest and synthesize deployment",
+    "description": "## Dispatch packet P20\nRead initiative videoml-dbc2b1 sections D10,D13 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\nBabulus\nPrimary paths: infra/rendering CDK; gitignored deployment.local.json. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Implement D10/D13 account discovery/preflight and CDK skeleton. Determine account/OU facts read-only, require verified unique root email and budget recipient. Generate reviewable bootstrap/account operations without running them. Existing unrelated Auritus account is not the new account.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\nCDK synth and account mismatch/missing facts tests; cloud remains disabled.\n\n## Dependencies\nvideoml-e97334 (P18)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n",
+    "issue_type": "task",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-e832b847-d162-4d5c-8a7f-c5cf94a51cce",
+    "labels": [
+      "terra-packet"
+    ]
+  }
+}

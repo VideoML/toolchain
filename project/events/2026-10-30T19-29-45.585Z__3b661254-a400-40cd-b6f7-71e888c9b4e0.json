@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "3b661254-a400-40cd-b6f7-71e888c9b4e0",
+  "issue_id": "videoml-2695eb00-b0c8-4b52-ab1d-6a4ea4adc0c8",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T19:29:45.585Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "C070 — Adapt blocks: lt-accent-underline, lt-bold-block, lt-clean-bar, lt-color-block, lt-dark-card",
+    "description": "## Dispatch packet C070: blocks\nBinding decisions: initiative videoml-dbc2b1 D02–D05,D14,D15. Upstream commit 28181602fe2d9ffa38474a6e8155a89909a7b8aa.\n\n## Exact upstream entries (complete all, no additions)\n- registry/blocks/lt-accent-underline\n- registry/blocks/lt-bold-block\n- registry/blocks/lt-clean-bar\n- registry/blocks/lt-color-block\n- registry/blocks/lt-dark-card\n\n## Owner and outputs\nVideoML/stdlib owns implementations and catalog records. Reuse player/toolchain EffectInstance. Update videoml-org only through manifest consumption; no duplicate effect code. Upstream source is read-only.\n\n## Procedure\nFor each listed entry: read its registry-item/source and dependencies; use the P05 mapping if its effect was already delivered by P06/P08/P09/P10, verify and link rather than duplicate. Otherwise adapt the source to D02 using its existing animation framework. Remove Hyperframes global timeline/runtime coupling via the VideoML adapter. Bundle neutral licensed fixture assets and preserve source notices. For interactive/network examples, record a deterministic scripted timeline and local fixture assets; no live API dependencies in capture. Expose meaningful source parameters as validated metadata, document dimensions/duration/seed/framework. Produce source example and poster/video preview. Run sequential/reverse/random/boundary captures and two-worker partition checks. Mark verified only after primary review.\n\n## Acceptance\nEvery listed item has an inventory mapping, actual reusable implementation or verified shared alias, runnable fixture, parameter schema, local dependencies, licensing/provenance, and D14 evidence. Review screenshots against upstream's intended visual behavior, not just nonempty pixels. Do not claim broader catalog completion. Unknown asset license => neutral replacement; unresolvable functionality => return to primary for a recorded decision, not a silent omission.\n\n## Handoff\nReturn a per-entry table of paths, verification commands, capture artifacts and remaining failures. No publishing or issue closure by worker. Process at most one such packet per worker; no two workers edit shared registry files concurrently.\n",
+    "issue_type": "task",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-be414bcf-7b3c-455e-af4b-c3a0888b3e00",
+    "labels": [
+      "terra-packet"
+    ]
+  }
+}

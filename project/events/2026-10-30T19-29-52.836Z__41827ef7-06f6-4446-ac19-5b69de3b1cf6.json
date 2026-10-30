@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "41827ef7-06f6-4446-ac19-5b69de3b1cf6",
+  "issue_id": "videoml-d0162c05-2f2d-48de-b176-263793ccda7b",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T19:29:52.836Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "## Behavior\nAs a VideoML visitor, I can explore representative framework demos without running Babulus.\n\n## Acceptance scenarios\nGiven selected demos from Babulus examples and renderer registry, when migrated, then their assets, dependencies, and frame-driven controls run in a standalone VideoML fixture. Include representative Anime.js, Three.js, Lottie, D3, p5, and existing frame-driven motion examples where support is verified. No Babulus auth or voiceover is required.\n\n## Ownership\nstdlib, player, toolchain, videoml-org; Babulus as consumer\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.",
+        "to": "## Behavior\nAs a VideoML visitor, I can explore representative framework demos without running Babulus.\n\n## Acceptance scenarios\nGiven selected demos from Babulus examples and renderer registry, when migrated, then their assets, dependencies, and frame-driven controls run in a standalone VideoML fixture. Include representative Anime.js, Three.js, Lottie, D3, p5, and existing frame-driven motion examples where support is verified. No Babulus auth or voiceover is required.\n\n## Ownership\nstdlib, player, toolchain, videoml-org; Babulus as consumer\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-2779f2, videoml-ca79a1. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review."
+      }
+    }
+  }
+}

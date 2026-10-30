@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "0ca28288-e2b9-4ff2-8e66-1cd9f7ee68b1",
+  "issue_id": "videoml-b17a361c-1771-4da8-9fd2-62efb18bc8f8",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T19:29:52.731Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "## Behavior\nAs an author, I can choose VideoML equivalents across the Hyperframes catalog.\n\n## Acceptance scenarios\nGiven the pinned inventory, when batches ship for typography, transitions, charts/data, UI/device scenes, overlays, camera motion, and 3D/procedural effects, then each completed entry has a runnable fixture, public documentation, parameters, and verification evidence. Add child work for remaining entries; every deferral stays visible and justified. Generic transforms alone do not count as reproducing a named visual.\n\n## Ownership\nstdlib, toolchain, player\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.",
+        "to": "## Behavior\nAs an author, I can choose VideoML equivalents across the Hyperframes catalog.\n\n## Acceptance scenarios\nGiven the pinned inventory, when batches ship for typography, transitions, charts/data, UI/device scenes, overlays, camera motion, and 3D/procedural effects, then each completed entry has a runnable fixture, public documentation, parameters, and verification evidence. Add child work for remaining entries; every deferral stays visible and justified. Generic transforms alone do not count as reproducing a named visual.\n\n## Ownership\nstdlib, toolchain, player\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-527ed2, videoml-eb5a8e. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review."
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event_id": "60ed40a0-8b6b-4b9c-a77e-666d9ed6612a",
+  "issue_id": "videoml-b881c286-7f47-429d-beae-4f7343940f25",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-30T15:53:36.909Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "Keep VideoML effects independent of Babulus voiceover",
+    "description": "## Behavior\nAs a VideoML author, I can preview and render visual effects without a voice provider or Babulus account.\n\n## Acceptance scenarios\nGiven a visual-only composition, when it is previewed and exported, then no TTS credentials or paid media service are required.\nGiven narration-related code in the extracted toolchain, when ownership is reconciled, then docs distinguish standard timing/cue semantics from Babulus voice synthesis and migration preserves Babulus behavior.\n\n## Ownership\ntoolchain, specification, player, stdlib; consult Babulus\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.",
+    "issue_type": "story",
+    "status": "open",
+    "priority": 2,
+    "assignee": null,
+    "parent": "videoml-c22afbae-c4f5-4ded-9fb1-618507cecc2d",
+    "labels": [
+      "hyperframes-inspiration"
+    ]
+  }
+}

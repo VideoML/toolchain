@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "e2598655-2092-465c-843c-4d11d9344291",
+  "issue_id": "videoml-14f3ffec-1d7a-4250-98c6-051721e577c5",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-30T19:29:53.008Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "Pin the inspected Hyperframes revision and inventory each reused source or asset. Preserve applicable LICENSE/NOTICE and attribution for adapted code; distinguish reimplementation inspired by a visual from copied code. Verify individual third-party asset/library terms before distribution. Keep provenance alongside catalog records.",
+        "to": "Pin the inspected Hyperframes revision and inventory each reused source or asset. Preserve applicable LICENSE/NOTICE and attribution for adapted code; distinguish reimplementation inspired by a visual from copied code. Verify individual third-party asset/library terms before distribution. Keep provenance alongside catalog records.\n\n## Dispatch clarification\nImplement through videoml-fa90b2. This task coordinates those packets; do not independently implement the same work twice."
+      }
+    }
+  }
+}

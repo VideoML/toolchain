@@ -1,0 +1,31 @@
+{
+  "id": "videoml-eb659c95-3465-4a82-a066-319f814354a7",
+  "title": "M5 — Publish the VideoML website effects catalog",
+  "description": "## Outcome\nThe VideoML website becomes a browsable, runnable catalog of effects inspired by Hyperframes and migrated Babulus demos.\n\n## Ownership\nvideoml-org, stdlib, player\n\n## Completion\nAll child behavior stories have implementation and verification evidence. Update the parent initiative body with decisions, coverage, and remaining work. This is planned work, not a claim that the features already ship.",
+  "type": "epic",
+  "status": "open",
+  "priority": 2,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-dbc2b1d7-9076-4d17-8ad0-74e546db76bb",
+  "labels": [
+    "hyperframes-inspiration"
+  ],
+  "dependencies": [
+    {
+      "target": "videoml-c22afbae-c4f5-4ded-9fb1-618507cecc2d",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-db06d1ec-7b28-4b51-8695-cbeef8c44b4b",
+      "type": "blocked-by"
+    }
+  ],
+  "comments": [],
+  "created_at": "2026-10-30T15:53:37.090743Z",
+  "updated_at": "2026-10-30T15:53:37.261974Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

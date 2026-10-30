@@ -1,0 +1,22 @@
+{
+  "id": "videoml-1e460120-e596-4ca4-841b-9e38828761fe",
+  "title": "Browse and find effects in the VideoML website",
+  "description": "## Behavior\nAs a visitor, I can browse visual examples and find an effect by category, name, or animation framework.\n\n## Acceptance scenarios\nGiven catalog metadata, when browsing, then searchable/filterable cards lead to stable detail URLs with representative previews. Categories reflect the inventory. Only implemented examples are presented as usable; planned coverage is clearly distinguished. The site remains usable on mobile and with keyboard navigation.\n\n## Ownership\nvideoml-org, stdlib, player\n\n## Evidence\nLink implementation, runnable fixtures, and verification results before closing. Keep product-boundary decisions in the parent initiative.\n\n## Implementation handoff\nDo not dispatch this broad story directly. Dispatch the bounded Terra packets under this milestone: videoml-d177d1, videoml-a2767d. Binding contracts/defaults and review gates are in initiative videoml-dbc2b1 D01–D15. Story closure requires all relevant packet evidence and primary review.",
+  "type": "story",
+  "status": "open",
+  "priority": 2,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-eb659c95-3465-4a82-a066-319f814354a7",
+  "labels": [
+    "hyperframes-inspiration"
+  ],
+  "dependencies": [],
+  "comments": [],
+  "created_at": "2026-10-30T15:53:37.102415Z",
+  "updated_at": "2026-10-30T19:29:52.098226Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}
