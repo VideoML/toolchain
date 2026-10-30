@@ -32,10 +32,24 @@
       "text": "P12 first implementation owns website only, consumes frozen acceptedP10 stdlib plus frozenP15 player if needed. P07 owns movingplayer source; do not edit/import it concurrently. Extend shared registry-driven preview to all implemented entries as catalog refreshes; planned entries remain unavailable. No allcatalogeffect completion claim.",
       "created_at": "2026-10-30T22:55:04.196940Z",
       "comment_type": "default"
+    },
+    {
+      "id": "80ab6c43-4194-4915-8d99-987cd59d71ef",
+      "author": "home",
+      "text": "P12 TypeScript preview foundation reviewed and checkpointed ce938b1 in draft https://github.com/VideoML/videoml-org/pull/1 (attached). Primary5 scoped tests and actual movingecho/particle visuals passed; latestbuild plus real3effect controls/noexternal/assetfailure and delayedmount/seek browsertests passed. Independentreview confirms timeout cannot resurrectfailediframe. XML remains P12a and PRstaysdraft; no closure or deployment. P12a transferred toTerra p02 after p13 capacityerrors, preserving partialsource.",
+      "created_at": "2026-10-30T23:08:25.877962Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "1afe8cd8-accd-44cb-b95d-8a4eeb575924",
+      "author": "home",
+      "text": "P12 website source now generates copyable XML for all three implemented previews with applied parameters, deterministic seed, 1280x720/30fps interval, and downloadable owned assets with relative directory instructions. Primary inspected source and ran test:preview: seven tests pass, including XML escaping and lifecycle regressions. No Gatsby build/browser validation yet: P12a retains heavy slot; accepted package handoff and actual copied-site-XML CLI parity remain required. Draft PR stays open; no deployment.",
+      "created_at": "2026-10-30T23:36:25.429229Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.430026Z",
-  "updated_at": "2026-10-30T22:59:27.700945Z",
+  "updated_at": "2026-10-30T23:36:25.429842Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,

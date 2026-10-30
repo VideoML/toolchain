@@ -17,9 +17,38 @@
       "type": "blocked-by"
     }
   ],
-  "comments": [],
+  "comments": [
+    {
+      "id": "e2882fba-f253-420d-8d54-62d77eb06105",
+      "author": "home",
+      "text": "D05b asset syntax and local/browser resolution decisions added to initiative. Scope extends CLI src/cli.ts assetBaseDir plumbing and shared timing metadata classification as needed. XML declares root assets/asset; generated script references hashed staged local files, no absolute machine paths; normalCLI pipeline/render resolves them without extra custom hostadapter.",
+      "created_at": "2026-10-30T23:16:57.489600Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "961439af-627d-4300-845d-7cf7c97fc6f1",
+      "author": "home",
+      "text": "Primary viewed actual packed-consumer XML text particle export at frame 60 with local WOFF2; visible dissolved VideoML text at 1280x720, CLI MP4 completed. Browser asset smoke reports same-origin font, omitted dimensions, 404, redirect denial with zero external requests, and malformed media rejection. Latest player changes require refreshed packs. Independent review additionally identified missing fail-closed network interception in automatic screenshot capture and missing non-frozen transition-child interval projection; assigned both to Terra. Not accepted yet: all-three-effect direct-TS frame parity, refreshed packed consumer and remaining lifecycle/timing cases still required.",
+      "created_at": "2026-10-30T23:27:12.996398Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "e07867e9-c28e-4962-b3af-62a5012492fc",
+      "author": "home",
+      "text": "Independent narrow re-review confirms capture timeout finding resolved: setup/scripts/policy/screenshot/disposal and page/context/browser cleanup are bounded and preserve primary failure. Primary reran deferred screenshot and hanging error-cleanup adapter tests (2/2). Real Chromium stalled mount and seek both timed out with cleanup. Refreshed six-package consumer now testing 24fps/seed42 and durable repeated/reverse/random ordinal parity; acceptance remains pending that evidence and requirement handoff.",
+      "created_at": "2026-10-30T23:33:22.579020Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "95308a39-5ddf-458b-a537-f9db0414e1f1",
+      "author": "home",
+      "text": "Primary acceptance: actual extracted six-package consumer, no VideoML dependency symlinks, local font/image and provider-free CLI pipelines for three effects. Primary reran42 exact decoded RGBA comparisons at24fps/seed42 including repeated/reverse/random frames, plus9 scene/layer/transition player vs standalone-script capture comparisons. Authored FPS/seed and generated script seed persisted; frozen timing authoritative. Independent review cleared asset/network/lifecycle findings; real stalled effects/network regressions passed. Primary parser/assets6, shared adapter2, timeout adapter2 pass; worker lint/player tsc/legacy6 pass. Dependency tree reused, not a fresh network install. P12a product accepted for landing; Linux release/P28 and website copied-source acceptance remain separate.",
+      "created_at": "2026-10-30T23:40:01.965306Z",
+      "comment_type": "default"
+    }
+  ],
   "created_at": "2026-10-30T22:56:47.653003Z",
-  "updated_at": "2026-10-30T23:01:52.154894Z",
+  "updated_at": "2026-10-30T23:40:01.965799Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,

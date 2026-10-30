@@ -3,7 +3,7 @@
   "title": "P20a — Prove cloud renderer isolation boundary",
   "description": "Before P23 rollout, prove the D08/D10 credentialed-supervisor versus untrusted-renderer boundary on the exact proposed Batch Fargate runtime. Produce runnable launch configuration and adversarial probes: renderer cannot read supervisor secrets, task credentials or task metadata; cannot reach external network, link-local or account service endpoints; cannot alter other jobs or supervisor state; reads only validated bundle and writes only its output. Chromium request interception alone is not an OS isolation proof. No production enablement or paid drill until primary accepts this evidence. Start with documentation and local representative runtime probes; any cloud proof must use the dedicated account and D11 bounded admission. If Fargate cannot enforce the boundary, stop this packet and have the primary record a concrete runtime revision, including capacity and cost controls, before P23 implementation. Do not quietly weaken D08 or mark source configuration as verified isolation. Existing local implementation work remains independent.",
   "type": "task",
-  "status": "open",
+  "status": "in_progress",
   "priority": 2,
   "assignee": null,
   "creator": null,
@@ -19,10 +19,38 @@
       "text": "Primary P20a decision: retain Batch Fargate as an unproven candidate and implement a fail-closed launcher/probe before provisioning or P23 enablement. Do not switch to EC2 merely to bypass proof. Candidate boundary: supervisor validates/stages bundle; separate child UID/GID with no supplementary groups/caps, scrubbed env, closed inherited descriptors except bounded stdio/result pipe, no_new_privs, inherited architecture-checked seccomp and required Landlock filesystem policy. Seccomp alone is not a sandbox. Probe actual runtime Landlock ABI and required syscall behavior; unsupported means terminal ISOLATION_UNAVAILABLE, no renderer exec or weaker fallback. Policy must cover network creation/connect/send including IPv4/IPv6/UDP/link-local/localhost, inherited sockets, proc/ptrace/process_vm/pidfd descriptor access, Unix sockets/IPC, file reads/writes outside bundle/output/runtime allowlist, alternate mechanisms such as io_uring, children and cancellation cleanup. Chromium/FFmpeg must remain usable under the actual policy. No host/kernel isolation claim from source or local tests. Exact dedicated-account Batch adversarial proof remains required under bounded D11 admission; if unavailable, primary must record concrete EC2/microVM revision with idle-cost controls before proceeding.\n\nSources from read-only Terra review: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-tasks-services.html ; https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-security-considerations.html ; https://docs.kernel.org/userspace-api/seccomp_filter.html ; https://docs.kernel.org/userspace-api/landlock.html . No cloud changes performed. This decision schedules capability proof, not approval of isolation.",
       "created_at": "2026-10-30T22:51:13.480769Z",
       "comment_type": "default"
+    },
+    {
+      "id": "242a44c1-04d4-412d-95c4-d6d1b76a3309",
+      "author": "home",
+      "text": "Native babulus-b4a899 created for source prototype and local adversarial probes. Existing DockerDesktop29.9.2 ARM64 and rust:slim image e8f786c... verified; no container/imagebuild or cloudproof yet. Source work may run alongside P12a; primary heavy-slot grant required before any container test. No commits inBabulus withoutapproval.",
+      "created_at": "2026-10-30T23:13:37.469515Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "86c61b9e-9492-465a-bb65-3d9bf287499b",
+      "author": "home",
+      "text": "Primary lifecycle decision after independent review: delegated cgroup v2 inside Fargate is not mandatory. Candidate uses unique pre-sandbox renderer process group, denies setsid/setpgid and verifies clone/other escape prevention, bounded supervisor group kill/reap; ultimate boundary is external Batch TerminateJob plus authoritative ECS task STOPPED. Retain slot/reservation until both terminal; uncertain supervision or termination stops admission and reconciles. Local outer-container kill is only analogous evidence. Current policy denies Unix IPC/socketpair and Chromium compatibility remains unproven; any exception must be narrow and adversarially tested. Default deployment guard remains until exact Fargate proof. Sources: AWS Batch job_states and ECS task-lifecycle-explanation official docs, linked in reviewer evidence.",
+      "created_at": "2026-10-30T23:18:09.015509Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "eede4d22-1229-40b3-9a6e-da7698c08db0",
+      "author": "home",
+      "text": "Primary inspected local ARM logs: 21 named syscall/filesystem/descriptor denials, permitted I/O, child inheritance, group cancellation and 4 Behave scenarios/12 steps. Normal build remains fail-closed. This does not establish Chromium/FFmpeg compatibility, Fargate x86 behavior, supervisor-loss recovery or AWS slot/reservation release. Independent review found lost output-reader exceptions in supervisor.py; Terra is fixing and adding failure tests before acceptance. P20a remains in_progress; P23 cloud gate remains closed.",
+      "created_at": "2026-10-30T23:25:35.790105Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "4432000d-3e8b-4c17-8bbe-4d47e9cd2909",
+      "author": "home",
+      "text": "P20a real local Linux failure-path rerun passed six scenarios/eighteen steps. Debian Chromium/FFmpeg preflight halted before downloads at 1.21 GiB conservative additional disk, exceeding initial 1 GiB experiment bound; all containers terminal. Primary checked host free 11.2 GiB and allows a revised 1.5 GiB task-local setup ceiling, still serial heavy slot and hard 8 GiB host floor. Use no-install-recommends, pinned package versions/SHA256 and copyright metadata; explicit setup network only, runtime network-none. No install yet: P12a has heavy slot. Production guard and exact Fargate proof gate unchanged.",
+      "created_at": "2026-10-30T23:31:50.838342Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T21:55:55.047192Z",
-  "updated_at": "2026-10-30T22:51:13.481224Z",
+  "updated_at": "2026-10-30T23:31:50.838836Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
