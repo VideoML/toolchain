@@ -1,0 +1,27 @@
+{
+  "id": "videoml-224803d9-e857-4f84-ba37-65a3dc649d30",
+  "title": "P03a — Expose immutable effect placement timing",
+  "description": "## Shared prerequisite for catalog adaptations\nOwn stdlib plus focused player/toolchain/specification bridges after P17 releases those checkouts. Preserve D02 absolute integer seek; never introduce a wall clock.\nAdd optional readonly timing:{startFrame,endFrame} to EffectMountContext for source compatibility. mountEffect always supplies a fresh frozen interval copied from validated EffectConfig; caller mutation after mount cannot alter visibility or local timing. New catalog implementations that animate relative to placement calculate local seconds=(absoluteFrame-startFrame)/fps and explicitly clamp their authored timeline endpoints. Do not retime existing version1 effects (echo/particles) or silently change accepted P08a fixtures. Direct mounting of a new effect requiring timing fails EFFECT_TIMING_UNAVAILABLE if absent; documented mountEffect is the normal public path.\nTests: nonzero start,24/30fps, frames before/inside/after interval, reverse/repeated/random/partition seeks, caller config mutation, unchanged existing effect pixels. Prove copied XML/player/normal packed CLI matches with an offset test effect and a zero-offset fixture. Document timing contract and pure timeline adapters. Primary accepts; no worker closure/commits. Follow one-writer-per-checkout and one heavy slot.",
+  "type": "task",
+  "status": "open",
+  "priority": 1,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-a0007f8a-9e25-4a87-bbeb-8ce18c8704f8",
+  "labels": [
+    "terra-packet"
+  ],
+  "dependencies": [
+    {
+      "target": "videoml-f708b408-e4dc-43d1-bebd-3e924e0ac918",
+      "type": "blocked-by"
+    }
+  ],
+  "comments": [],
+  "created_at": "2026-10-31T00:21:06.359451Z",
+  "updated_at": "2026-10-31T00:21:06.408209Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

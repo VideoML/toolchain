@@ -53,10 +53,24 @@
       "text": "Independent helper review found stage/parent publication substitution, partial-line timeout bypass and unlimited empty directories. Primary additionally found FIFO swap blocking-open and recursive nested-destination risk. Worker fixing before integration. D08c now explicitly requires trusted destination ownership/ancestors, excludes root/sameUID host compromise guarantees, requires distinct hosted renderer UID, and specifies bounded nonblocking protocol/enumeration plus source/destination disjointness. Stage inode and parent checks are defense in depth, not a claimed cure for hostile sameUID writers.",
       "created_at": "2026-10-31T00:17:55.954389Z",
       "comment_type": "default"
+    },
+    {
+      "id": "31013a42-a545-45fa-9b20-3bfe10d0e503",
+      "author": "home",
+      "text": "Primary reran13 current bundle tests: core paths/digest/roles, nine staging scenarios and ZIP malformed-header/traversal checks all pass. Independent corrected-helper source re-review found no new blocker within documented trust boundary. This is not P17 acceptance: semantic consistency, secure ZIP integration, public CLI, packed offline render and broader adversarial cases remain.",
+      "created_at": "2026-10-31T00:19:10.859298Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "2d4cc4a5-3e6b-45cf-8b33-fe67b4ca5b40",
+      "author": "home",
+      "text": "Wrapper source review found concurrency request misrouting, false successful abort after failed cleanup, uncertain commit outcome and EPIPE handling blockers. Worker added preflight/terminal commit, explicit BUNDLE_PUBLICATION_UNCONFIRMED after sent-commit response loss, clean-exit requirements and EPIPE fencing, with adversarial fake-helper tests; re-review pending. P17 not accepted or exposed through CLI.",
+      "created_at": "2026-10-31T00:21:50.573033Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.623766Z",
-  "updated_at": "2026-10-31T00:17:55.954605Z",
+  "updated_at": "2026-10-31T00:21:50.573277Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
