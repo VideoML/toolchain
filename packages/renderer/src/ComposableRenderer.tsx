@@ -625,14 +625,15 @@ function Component({
   if (spec.visible === false) return null;
 
   // Check timing
-  if (spec.timing) {
+  if (spec.timing && spec.type !== "FrameEffect") {
     const { startSec, endSec } = spec.timing;
     if (startSec !== undefined && timeSec < startSec) return null;
     if (endSec !== undefined && timeSec > endSec) return null;
   }
 
   if (spec.type === "FrameEffect") {
-    if (spec.timing?.endSec !== undefined && timeSec >= spec.timing.endSec) return null;
+    if (spec.timing?.startSec !== undefined && frame < Math.floor(spec.timing.startSec * fps)) return null;
+    if (spec.timing?.endSec !== undefined && frame >= Math.ceil(spec.timing.endSec * fps)) return null;
     const effectId = spec.props?.effectId, effectVersion = spec.props?.effectVersion;
     return React.createElement("frame-effect", {id:spec.id,"effect-id":String(effectId ?? ""),"effect-version":String(effectVersion ?? ""),props:JSON.stringify({parameters:spec.props?.parameters}),"data-start":String(spec.timing?.startSec ?? scene.startSec ?? 0),"data-end":String(spec.timing?.endSec ?? scene.endSec ?? 0)});
   }
