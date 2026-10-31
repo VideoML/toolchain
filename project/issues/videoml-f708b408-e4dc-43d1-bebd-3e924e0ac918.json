@@ -39,10 +39,24 @@
       "text": "Primary D08a decisions now in initiative: one explicitly selected composition, required script/timing/assembled-audio roles, all files hashed with immutable job expected digest, canonical cross-platform paths, strict staged ZIP/directory import and AST+asset hosted validation. P17 scope includes specification schema/fixtures semantic validators as well as CLI/toolchain. No implementation started; P07 currently owns toolchain.",
       "created_at": "2026-10-30T22:52:45.409421Z",
       "comment_type": "default"
+    },
+    {
+      "id": "7fd08e4f-e28f-4a98-b49d-f9f3d879c773",
+      "author": "home",
+      "text": "Primary recorded D08c secure Python3.9+ dirfd helper, no-follow traversal, private stage and platform no-replace atomic publish. Approved architecture sent to worker. Node check-then-open paths are not accepted as a race-safe importer. Explicit capability errors and runtime prerequisite documentation required.",
+      "created_at": "2026-10-31T00:15:24.577120Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "1e577136-67cb-478a-bb6c-060f144a4bb2",
+      "author": "home",
+      "text": "Independent helper review found stage/parent publication substitution, partial-line timeout bypass and unlimited empty directories. Primary additionally found FIFO swap blocking-open and recursive nested-destination risk. Worker fixing before integration. D08c now explicitly requires trusted destination ownership/ancestors, excludes root/sameUID host compromise guarantees, requires distinct hosted renderer UID, and specifies bounded nonblocking protocol/enumeration plus source/destination disjointness. Stage inode and parent checks are defense in depth, not a claimed cure for hostile sameUID writers.",
+      "created_at": "2026-10-31T00:17:55.954389Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.623766Z",
-  "updated_at": "2026-10-31T00:13:05.623849Z",
+  "updated_at": "2026-10-31T00:17:55.954605Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,

@@ -68,10 +68,17 @@
       "text": "Corrected STREAM/SEQPACKET-only IPC candidate passed 8 Linux ARM Gherkin scenarios /24 steps, including real external pathname and abstract datagram receivers, parent/descendant addressed sends and SCM_RIGHTS no-delivery. Production guard returned125. Paired direct-ELF local-only --no-sandbox baseline produced nonblank320x240 PNG; both FFmpeg paths encoded/decoded16x16. Isolated Chromium SIGABRT: crashpad setsid denied, /dev/null denied, process-singleton socket denied. No isolated screenshot; actual Chromium cancellation unproven. Evidence /private/tmp/p20a-chrome-compat/logs/{ipc-build.log,ipc-evidence.log,runtime-ipc.log,compat-summary.json}. Container terminal; heavy slot released. No cloud/production enablement. Source design review of next boundary is pending.",
       "created_at": "2026-10-31T00:11:11.434230Z",
       "comment_type": "default"
+    },
+    {
+      "id": "c64a1741-8416-4d2c-b8bd-726483a12035",
+      "author": "home",
+      "text": "Next candidate selected for bounded local investigation: dedicated chromium-headless-shell, keeping current isolation policy unchanged. Primary inspected saved APT index (no refresh): exact arm64 version156.0.8078.73-1~deb12u1, archive56878696B, installed212184KiB, SHA256aeefcab4fd1f82ec44dc0249e1aebca23d80649dbee77f1826eb9f0583ad631a; metadata saved /private/tmp/p20a-chrome-compat/logs/headless-index-metadata.json. Must resolve complete closure and budget before download; heavy slot currently website. Full Chromium singleton/crashpad failures do not establish shell behavior; baseline/restricted screenshot, Playwright protocol, DOM/canvas/WebGL/font seeded frames and actual descendant cancellation remain required. No policy widening or Fargate/production claim.",
+      "created_at": "2026-10-31T00:15:24.597299Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T21:55:55.047192Z",
-  "updated_at": "2026-10-31T00:11:11.434767Z",
+  "updated_at": "2026-10-31T00:15:24.597537Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
