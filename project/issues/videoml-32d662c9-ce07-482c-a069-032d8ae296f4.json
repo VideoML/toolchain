@@ -222,10 +222,17 @@
       "text": "Primary inspected corrected offline resolver delta:240packages, exact13candidate additions, zerochanged/removed;227archivechecks pass, ownedcontainer absent (dockerps only unrelatedgrobid), watchdog0. Prior --no-download simulation failed100 withoutmutations; corrected -s/networknone simulation passed. Evidence /private/tmp/p20a-python-resolver-b0e8ddf62f4e4428b95c322975c73e35/REPORT.md. Approved exact13indexed URLs/hashes,5,444,196B into freshownedcache with perfile size/hash checks,total6MiBcap,boundedtimeout; noindexrefresh/versionfallback/install/build/container. This small acquisition may run beside P03a heavybrowser; actualruntime remains gated. Primary independently ran23privatePIDsource tests pass.",
       "created_at": "2026-10-31T01:53:47.894566Z",
       "comment_type": "default"
+    },
+    {
+      "id": "e6d87ef2-f64e-48e9-ba6c-0dbb433e169e",
+      "author": "home",
+      "text": "Primary verified offlineimage build success: sha256:d82eb0e8cb22bbed27d280f03608706903a1a37df84ceeefaf38100f548b24b9, arm64 image999043438B, start/commit0, terminalreconciletrue/noerrors, exactownedcontainer absent. Evidence /private/tmp/p20a-image-ae35e27464154800996704a4fe8ba35c/REPORT.md. Compilerretry staticstrict passed; normalguard notyetexecuted. Authorized separate readonlynetworknone audit of trustedversions/ELF/loader/font/licenses/mounts/guard125, nowactive79316; no Chromium/privatepolicy/cloudexecution. P03b awaitingheavyslot afteraudit.",
+      "created_at": "2026-10-31T02:08:54.578652Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T21:55:55.047192Z",
-  "updated_at": "2026-10-31T01:53:47.895154Z",
+  "updated_at": "2026-10-31T02:08:54.578892Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
