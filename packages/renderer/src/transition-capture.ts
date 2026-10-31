@@ -1,13 +1,14 @@
 import { createRequire } from 'node:module';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
+import type {TransitionShader,TransitionOptions} from '@videoml/stdlib/effects/transitions';
 
 export interface TransitionCaptureOptions {
   fromBundlePath:string; toBundlePath:string; compositorBundlePath:string;
   width:number; height:number; frames:number[]; startFrame:number; endFrame:number;
   fps:number; seed:number; assets:Readonly<Record<string,unknown>>;
   fromSceneId:string; toSceneId:string;
-  shader:'crossfade'|'domain-warp'; allowCrossfadeFallback?:boolean;
+  shader:TransitionShader; parameters?:TransitionOptions; easeName?:string; sceneScript?:unknown; durationFrames?:number; allowCrossfadeFallback?:boolean;
   onDiagnostic?:(diagnostic:'CROSSFADE_FALLBACK')=>void;
   outDir:string; executablePath?:string; signal?:AbortSignal; stageTimeoutMs?:number;
 }
@@ -32,14 +33,16 @@ export async function captureTransitionFrames(options:TransitionCaptureOptions):
   try{browser=await stage('launch',launch);}catch(error){void launch.then(late=>late.close().catch(()=>{}),()=>{});throw error;}
   const abort=()=>{void browser?.close().catch(()=>{});}; signal?.addEventListener('abort',abort,{once:true});
   const contexts:import('playwright').BrowserContext[]=[];
+  const blockedRequests:string[]=[];const sceneErrors:string[]=[];
   let failed=false;
   try {
     if(signal?.aborted) throw new Error('Transition capture aborted');
     async function open(bundle:string) {
       const context=await stage('context',browser!.newContext({viewport:{width,height},deviceScaleFactor:1})); contexts.push(context);
-      await stage('route',context.route('**/*',route=>route.abort()));
+      await stage('route',context.route('**/*',route=>{blockedRequests.push(route.request().url());return route.abort();}));
       const page=await stage('page',context.newPage());
-      await stage('content',page.setContent('<!doctype html><style>html,body{margin:0;padding:0;overflow:hidden}</style><div id="root"></div>'));
+      page.on('console',message=>{if(message.type()==='warning' && message.text().includes('Component not found:'))sceneErrors.push(message.text());});
+      await stage('content',page.setContent('<!doctype html><style>html,body,#root{width:100%;height:100%;margin:0;padding:0;overflow:hidden}</style><div id="root"></div>'));
       await stage('bundle',page.addScriptTag({path:resolve(bundle)}));
       return page;
     }
@@ -49,14 +52,14 @@ export async function captureTransitionFrames(options:TransitionCaptureOptions):
       if(typeof api.mountVideoMLScene!=='function') throw new Error('SCENE_CAPTURE_UNAVAILABLE: bundle must expose mountVideoMLScene');
       api.__videomlScene=await api.mountVideoMLScene(document.querySelector('#root'),config);
       if(!api.__videomlScene || typeof api.__videomlScene.seek!=='function' || typeof api.__videomlScene.dispose!=='function') throw new Error('SCENE_CAPTURE_UNAVAILABLE: invalid scene source');
-    },{width,height,fps:options.fps,seed:options.seed,assets:options.assets,captureSceneId:sceneId,selectedSceneVisible:true}));
+    },{width,height,fps:options.fps,seed:options.seed,assets:options.assets,captureSceneId:sceneId,selectedSceneVisible:true,script:options.sceneScript,durationFrames:options.durationFrames}));
     await stage('compositor mount',compositor.evaluate(async config=>{
       const api=window as any;
       if(typeof api.mountVideoMLTransition!=='function') throw new Error('Compositor bundle must expose mountVideoMLTransition');
       api.__videomlDiagnostics=[];
       api.__videomlTransition=await api.mountVideoMLTransition(document.querySelector('#root'),{...config,onDiagnostic:Function('diagnostic','window.__videomlDiagnostics.push(diagnostic)')});
       if(!api.__videomlTransition || typeof api.__videomlTransition.render!=='function' || typeof api.__videomlTransition.dispose!=='function') throw new Error('Invalid compositor');
-    },{width,height,startFrame,endFrame,shader:options.shader,allowCrossfadeFallback:!!options.allowCrossfadeFallback}));
+    },{width,height,startFrame,endFrame,shader:options.shader,parameters:options.parameters,easeName:options.easeName,allowCrossfadeFallback:!!options.allowCrossfadeFallback}));
     for(const diagnostic of await compositor.evaluate(()=>(window as any).__videomlDiagnostics as string[])) {
       if(diagnostic==='CROSSFADE_FALLBACK') options.onDiagnostic?.(diagnostic);
     }
@@ -65,6 +68,8 @@ export async function captureTransitionFrames(options:TransitionCaptureOptions):
       if(signal?.aborted) throw new Error('Transition capture aborted');
       const frame=frames[index];
       for(const page of [from,to]) await stage('scene seek',page.evaluate(async frame=>{await (window as any).__videomlScene.seek(frame);},frame));
+      if(blockedRequests.length)throw new Error(`SCENE_CAPTURE_UNAVAILABLE: blocked network request ${blockedRequests[0]}`);
+      if(sceneErrors.length)throw new Error(`SCENE_CAPTURE_UNAVAILABLE: ${sceneErrors[0]}`);
       const [a,b]=await stage('scene screenshot',Promise.all([from.screenshot(),to.screenshot()]));
       if(a.length>16777216||b.length>16777216) throw new Error('Scene capture exceeds PNG size limit');
       await stage('compositor render',compositor.evaluate(async ({frame,a,b})=>{await (window as any).__videomlTransition.render(frame,a,b);},{frame,a:a.toString('base64'),b:b.toString('base64')}));

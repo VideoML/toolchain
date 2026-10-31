@@ -47,10 +47,31 @@
       "text": "P20a real local Linux failure-path rerun passed six scenarios/eighteen steps. Debian Chromium/FFmpeg preflight halted before downloads at 1.21 GiB conservative additional disk, exceeding initial 1 GiB experiment bound; all containers terminal. Primary checked host free 11.2 GiB and allows a revised 1.5 GiB task-local setup ceiling, still serial heavy slot and hard 8 GiB host floor. Use no-install-recommends, pinned package versions/SHA256 and copyright metadata; explicit setup network only, runtime network-none. No install yet: P12a has heavy slot. Production guard and exact Fargate proof gate unchanged.",
       "created_at": "2026-10-30T23:31:50.838342Z",
       "comment_type": "default"
+    },
+    {
+      "id": "e5f11ad3-03ad-440a-aba2-5b8c1891eebe",
+      "author": "home",
+      "text": "Direct ELF evidence: isolated Chromium SIGTRAP after socketpair EPERM; baseline without no-sandbox reports no usable sandbox. FFmpeg succeeds both paths and retained artifacts validate. D08b records independently reviewed local anonymous IPC candidate and paired explicit no-sandbox diagnostic; production guard and exact Fargate/cancellation gates remain. P13 preparing failure-first source tests; P08 owns heavy slot.",
+      "created_at": "2026-10-30T23:57:03.449530Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "ad973a71-1fe3-451c-8860-0364b772b9ef",
+      "author": "home",
+      "text": "Security review caught a pre-execution candidate flaw: AF_UNIX DGRAM sendmsg can target external named/abstract sockets via msg_name without connect. Primary removed DGRAM from D08b candidate; STREAM/SEQPACKET need explicit external-listener redirect/SCM_RIGHTS denial tests. Normal build guard unchanged, no candidate deployment or Linux execution occurred. Worker preparing stronger probes and source fix before review.",
+      "created_at": "2026-10-31T00:01:23.999145Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "6653f724-bb39-4d00-99e2-fc3742bb123d",
+      "author": "home",
+      "text": "Corrected STREAM/SEQPACKET-only IPC candidate passed 8 Linux ARM Gherkin scenarios /24 steps, including real external pathname and abstract datagram receivers, parent/descendant addressed sends and SCM_RIGHTS no-delivery. Production guard returned125. Paired direct-ELF local-only --no-sandbox baseline produced nonblank320x240 PNG; both FFmpeg paths encoded/decoded16x16. Isolated Chromium SIGABRT: crashpad setsid denied, /dev/null denied, process-singleton socket denied. No isolated screenshot; actual Chromium cancellation unproven. Evidence /private/tmp/p20a-chrome-compat/logs/{ipc-build.log,ipc-evidence.log,runtime-ipc.log,compat-summary.json}. Container terminal; heavy slot released. No cloud/production enablement. Source design review of next boundary is pending.",
+      "created_at": "2026-10-31T00:11:11.434230Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T21:55:55.047192Z",
-  "updated_at": "2026-10-30T23:31:50.838836Z",
+  "updated_at": "2026-10-31T00:11:11.434767Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
