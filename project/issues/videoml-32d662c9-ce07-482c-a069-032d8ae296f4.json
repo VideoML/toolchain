@@ -201,10 +201,17 @@
       "text": "Primary inspected terminal no-zygote REPORT.md: baseline PNG and restricted FFmpeg pass; restricted Chromium and cancellation attempt SIGTRAP, no trace launched, guard125. Current single-container proc-denial topology has not produced a usable browser. Next source-only architecture proposal: same-task separate renderer container with private PID namespace, separate root filesystem and bounded input/output exchange; retain syscall network denial, scrubbed environment/FDs and no supervisor mounts. Same-task IAM credentials remain a risk requiring adversarial proof; private PID alone is insufficient. No policy widening, runtime, provisioning or production enablement authorized by this proposal. Terra preparing concrete topology, CDP exchange and exact AWS mapping before primary decision.",
       "created_at": "2026-10-31T01:30:06.617855Z",
       "comment_type": "default"
+    },
+    {
+      "id": "6d750a8b-e7f8-422c-8262-53f1645c9017",
+      "author": "home",
+      "text": "Primary source review found concrete D08c integration conflict: installed Playwright1.45 processLauncher.js106-110 sets detached:true on Unix, requiring setsid; existing launcher.c156 denies setsid/setpgid. New private-PID topology must explicitly revise lifecycle containment before actual Playwright can launch. Reviewer assigned narrow private-PID-only session allowance and authoritative whole-container termination assessment, including launcher startup setpgid at PID1/sessionleader. No policy runtime authorized. Runtime provenance decision: trusted build harness verifies approved package SHA, extracts into fresh owned runtime tree and inventories installed bytes plus separately inventoried third-party deps, recording exact commands. This is not acceptance of an untrusted manifest self-assertion; final P17 artifacts remain pending.",
+      "created_at": "2026-10-31T01:36:32.725775Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T21:55:55.047192Z",
-  "updated_at": "2026-10-31T01:30:06.618129Z",
+  "updated_at": "2026-10-31T01:36:32.726285Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
