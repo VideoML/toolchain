@@ -3,7 +3,7 @@
   "title": "P08a — Publish all14 shader previews and copyable XML",
   "description": "## Dispatch packet P08a — Website shader catalog\nOwnership: videoml-org only. Depends on accepted P08 immutable package handoff. Primary owns boards, branches/commits and acceptance. Follow D16 single heavy operation and 8 GiB free floor.\n1. Refresh frozen stdlib package and catalog manifest from accepted P08 hashes; display470 entries including all14 shaders, preserving the three shipped effect demos. Preserve provenance/licenses and implemented versus verified counts; no release-verified claim.\n2. Add all14 shader previews using shared P07/P08 compositor and two native SceneFrameSource implementations built from registered echo-smear and particle-text-dissolve effects. No duplicated effect/shader algorithms. Use owned Geist font, 1280x720,30fps,seed0,4s composition. Scene A starts0s and lasts3s, scene B starts2s and lasts2s; transition explicitly starts2s and lasts1s. Both providers seek composition-absolute frames and use the same effect-local timing conversion as XML adapters. Opaque scene backgrounds #224466 and #88aa66 are painted behind native effect canvases; copied XML uses identical backgrounds/parameters/timing. Seek sources independently across transition even outside normal visibility.\n3. Provide standalone Copy XML and required font download using accepted local assets syntax; preserve existing TypeScript copy. XML must render through ordinary packed CLI without custom site code. Include bounded accent/dark/bright RGB controls, optional backgroundColor and named easing, validated by shared contracts. Unknown names/invalid values produce explicit errors. Missing provider and unavailable WebGL errors must be visible; no silent fallback.\n4. Reuse trusted iframe lifecycle, play/pause/scrub/reset/Apply, reduced-motion paused default, no auto-playing catalog cards, bounded mount/seek/cancellation and disposal. Avoid starting14 WebGL contexts simultaneously; mount selected preview only and release old resources.\n5. Verify all14 copied XML examples with downloaded font through accepted packed CLI against live native previews at frames60,75,90. Use moving source pixels; test non-default palette and easing on at least domain-warp and ridged-burn, random/repeated/reverse seeks, default/reset and route/filter navigation. Preserve three existing copiedXML parity tests. Browser differences permitted only within D14 preview/export tolerance, not a changed fixture/algorithm. Run site build and meaningful lifecycle/unit tests with existing dependencies; request heavy slot first.\n6. Return immutable dependency hashes, reproducible commands, screenshots and pixel reports, clearly separating local browser acceptance from Linux release verification. No deployment, commits or issue closure by worker. Document native provider boundary and general-renderer prerender path for arbitrary DOM scenes.\n",
   "type": "task",
-  "status": "in_progress",
+  "status": "closed",
   "priority": 1,
   "assignee": null,
   "creator": null,
@@ -24,11 +24,18 @@
       "text": "Worker completed42 copiedXML/packedCLI/live-native comparisons (all14 shaders at frames60/75/90) with exact decoded RGBA. Primary identified visible-page blank/overflow concern from screenshot; worker fixed intrinsic grid expansion and is rebuilding to verify actual displayed preview, interactions and executed copied TypeScript. P08a remains in progress pending these and nondefault/regression evidence.",
       "created_at": "2026-10-31T00:19:10.900838Z",
       "comment_type": "default"
+    },
+    {
+      "id": "1a35a623-2b58-452b-ac7c-93fec9ee506e",
+      "author": "home",
+      "text": "Primary accepts P08a: reran9preview+4catalog/vendor tests and42defaultdecodedRGBA comparisons (all exact), verified frozenpacksSHA, inspected actual visible1280x900 screenshot and report/lifecycle/WebGLfailure/copiedTS/6nondefault/3existingeffect evidence. Independent source review found no blocker. Website PR2 source db598aea010211e4ba1aa05874535592fbdeffa3 merged (state verified). Productionbuild includes Gatsbycacheclean so470/glitch is reliable. No external deployment or Linux release verification claim. Evidence /private/tmp/videoml-p08a/REPORT.md.",
+      "created_at": "2026-10-31T00:26:05.772564Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-31T00:11:11.479189Z",
-  "updated_at": "2026-10-31T00:19:10.901071Z",
-  "closed_at": null,
+  "updated_at": "2026-10-31T00:26:05.810459Z",
+  "closed_at": "2026-10-31T00:26:05.810291Z",
   "right_now_summary": null,
   "right_now_updated_at": null,
   "custom": {}
