@@ -243,10 +243,17 @@
       "text": "Primary verified derived font image sha256:2f5a6cba750806d852f2a3520c3cbc221102fcdedc7b922d903633a05616cc5e. Config SHA4f79ec2fdaf98aa654d9b4b09cab7f9c79a2b3301fafde3e104b0296e1919ca5. Source reviewed independently; primary40tests passed; source hashes matched proposal. Build start/commit0, reconciler terminal, owned container absent, old image retained. Evidence /private/tmp/p20a-font-image-b29f0076b00e4ca59fd7d32e10358d3d. Readonly audit pending for corrected font and ELF tools; no browser or private-policy execution. Heavy slot returned to P03b.",
       "created_at": "2026-10-31T02:16:33.332452Z",
       "comment_type": "default"
+    },
+    {
+      "id": "a591c57d-6972-4a2c-ae47-5d3464cb6829",
+      "author": "home",
+      "text": "Derived image read-only audit passed and primary independently reran host checker: fonts6/packages328, unchanged full package inventory, font config exact SHA, no missing copyright, normal guard125. Corrected ELF parser establishes42 Chromium direct dependencies; ldd resolved. Evidence /private/tmp/p20a-derived-audit-1e5b6b66299a4895bc8b179001ce8c94. Primary verified exact bounded command and owned-container absence. Image2f5a6cba750806d852f2a3520c3cbc221102fcdedc7b922d903633a05616cc5e. No browser/private-policy compatibility claim. Next source task is reconcile runtime manifest to fixed /usr paths and prepare pinned Linux ARM64 dependency assembly; first actual private-PID render remains open.",
+      "created_at": "2026-10-31T02:19:39.824094Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T21:55:55.047192Z",
-  "updated_at": "2026-10-31T02:16:33.332767Z",
+  "updated_at": "2026-10-31T02:19:39.824344Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
