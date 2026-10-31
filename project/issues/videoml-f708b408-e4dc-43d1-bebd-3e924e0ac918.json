@@ -179,10 +179,17 @@
       "text": "Primary shader integration review requires offline CSP/policy checks on both scene pages and compositor before custom bundle injection, not HTTP routing alone; tests must prove blocked browser network attempts produce failure. Bundle signal currently stops validation only; directed propagation through actual frame capture/shader capture/FFmpeg with active-work cancellation/cleanup tests. These are required completion gaps, not fulfilled by earlier import or manually closed browser tests.",
       "created_at": "2026-10-31T01:07:46.089218Z",
       "comment_type": "default"
+    },
+    {
+      "id": "d0dfb0e5-6688-41f8-88dd-352d64ff495c",
+      "author": "home",
+      "text": "Primary independently ran two real POSIX encoder cancellation tests: both pass, including leader exits TERM while descendant ignores it; group escalation removes descendant. Renderer launch/setup/late-resource/cleanup error separation findings remain under correction. Test harness cleanup-on-regression and Windows capability handling requested. This is narrow encoder cancellation evidence, not complete bundle lifecycle acceptance.",
+      "created_at": "2026-10-31T01:09:44.076460Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.623766Z",
-  "updated_at": "2026-10-31T01:07:46.089471Z",
+  "updated_at": "2026-10-31T01:09:44.076688Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
