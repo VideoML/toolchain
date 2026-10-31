@@ -39,10 +39,227 @@
       "text": "Primary D08a decisions now in initiative: one explicitly selected composition, required script/timing/assembled-audio roles, all files hashed with immutable job expected digest, canonical cross-platform paths, strict staged ZIP/directory import and AST+asset hosted validation. P17 scope includes specification schema/fixtures semantic validators as well as CLI/toolchain. No implementation started; P07 currently owns toolchain.",
       "created_at": "2026-10-30T22:52:45.409421Z",
       "comment_type": "default"
+    },
+    {
+      "id": "7fd08e4f-e28f-4a98-b49d-f9f3d879c773",
+      "author": "home",
+      "text": "Primary recorded D08c secure Python3.9+ dirfd helper, no-follow traversal, private stage and platform no-replace atomic publish. Approved architecture sent to worker. Node check-then-open paths are not accepted as a race-safe importer. Explicit capability errors and runtime prerequisite documentation required.",
+      "created_at": "2026-10-31T00:15:24.577120Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "1e577136-67cb-478a-bb6c-060f144a4bb2",
+      "author": "home",
+      "text": "Independent helper review found stage/parent publication substitution, partial-line timeout bypass and unlimited empty directories. Primary additionally found FIFO swap blocking-open and recursive nested-destination risk. Worker fixing before integration. D08c now explicitly requires trusted destination ownership/ancestors, excludes root/sameUID host compromise guarantees, requires distinct hosted renderer UID, and specifies bounded nonblocking protocol/enumeration plus source/destination disjointness. Stage inode and parent checks are defense in depth, not a claimed cure for hostile sameUID writers.",
+      "created_at": "2026-10-31T00:17:55.954389Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "31013a42-a545-45fa-9b20-3bfe10d0e503",
+      "author": "home",
+      "text": "Primary reran13 current bundle tests: core paths/digest/roles, nine staging scenarios and ZIP malformed-header/traversal checks all pass. Independent corrected-helper source re-review found no new blocker within documented trust boundary. This is not P17 acceptance: semantic consistency, secure ZIP integration, public CLI, packed offline render and broader adversarial cases remain.",
+      "created_at": "2026-10-31T00:19:10.859298Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "2d4cc4a5-3e6b-45cf-8b33-fe67b4ca5b40",
+      "author": "home",
+      "text": "Wrapper source review found concurrency request misrouting, false successful abort after failed cleanup, uncertain commit outcome and EPIPE handling blockers. Worker added preflight/terminal commit, explicit BUNDLE_PUBLICATION_UNCONFIRMED after sent-commit response loss, clean-exit requirements and EPIPE fencing, with adversarial fake-helper tests; re-review pending. P17 not accepted or exposed through CLI.",
+      "created_at": "2026-10-31T00:21:50.573033Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "7654e080-b101-489f-ba7a-05d46ccce10c",
+      "author": "home",
+      "text": "Primary approved required composition.id in unreleased manifest v1, distinct from projectId; recorded canonical D08a clarification. It must identify the selected source composition and agree with generated/frozen identities. Multi-composition export requires explicit selection; imports reject identity mismatch. P02 digest algorithm is unchanged.",
+      "created_at": "2026-10-31T00:27:11.156039Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "3c308cc8-153d-4774-ae9f-0963fca563a5",
+      "author": "home",
+      "text": "ZIP acquisition/extraction now integrates with held-descriptor private staging; it is not yet exposed through CLI. Independent review found valid DEFLATED empty-directory rejection and insufficient deadline checks inside high-ratio decompression loop; primary directed support for valid empty streams and inner-loop deadline checks, with targeted tests. No pathname reopening observed. Full source/script validation, export/import commands and packed offline rendering remain required.",
+      "created_at": "2026-10-31T00:31:21.453133Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "3a7235c6-48c4-47fb-8a55-b9a89cfe8f88",
+      "author": "home",
+      "text": "Primary approved reuse of generator pure cue/scene/transition projections for full source verification, not preview placeholder converter. Explicit authored times compare normalized source seconds; PCM segment times compare samples; genuinely inferred visual times validate frozen floor/ceil plus ordering/containment, with frozen timing authoritative during render. Current stdlib dev dependency refreshed from accepted pack and AJV8.17.1 reused locally; toolchain TypeScript now passes. These changes do not establish end-to-end bundle acceptance.",
+      "created_at": "2026-10-31T00:36:02.371654Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "49e467b8-f335-4755-864b-e584743ec12f",
+      "author": "home",
+      "text": "Early public bundle validate/import integration now binds shipped XML source verifier internally and requires explicit local trust; hosted mode currently returns HOSTED_UNSUPPORTED pending fixed declarative contract. Worker reports real generated XML/hash manifest validate/atomic import passes, with source mutation/existing target rejection. Independent integrated-path review dispatched. Export, offline render and hosted contract remain unfinished; P17 not accepted.",
+      "created_at": "2026-10-31T00:42:09.514465Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "99120980-973e-43b6-8f78-1e8695949af7",
+      "author": "home",
+      "text": "Primary specified immutable dependency/font lock encoding and recomputed hosted report in canonical D08/D08d. Export closure regression excludes unrelated .env/private files. Independent ZIP publication source review found no concrete blocker within documented trust boundary; file inventory intentionally omits empty directories. Actual packed offline rendering and complete hosted contract remain acceptance gates.",
+      "created_at": "2026-10-31T00:48:31.417318Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "c2938e4e-04d7-4787-9b96-d99b3d5575eb",
+      "author": "home",
+      "text": "Independent focused source review of hosted classifier/public wiring found no concrete fail-open: eligibility recomputed from staged verified inputs before publication. This is content classification only; P20a isolation gate remains mandatory. Runtime lock review required installed optional dependencies/peers and actual executing toolchain identity to prevent missing binary provenance or nested shadow substitution; Terra reports fixes and targeted regressions. Packed actual offline render proof remains pending. P17 now owns sole heavy test slot, with 8 GiB free-space floor.",
+      "created_at": "2026-10-31T00:53:07.166407Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "5c66d883-cf6a-437f-a26f-2e47160acd75",
+      "author": "home",
+      "text": "Primary independently ran node --import tsx --test tests/bundle/runtime-lock.test.mjs tests/bundle/hosted.test.mjs: 8/8 pass, including optional dependency tampering and nested toolchain shadow regression. This verifies focused source behavior, not packed renderer acceptance.",
+      "created_at": "2026-10-31T00:53:20.098321Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "bac65404-e8ab-477b-8df7-f019a5f4d08f",
+      "author": "home",
+      "text": "Packed CLI export produced visual directory digest 27458ea8d58ebb44ec2adf6e48d8f9ff02d60a79a62ac14d3a2459f853e4147e and simulated-audio ZIP digest c7f8e956f63ab8638a1022adb77d4271138922bb325cd11c937a2537711a2b98. Primary inspected terminal export logs under /private/tmp/p17-packed. Consumer uses six actual package tarballs with inventoried reused third-party dependencies, not a fresh npm installation. Actual rendering, full custom TS path and normal lock-creation workflow remain required. Canonical D08/P28 now distinguishes portable content pins from pinned Linux render-environment reproducibility.",
+      "created_at": "2026-10-31T00:55:53.505096Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "c3d658fe-4ab9-44e0-b04d-c921161c0701",
+      "author": "home",
+      "text": "Packed visual CLI render succeeded: primary independently ffprobed /private/tmp/p17-packed/visual.mp4 as H264 320x240, 30 frames, 1.000s and viewed frame-000018.png (actual title/rectangle/background). Fixture title clips at right edge; requested fitted fixture for next visual check, no product defect inferred. Validate visual and ZIP audio import also succeeded with expected digests. Frozen simulated-audio render is running under worker; no real-TTS or full P17 acceptance claim.",
+      "created_at": "2026-10-31T00:56:19.430650Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "523cd5a2-ff9e-4060-b74d-d0324f493337",
+      "author": "home",
+      "text": "Primary verified packed simulated-audio ZIP render: ffprobe reports H264 320x240, 22 frames/0.733333s and AAC mono 24kHz/0.727s. Independently checked segment WAV SHA256, PCM SHA256 and byte-for-byte segment placement in assembled.wav: 17,455 samples at24kHz, matching frozen timing. Viewed fitted visual frame at /private/tmp/p17-packed/visual-fit-frames/frame-000015.png; title fits. Source provenance explicitly dry-run/simulated. P17 heavy work terminal and slot released to P20a synthetic failure tests; local custom TS and automatic lock workflow still pending.",
+      "created_at": "2026-10-31T00:57:10.508769Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "de01925a-d228-48a9-8cb5-f19803f3cb06",
+      "author": "home",
+      "text": "Selective held-dirfd capture source reviewed independently with no concrete blocker; final semantic consistency remains required across separately captured files. Primary reran staging/public suites:16/16 pass, covering secure publication, EOF/protocol timeout, symlink/hardlink rejection, selective unrelated-link omission, generated visual/audio export and lock workflow. Public arbitrary runtimeRoot removed. Trusted data-only TS is intermediate only: custom browser components need explicit pinned executable payload and local renderer hook; no claim that functions survive frozen JSON.",
+      "created_at": "2026-10-31T00:59:28.563801Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "2144b729-7fd8-4b4a-a165-a61742b3407a",
+      "author": "home",
+      "text": "Primary independently reran all current tests/bundle/*.test.mjs:65/65 pass, no skips. Includes repository-owned licensed Geist font copy/pin/tamper/missing tests, portable python3 invocation, selective capture, lock/runtime optional payload and shadow regression, ZIP/parser/lifecycle adversarial cases and source/frozen semantics. This remains current XML/data-path verification; custom browser ABI and trusted TS work are not complete. Canonical initiative now records approved ABIv1 shared React/context, per-instance settlement/disposal and both shader source-page injection.",
+      "created_at": "2026-10-31T01:02:17.390933Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "11cd150a-684a-4285-b3ea-75df5da97bb6",
+      "author": "home",
+      "text": "Portable-host first lifecycle implementation independently reviewed. Required corrections: abort constructor failures; identity-based registry removal; shared disposal promise; serialize full flush/settle; terminal page close after failed/noncooperative work; await old instance disposal before a new instance may settle/capture. Canonical D08 now states cooperative cancellation limits rather than claiming arbitrary JS revocation. Initial real-browser lifecycle log reports shared context, frame serialization, double disposal, constructor abort and stalled cleanup pass; targeted old-instance/new-instance regression and independent test-source review remain pending.",
+      "created_at": "2026-10-31T01:05:00.447887Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "cbc59b0b-1fef-423d-ba1e-6e062ffaa15e",
+      "author": "home",
+      "text": "Primary inspected tests/bundle/portable-lifecycle.browser.mjs and successful scoped rerun log. Real browser verifies shared frame context, full-frame serialization, same disposal promise, constructor signal abort, old-controller delayed cleanup before new-controller settle and explicit stalled cleanup error. Direct stalled test manually closes page, so it does not prove owner automatic closure; actual renderFramesToPng timeout test dispatched and currently running. Same-page clean registry remount remains pending. No P17 closure.",
+      "created_at": "2026-10-31T01:05:38.618050Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "2410d78d-ada1-421b-b90b-1f0c45a2f325",
+      "author": "home",
+      "text": "Primary inspected updated lifecycle browser test and /private/tmp/p17-portable-lifecycle-remount.log: actual renderFramesToPng timeout rejects FRAME_EFFECT_TIMEOUT and leaves zero browser pages; clean same-page host registration/disposal/remount succeeds. This closes the prior manually-closed-page evidence gap. All lifecycle browser handles terminal; heavy slot released while TS closure and shader integration continue. Full packed custom animation/shader/font acceptance remains required.",
+      "created_at": "2026-10-31T01:06:06.326417Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "b6c490d8-7e7a-4b2a-b2af-b8c07ea63157",
+      "author": "home",
+      "text": "Primary shader integration review requires offline CSP/policy checks on both scene pages and compositor before custom bundle injection, not HTTP routing alone; tests must prove blocked browser network attempts produce failure. Bundle signal currently stops validation only; directed propagation through actual frame capture/shader capture/FFmpeg with active-work cancellation/cleanup tests. These are required completion gaps, not fulfilled by earlier import or manually closed browser tests.",
+      "created_at": "2026-10-31T01:07:46.089218Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "d0dfb0e5-6688-41f8-88dd-352d64ff495c",
+      "author": "home",
+      "text": "Primary independently ran two real POSIX encoder cancellation tests: both pass, including leader exits TERM while descendant ignores it; group escalation removes descendant. Renderer launch/setup/late-resource/cleanup error separation findings remain under correction. Test harness cleanup-on-regression and Windows capability handling requested. This is narrow encoder cancellation evidence, not complete bundle lifecycle acceptance.",
+      "created_at": "2026-10-31T01:09:44.076460Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "247a417b-45ea-441b-84b6-065c1acf59ab",
+      "author": "home",
+      "text": "Additional source review of render cancellation requires immediate ownership tracking when browser context is acquired (before awaiting newPage), bounded cleanup of late contexts/pages and cleanup on filesystem setup errors after launch. Worker correcting with delayed setup/launch tests. Signal propagation into shader/encoder and offline CSP integration remain subject to actual tests; current new source is not acceptance evidence.",
+      "created_at": "2026-10-31T01:11:03.842Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "7e37beb3-2bba-4278-a1d3-56a2411990be",
+      "author": "home",
+      "text": "Primary reran targeted cancellation suite:7pass/1Windows-onlyskip onmacOS. Includes realPOSIXgroup escalation and mocked acquiredcontext/viewport/activecapture/delayedlaunch helper. Independent review found frame-directory cleanup outside ownedbrowserguard; worker has grouped it with ensureDir and reports added outputfailure test. P20a terminal; P17 owns heavy slot for actual shader offlinepolicy/cancellation and stagedMP4 checks. FullTS closure still unimplemented and required.",
+      "created_at": "2026-10-31T01:14:06.558668Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "75b7b41d-5527-4906-996a-d8a778e8d03c",
+      "author": "home",
+      "text": "Shader policy first actualbrowser test rejects attempted fetch/image/WebSocket, but primary source review found HTTP request counter omits explicit Upgrade event and timedabort1000ms does not establish seek started. Directed upgrade counter and actual seek-start synchronization before claiming zeroWebSocketdelivery/activecapturecancel. Normal active-controller cancellation browser test running. Outputcommit decision: immediate abortcheck then synchronous atomicrename terminalpoint; precommitcancel preserves existingoutput, successfulcommit replaces it, EXDEV namederror/no copyfallback.",
+      "created_at": "2026-10-31T01:15:12.118484Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "dac8253a-f521-464f-8d4f-7c5da47c85c8",
+      "author": "home",
+      "text": "Primary inspected stronger shader browser test: HTTP requests, WebSocket upgrades and TCP connections all counted and zero; cancellation waits actual scene-seek console marker. Terminal handle11552/log p17-shader-policy-active passed. Normal render terminal3189/log p17-portable-lifecycle-settle-abort waits explicit controller.settle marker and confirms pagecleanup afterabort. Requested evidence gaps addressed; TS closure/export/import/custompacked acceptance remains unfinished. P20a owns nextheavy pairedrun, P17 sourcecontinues.",
+      "created_at": "2026-10-31T01:17:21.601622Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "1f1ab1eb-9edf-4002-bc0e-b07a1069175a",
+      "author": "home",
+      "text": "Primary independently reran tests/bundle/ts-closure.test.mjs:5/5pass. Covers explicitclosedimports, prohibitedimports, realtrustedchildexecution, function/cycle/oversizeddata rejection and publicVideoMLDSL+GSAP import through explicit test mappings. This is not packedruntime/publicTSworkflow acceptance; export/browserfactory/completecustomshaderfont consumerproof pending.",
+      "created_at": "2026-10-31T01:22:30.778111Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "8821b65f-7ea4-4eb1-bc87-9d03f18650af",
+      "author": "home",
+      "text": "Primary independently reran public and manifest tests: 8/8 pass, including real font pins and inert TypeScript validation. Specification contract vectors: 13 positive /28 negative pass. Browser compiler now shares complete host React/ReactDOM/client/JSX exports; independent review requires actual Framer Motion browser behavior beyond compile-only proof and explicit optional dependency absence semantics. Packed custom async canvas, GSAP and shader proof remains in progress; packet not accepted.",
+      "created_at": "2026-10-31T01:30:06.660789Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "93c6e7eb-8c5b-43f0-aa9d-c26be05031fc",
+      "author": "home",
+      "text": "Primary reviewed actual packed conformance harness and unique ordinal output paths: reverse, repeated/random and partition checks compare independent captures; hash mappings verified. Packed Geist font frame83 independently viewed and legible. Framer Motion actual browser tests now exercise portals, controller-owned nested root and direct motion.div registration; valid React memo/forwardRef support added. Independent review uncovered pre-dispatch commit cancellation leaving stage helper until timeout; primary confirmed DirectoryStage.commit catch only handles commitSent, assigned central cleanup fix and real-helper regression. XML/browser trust-bypass finding was retracted: source-xml.ts20 rejects custom roles and crafted recomputed-digest public test covers it. P17 remains open pending cleanup fix, current-source final packed rerun and acceptance.",
+      "created_at": "2026-10-31T01:33:33.734833Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "ae83661f-cef2-4039-b1ab-acf9c23152cb",
+      "author": "home",
+      "text": "Primary reviewed DirectoryStage.commit pre-dispatch cancellation fix and independently ran staging plus public tests: 20/20 pass, including real helper stage removal before return and preservation of publication-unconfirmed behavior. Source fix accepted for this defect. Current-source final package rebuild and acceptance evidence remain pending.",
+      "created_at": "2026-10-31T01:34:49.764470Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "9a2ad28f-5c0c-43d5-b1f3-e62a4f759045",
+      "author": "home",
+      "text": "Current packed rebuild evidence inspected: trusted TS import/render and font render pass; inert validation reports pending, hosted/untrusted imports reject; recomputed-digest TS tamper fails normalized-source re-execution. Full reverse/random/repeat/partition conformance passes. Final CLI review found bundle commands lacked SIGINT/SIGTERM forwarding despite library cleanup tests. Worker added scoped AbortController handlers for all five bundle commands with awaited cleanup and 130/143 preservation; primary source review passed, actual active-capture CLI subprocess cancellation proof and CLI repack pending. Do not close P17 before this user-facing integration gate.",
+      "created_at": "2026-10-31T01:38:43.229541Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "121438e5-33fe-4a33-87fe-51b32d72a0c3",
+      "author": "home",
+      "text": "Primary accepted local P17 implementation evidence: 90 bundle tests plus one Windows skip, 20 timing tests/typecheck, 13 positive/30 negative schema vectors; packed XML/audio/custom TS/shader/font and Framer checks, source tamper/trust rejection, deterministic seek/partition output and active-capture CLI SIGINT exit130 with8observedowned processesgone. Final font refreshed against finalCLI and primary viewed frame83. Product commits toolchain c09d4ff, CLI7e50ca6, specification019cdf4. Review PRs: https://github.com/VideoML/toolchain/pull/7 ; https://github.com/VideoML/cli/pull/6 ; https://github.com/VideoML/specification/pull/4 . Durable workflow docs and VALIDATION.md included. Await landing checks before closure/checkout handoff. Reused third-party consumer and local macOS evidence are explicit limitations; Linux release/cloud isolation gates unchanged.",
+      "created_at": "2026-10-31T01:42:34.524971Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.623766Z",
-  "updated_at": "2026-10-31T00:13:05.623849Z",
+  "updated_at": "2026-10-31T01:42:34.525516Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,

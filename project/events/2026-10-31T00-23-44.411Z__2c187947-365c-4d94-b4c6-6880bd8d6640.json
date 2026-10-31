@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "event_id": "2c187947-365c-4d94-b4c6-6880bd8d6640",
+  "issue_id": "videoml-224803d9-e857-4f84-ba37-65a3dc649d30",
+  "event_type": "field_updated",
+  "occurred_at": "2026-10-31T00:23:44.411Z",
+  "actor_id": "home",
+  "payload": {
+    "changes": {
+      "description": {
+        "from": "## Shared prerequisite for catalog adaptations\nOwn stdlib plus focused player/toolchain/specification bridges after P17 releases those checkouts. Preserve D02 absolute integer seek; never introduce a wall clock.\nAdd optional readonly timing:{startFrame,endFrame} to EffectMountContext for source compatibility. mountEffect always supplies a fresh frozen interval copied from validated EffectConfig; caller mutation after mount cannot alter visibility or local timing. New catalog implementations that animate relative to placement calculate local seconds=(absoluteFrame-startFrame)/fps and explicitly clamp their authored timeline endpoints. Do not retime existing version1 effects (echo/particles) or silently change accepted P08a fixtures. Direct mounting of a new effect requiring timing fails EFFECT_TIMING_UNAVAILABLE if absent; documented mountEffect is the normal public path.\nTests: nonzero start,24/30fps, frames before/inside/after interval, reverse/repeated/random/partition seeks, caller config mutation, unchanged existing effect pixels. Prove copied XML/player/normal packed CLI matches with an offset test effect and a zero-offset fixture. Document timing contract and pure timeline adapters. Primary accepts; no worker closure/commits. Follow one-writer-per-checkout and one heavy slot.",
+        "to": "## Shared prerequisite for catalog adaptations\nOwn stdlib plus focused player/toolchain/specification bridges after P17 releases those checkouts. Preserve D02 absolute integer seek; never introduce a wall clock.\nAdd optional readonly timing:{startFrame,endFrame} to EffectMountContext for source compatibility. mountEffect always supplies a fresh frozen interval copied from validated EffectConfig; caller mutation after mount cannot alter visibility or local timing. New catalog implementations that animate relative to placement calculate local seconds=(absoluteFrame-startFrame)/fps and explicitly clamp their authored timeline endpoints. Do not retime existing version1 effects (echo/particles) or silently change accepted P08a fixtures. Direct mounting of a new effect requiring timing fails EFFECT_TIMING_UNAVAILABLE if absent; documented mountEffect is the normal public path.\nTests: nonzero start,24/30fps, frames before/inside/after interval, reverse/repeated/random/partition seeks, caller config mutation, unchanged existing effect pixels. Prove copied XML/player/normal packed CLI matches with an offset test effect and a zero-offset fixture. Document timing contract and pure timeline adapters. Primary accepts; no worker closure/commits. Follow one-writer-per-checkout and one heavy slot.\nPrimary review clarification: preserve existing XML/player/renderer rounding exactly: startFrame=floor(authoredStartSeconds*fps), endFrame=ceil(authoredEndSeconds*fps). Copy validated config bounds for visibility AND readonly timing context before mount; later caller mutation must affect neither. Test fractional-second boundaries at24/30fps."
+      }
+    }
+  }
+}

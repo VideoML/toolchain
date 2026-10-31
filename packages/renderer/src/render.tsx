@@ -7,6 +7,7 @@ import React from "react";
 import { renderToString } from "react-dom/server";
 import { clamp } from "./math.js";
 import { RendererProvider, type VideoConfig } from "./context.js";
+import {awaitBrowserLaunch} from './render-lifecycle.js';
 
 export type RenderFrameOptions = {
   component: React.ComponentType<any>;
@@ -43,6 +44,9 @@ export type RenderFramesPngOptions = Omit<RenderFrameOptions, "frame"> & {
   effectStageTimeoutMs?: number; // Defaults to 30 seconds, capped at 300 seconds
   /** Use the trusted local browser renderer even when the script has no frame effects. */
   forceLocalSceneRenderer?: boolean;
+  portableComponents?: Array<{id:string;version:string}>;
+  portableMode?: boolean;
+  signal?: AbortSignal;
   browserBundlePath?: string; // Deprecated: use browserBundlePaths instead
   browserBundlePaths?: string[]; // Multiple bundles to load in order (standard + custom)
 };
@@ -143,19 +147,16 @@ const applyViewport = async (
 const createPage = async (
   browser: BrowserAdapter,
   options: { width: number; height: number; deviceScaleFactor?: number },
+  onContext?: (context:BrowserContextAdapter)=>void,
 ): Promise<{ page: PageAdapter; closeContext?: () => Promise<void> }> => {
   if (browser.newContext) {
     const context = await browser.newContext({
       viewport: { width: options.width, height: options.height },
       deviceScaleFactor: options.deviceScaleFactor,
     });
+    onContext?.(context);
     const page = await context.newPage();
-    return {
-      page,
-      closeContext: async () => {
-        await context.close?.();
-      },
-    };
+    return {page,closeContext:async()=>{await context.close?.();}};
   }
   const page = await browser.newPage();
   return { page };
@@ -300,25 +301,37 @@ export const renderFramesToPng = async ({
   if (lastFrame < firstFrame) {
     return { frames: [] };
   }
+  if(options.signal?.aborted)throw new Error('RENDER_CANCELLED');
+  const preflight=async <T,>(work:Promise<T>,name:string):Promise<T>=>{let timer:ReturnType<typeof setTimeout>|undefined,onAbort:()=>void=()=>{};const stopped=new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error(`FRAME_EFFECT_TIMEOUT: ${name}`)),options.effectStageTimeoutMs??30000);onAbort=()=>reject(new Error('RENDER_CANCELLED'));options.signal?.addEventListener('abort',onAbort,{once:true});if(options.signal?.aborted)onAbort();});try{return await Promise.race([work,stopped]);}catch(error){let cleanupTimer:ReturnType<typeof setTimeout>|undefined;try{await Promise.race([work.then(()=>{},()=>{}),new Promise<never>((_,reject)=>{cleanupTimer=setTimeout(()=>reject(new Error(`RENDER_CLEANUP_UNCONFIRMED: ${name} did not settle`)),options.effectStageTimeoutMs??30000);})]);}finally{if(cleanupTimer)clearTimeout(cleanupTimer);}throw error;}finally{if(timer)clearTimeout(timer);options.signal?.removeEventListener('abort',onAbort);}};
   const automaticEffects = options.forceLocalSceneRenderer === true || hasFrameEffect(options.inputProps?.script);
   let automaticBundle: string | undefined;
   if (automaticEffects && (!Number.isFinite(options.effectStageTimeoutMs ?? 30000) || (options.effectStageTimeoutMs ?? 30000) <= 0 || (options.effectStageTimeoutMs ?? 30000) > 300000)) throw new Error('FRAME_EFFECT_INVALID: stage timeout must be within 300 seconds');
   if (automaticEffects) {
-    const { build } = await import("esbuild");
-    const output = await build({entryPoints:[fileURLToPath(new URL("./frame-effect-browser.tsx",import.meta.url))],bundle:true,write:false,platform:"browser",format:"iife",target:"es2022"});
+    const buildWork=import("esbuild").then(({build})=>build({entryPoints:[fileURLToPath(new URL("./frame-effect-browser.tsx",import.meta.url))],bundle:true,write:false,platform:"browser",format:"iife",target:"es2022"}));
+    const output = await preflight(buildWork,'renderer build');
     automaticBundle = output.outputFiles[0].text;
   }
 
-  const providedBrowser = browser ?? (await loadPlaywright()).chromium.launch({ executablePath: process.env.VIDEOML_CHROMIUM_EXECUTABLE_PATH });
-  const activeBrowser = await providedBrowser;
+  if(options.signal?.aborted)throw new Error('RENDER_CANCELLED');
+  const providedBrowser = browser ?? (await preflight(loadPlaywright(),'browser library')).chromium.launch({ executablePath: process.env.VIDEOML_CHROMIUM_EXECUTABLE_PATH });
+  const launch=Promise.resolve(providedBrowser);
+  const activeBrowser=options.signal||automaticEffects?await awaitBrowserLaunch(launch,{signal:options.signal,owned:!browser,timeoutMs:options.effectStageTimeoutMs??30000}):await launch;
+  if(options.signal?.aborted){if(!browser)await activeBrowser.close?.();throw new Error('RENDER_CANCELLED');}
+  const openedPages=new Set<{page:PageAdapter;closeContext?:()=>Promise<void>}>(),openedContexts=new Set<BrowserContextAdapter>(),abortTasks:Promise<void>[]=[];let abortCloseFailure:unknown;
+  const trackClose=(work:()=>Promise<void>|undefined)=>{const task=Promise.resolve().then(work).catch(error=>{abortCloseFailure??=error;});abortTasks.push(task);};
+  const cancelBrowser=()=>{if(!browser)trackClose(()=>activeBrowser.close?.());for(const pair of openedPages)trackClose(()=>pair.page.close?.());for(const context of openedContexts)trackClose(()=>context.close?.());};
+  options.signal?.addEventListener('abort',cancelBrowser,{once:true});
   const shouldClose = autoClose ?? !browser;
 
+  const closeBounded=async (operation:()=>Promise<void>)=>{let timer:ReturnType<typeof setTimeout>|undefined;try{await Promise.race([operation(),new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error('RENDER_CLEANUP_UNCONFIRMED: cleanup timeout')),options.effectStageTimeoutMs??30000);})]);}finally{if(timer)clearTimeout(timer);}};
   const frames: Array<{ frame: number; path: string }> = [];
-  ensureDir(outDir);
-
-  // Clean existing frames if requested (default: true)
-  if (cleanFrames) {
-    cleanFramesDir(outDir, framePattern);
+  try {
+    ensureDir(outDir);
+    if (cleanFrames) cleanFramesDir(outDir, framePattern);
+  } catch(error) {
+    options.signal?.removeEventListener('abort',cancelBrowser);
+    if(shouldClose)try{await closeBounded(async()=>{await activeBrowser.close?.();});}catch(cleanup){throw new Error(`RENDER_CLEANUP_UNCONFIRMED: ${String(cleanup)}`);}
+    throw error;
   }
   const totalFrames = lastFrame - firstFrame + 1;
   const workerCount = Math.min(resolveWorkerCount(workers), totalFrames);
@@ -354,7 +367,7 @@ export const renderFramesToPng = async ({
       try {
         for (;;) {
           const frame = takeNextFrame(); if (frame == null) break;
-          await bounded(()=>page.evaluate!(async (args: any) => (window as any).videomlFrameEffectRender(args), {script:options.inputProps?.script,frame,config:options.config,assets:options.inputProps?.effectAssets ?? {},seed:options.inputProps?.effectSeed ?? 0}),"mount or seek");
+          await bounded(()=>page.evaluate!(async (args: any) => (window as any).videomlFrameEffectRender(args), {script:options.inputProps?.script,frame,config:options.config,assets:options.inputProps?.effectAssets ?? {},seed:options.inputProps?.effectSeed ?? 0,portableComponents:options.portableComponents??[],portableMode:options.portableMode??false}),"mount or seek");
           const policyViolations=await bounded(()=>page.evaluate!(()=>(window as any).__videomlBlockedPolicies as string[]),'policy check');
           if(blockedRequests.length||policyViolations.length)throw new Error(`FRAME_EFFECT_NETWORK_BLOCKED: ${blockedRequests[0] ?? policyViolations[0]}`);
           const buffer = await bounded(()=>page.screenshot({type:"png"}),"screenshot"); const outPath=join(outDir,formatFrameName(framePattern,frame));ensureDir(dirname(outPath));writeFileSync(outPath,buffer);frames.push({frame,path:outPath});onFrame?.(frame,outPath);
@@ -495,32 +508,38 @@ export const renderFramesToPng = async ({
   };
 
   const setupBounded=async <T,>(operation:()=>Promise<T>,stage:string):Promise<T>=>{
-    if(!automaticBundle)return operation();let timer:ReturnType<typeof setTimeout>|undefined;
-    try{return await Promise.race([operation(),new Promise<never>((_,reject)=>{timer=setTimeout(()=>{void activeBrowser.close?.().catch(()=>{});reject(new Error(`FRAME_EFFECT_TIMEOUT: ${stage}`));},options.effectStageTimeoutMs ?? 30000);})]);}finally{if(timer)clearTimeout(timer);}
+    let timer:ReturnType<typeof setTimeout>|undefined,onAbort:()=>void=()=>{};const stopped=new Promise<never>((_,reject)=>{if(automaticBundle)timer=setTimeout(()=>{if(!browser)trackClose(()=>activeBrowser.close?.());reject(new Error(`FRAME_EFFECT_TIMEOUT: ${stage}`));},options.effectStageTimeoutMs??30000);onAbort=()=>reject(new Error('RENDER_CANCELLED'));options.signal?.addEventListener('abort',onAbort,{once:true});if(options.signal?.aborted)onAbort();});
+    try{return await Promise.race([operation(),stopped]);}finally{if(timer)clearTimeout(timer);options.signal?.removeEventListener('abort',onAbort);}
   };
   const setupResults = await Promise.allSettled(Array.from({length:workerCount},async()=>{
-    const pair=await setupBounded(()=>createPage(activeBrowser,{width:options.config.width,height:options.config.height,deviceScaleFactor}),'page creation');
+    let abandoned=false;const creation=createPage(activeBrowser,{width:options.config.width,height:options.config.height,deviceScaleFactor},context=>{openedContexts.add(context);if(abandoned||options.signal?.aborted)trackClose(()=>context.close?.());}).then(pair=>{if(abandoned||options.signal?.aborted){trackClose(()=>pair.page.close?.());trackClose(()=>pair.closeContext?.());}return pair;});
+    let pair:Awaited<ReturnType<typeof createPage>>;try{pair=await setupBounded(()=>creation,'page creation');}catch(error){abandoned=true;try{await closeBounded(async()=>{await creation.then(()=>{},()=>{});await Promise.all(abortTasks);});}catch(cleanup){throw new Error(`RENDER_CLEANUP_UNCONFIRMED: ${String(cleanup)}`);}throw error;}
+    openedPages.add(pair);if(options.signal?.aborted){try{await closeBounded(async()=>{await pair.page.close?.();await pair.closeContext?.();});}catch(error){throw new Error(`RENDER_CLEANUP_UNCONFIRMED: ${String(error)}`);}throw new Error('RENDER_CANCELLED');}
     try {await setupBounded(()=>applyViewport(pair.page,{width:options.config.width,height:options.config.height,deviceScaleFactor}),'viewport setup');return pair;}
-    catch(error){void pair.page.close?.().catch(()=>{});void pair.closeContext?.().catch(()=>{});throw error;}
+    catch(error){try{await closeBounded(async()=>{await pair.page.close?.();await pair.closeContext?.();});}catch(cleanup){throw new Error(`RENDER_CLEANUP_UNCONFIRMED: ${String(cleanup)}`);}throw error;}
   }));
   const workersPool=setupResults.filter((item):item is PromiseFulfilledResult<Awaited<ReturnType<typeof createPage>>>=>item.status==='fulfilled').map(item=>item.value);
   const setupFailure=setupResults.find((item):item is PromiseRejectedResult=>item.status==='rejected');
-  if(setupFailure){for(const {page,closeContext} of workersPool){void page.close?.().catch(()=>{});void closeContext?.().catch(()=>{});}if(shouldClose)void activeBrowser.close?.().catch(()=>{});throw setupFailure.reason;}
+  if(setupFailure){let cleanupFailure:unknown;try{await closeBounded(async()=>{const cleanup=await Promise.allSettled([...workersPool.map(({page})=>page.close?.()).filter(Boolean) as Promise<void>[],...[...openedContexts].map(context=>context.close?.()).filter(Boolean) as Promise<void>[],...abortTasks]);const failed=cleanup.find(item=>item.status==='rejected') as PromiseRejectedResult|undefined;if(failed)throw failed.reason;if(shouldClose)await activeBrowser.close?.();});}catch(error){cleanupFailure=error;}options.signal?.removeEventListener('abort',cancelBrowser);if(cleanupFailure||abortCloseFailure)throw new Error(`RENDER_CLEANUP_UNCONFIRMED: ${String(cleanupFailure??abortCloseFailure)}`);if(String(setupFailure.reason).includes('RENDER_CLEANUP_UNCONFIRMED'))throw setupFailure.reason;if(options.signal?.aborted)throw new Error('RENDER_CANCELLED');throw setupFailure.reason;}
 
-  let renderFailure: unknown;
+  let cleanupFailure:unknown;let renderFailure: unknown;
   try {
     const outcomes = await Promise.allSettled(workersPool.map(async ({ page, closeContext }) => {
       let failure: unknown;
       try { await renderWithPage(page); } catch (error) { failure=error; }
-      const closeBounded=async (operation:()=>Promise<void>)=>{if(!automaticBundle)return operation();let timer:ReturnType<typeof setTimeout>|undefined;try{await Promise.race([operation(),new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error('FRAME_EFFECT_TIMEOUT: cleanup')),options.effectStageTimeoutMs ?? 30000);})]);}finally{if(timer)clearTimeout(timer);}};
-      try { await closeBounded(async()=>{await page.close?.();}); } catch (error) { failure ??= error; }
-      try { await closeBounded(async()=>{await closeContext?.();}); } catch (error) { failure ??= error; }
-      if (failure) throw failure;
+
+      try { await closeBounded(async()=>{await page.close?.();}); } catch (error) { cleanupFailure??=error;failure ??= error; }
+      try { await closeBounded(async()=>{await closeContext?.();}); } catch (error) { cleanupFailure??=error;failure ??= error; }
+      if (failure)throw failure;
     }));
     for (const outcome of outcomes) if (outcome.status === 'rejected') {renderFailure=outcome.reason;break;}
   } finally {
-    if (shouldClose) try { if(automaticBundle){let timer:ReturnType<typeof setTimeout>|undefined;try{await Promise.race([activeBrowser.close?.(),new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error('FRAME_EFFECT_TIMEOUT: browser cleanup')),options.effectStageTimeoutMs ?? 30000);})]);}finally{if(timer)clearTimeout(timer);}}else await activeBrowser.close?.(); } catch (error) { renderFailure ??= error; }
+    if (shouldClose) try { if(automaticBundle){let timer:ReturnType<typeof setTimeout>|undefined;try{await Promise.race([activeBrowser.close?.(),new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error('FRAME_EFFECT_TIMEOUT: browser cleanup')),options.effectStageTimeoutMs ?? 30000);})]);}finally{if(timer)clearTimeout(timer);}}else await activeBrowser.close?.(); } catch (error) { cleanupFailure??=error;renderFailure ??= error; }
   }
+  if(options.signal?.aborted)try{await closeBounded(async()=>{await Promise.all(abortTasks);});}catch(error){cleanupFailure??=error;}
+  cleanupFailure??=abortCloseFailure;
+  options.signal?.removeEventListener('abort',cancelBrowser);
+  if(options.signal?.aborted){for(const frame of frames)try{unlinkSync(frame.path);}catch{}if(cleanupFailure)throw new Error(`RENDER_CLEANUP_UNCONFIRMED: ${String(cleanupFailure)}`);throw new Error('RENDER_CANCELLED');}
   if (renderFailure) throw renderFailure;
 
   frames.sort((a, b) => a.frame - b.frame);

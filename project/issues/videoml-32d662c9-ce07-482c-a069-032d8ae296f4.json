@@ -68,10 +68,150 @@
       "text": "Corrected STREAM/SEQPACKET-only IPC candidate passed 8 Linux ARM Gherkin scenarios /24 steps, including real external pathname and abstract datagram receivers, parent/descendant addressed sends and SCM_RIGHTS no-delivery. Production guard returned125. Paired direct-ELF local-only --no-sandbox baseline produced nonblank320x240 PNG; both FFmpeg paths encoded/decoded16x16. Isolated Chromium SIGABRT: crashpad setsid denied, /dev/null denied, process-singleton socket denied. No isolated screenshot; actual Chromium cancellation unproven. Evidence /private/tmp/p20a-chrome-compat/logs/{ipc-build.log,ipc-evidence.log,runtime-ipc.log,compat-summary.json}. Container terminal; heavy slot released. No cloud/production enablement. Source design review of next boundary is pending.",
       "created_at": "2026-10-31T00:11:11.434230Z",
       "comment_type": "default"
+    },
+    {
+      "id": "c64a1741-8416-4d2c-b8bd-726483a12035",
+      "author": "home",
+      "text": "Next candidate selected for bounded local investigation: dedicated chromium-headless-shell, keeping current isolation policy unchanged. Primary inspected saved APT index (no refresh): exact arm64 version156.0.8078.73-1~deb12u1, archive56878696B, installed212184KiB, SHA256aeefcab4fd1f82ec44dc0249e1aebca23d80649dbee77f1826eb9f0583ad631a; metadata saved /private/tmp/p20a-chrome-compat/logs/headless-index-metadata.json. Must resolve complete closure and budget before download; heavy slot currently website. Full Chromium singleton/crashpad failures do not establish shell behavior; baseline/restricted screenshot, Playwright protocol, DOM/canvas/WebGL/font seeded frames and actual descendant cancellation remain required. No policy widening or Fargate/production claim.",
+      "created_at": "2026-10-31T00:15:24.597299Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "ea104e60-df3d-4e65-a4e2-ae8fb82d360c",
+      "author": "home",
+      "text": "Headlessshell offline transaction reviewed:226packages,225retainedarchives verified, only missingarchive56,878,696B SHAaeefcab4fd1f82ec44dc0249e1aebca23d80649dbee77f1826eb9f0583ad631a. Conservativetotal1,109,835,165B <1.5GiB, hostfree11,573,223,424B. Approved onepackageacquisition underwatchdog. First runtime retains existingpolicy and identicalbaseline/restricted flags, changes only verified headlessELF path afterreview. Playwright protocol gate remains unmet: defaultFD3/4pipes conflict with close_range>=3 andstdin/devnull; no network/FD exception authorized. CLI screenshot/FFmpeg/descendant cancellation are independent tests, not a substitute for real renderer protocol proof.",
+      "created_at": "2026-10-31T00:26:05.829366Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "6e07e659-200a-44d4-8f47-42404d694067",
+      "author": "home",
+      "text": "Primary verified experimental driver SHA256 3bf86eac490f6e81339fb423a402506ecb1d6578fe7ff91b68d1cb07ab56239c: only browser executable selects verified direct headless-shell ELF, arguments and launcher policy unchanged. Approved one watchdog-bounded offline runtime after226 archive hashes and exact resolution revalidation. Production guard remains125; no extra FD/network exception; DevTools protocol remains unmet.",
+      "created_at": "2026-10-31T00:27:11.174336Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "6ea6058e-0d43-430b-b974-2129c57d452d",
+      "author": "home",
+      "text": "Dedicated headless-shell result: baseline screenshot/FFmpeg and isolated FFmpeg pass; cancellation after an observed Chromium descendant passes with confirmed group cleanup. Restricted browser still SIGTRAP after GPU process startup failures, with /dev/null/font/proc/dbus/netlink denials in stderr; no isolated screenshot or proven single root cause. Production guard125. ELF SHA256380c445b85755114f6dcb1da88b6e768d982d9179c7f9efa62ecd2ca457545ff. Evidence /private/tmp/p20a-headless-estimate/REPORT.md; runtime terminal. Next narrow experiment prepares a verified exact /dev/null read/write Landlock rule for review; no whole-/dev, /etc, network or FD exception.",
+      "created_at": "2026-10-31T00:30:37.564857Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "b06589b6-dd1f-4686-9edc-a42597dc8c81",
+      "author": "home",
+      "text": "Null candidate Linux probes: closed-stdin and guard125 pass, but old blanket /proc/self/fd/0 denial assertion fails because alias resolves to authorized null inode; observed5 scenarios pass/5fail before contract correction. Independent review confirms no new sensitive capability from same-null reopen and notes other allowed-object aliases. Canonical D08b now explicitly defines object-based rights and required identity/proc-secret/socket denial checks. Revised probes authorized; if passing, bounded browser compatibility may run with pathname replacement proof explicitly unavailable. No Docker privilege escalation or host/global device changes authorized. P20a stays open.",
+      "created_at": "2026-10-31T00:36:02.352172Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "fe12c885-b36a-4495-b63b-e0ce245b2050",
+      "author": "home",
+      "text": "Primary inspected alias-behave.log:10 Linux scenarios/30 steps pass, including null alias identity and explicit proc metadata/directory, injected secret/socket and external SCM denials; normal guard status125. Closed-stdin pin descriptor edge fixed. Paired headless runtime now active as handle3226/container p20a-null-runtime, independently observed Up28seconds while offline packages unpack. Exact pathname replacement remains unproven; this is bounded compatibility evidence only, not P20a acceptance.",
+      "created_at": "2026-10-31T00:37:29.788917Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "781143f3-4a31-4403-99ff-884baf6aec81",
+      "author": "home",
+      "text": "Paired null-candidate runtime terminal: baseline screenshot/FFmpeg, restricted FFmpeg and real-descendant cancellation passed; restricted browser still SIGTRAP after zygote/GPU startup failures with no screenshot. /dev/null failures disappeared, remaining diagnostics do not establish one cause. Evidence /private/tmp/p20a-null-runtime/REPORT.md. Next step is bounded syscall/source diagnosis before any additional policy change; no tracing package download, Docker privilege change or new browser permission authorized yet.",
+      "created_at": "2026-10-31T00:40:39.132793Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "fa77a702-aae5-4d50-8fca-780a3840cdfa",
+      "author": "home",
+      "text": "Reviewed external-tracer diagnostic proposal /private/tmp/p20a-null-probe/TRACE-PROPOSAL.md. Approved saved-index resolver and only strace6.1-0.1 archive1,192,916B SHA751817724af91cb95df566a21a154f9a7dcdd938e700e5cb9a5a47eb19752ea2 if exact resolution unchanged. Conservative total1,147,096,433B within1.5GiB. Trace supervisor requires32MiBtmpfs and tested whole-container cleanup for separate launcher process group; source/lifecycle review before actual browser tracing. No capability, Docker seccomp, dumpability or renderer policy changes allowed.",
+      "created_at": "2026-10-31T00:42:09.555699Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "9a75c008-0257-4135-b237-7936cae717d1",
+      "author": "home",
+      "text": "External strace diagnostic terminated inconclusively. Untraced restricted SIGTRAP reproduced; tracing changed behavior and filled 32 MiB tmpfs, then stderr hit its output cap. Report records output-limit, traceIncomplete=true, 24 partial files/33,492,979 bytes. Whole container teardown completed. /proc/self/fd denial followed by many close calls is observed, not established root cause. Evidence /private/tmp/p20a-trace/DIAGNOSTIC.md and logs/trace-report.json. No policy widening or production approval. Heavy slot released to P17; only a source-only narrower diagnostic proposal is authorized next.",
+      "created_at": "2026-10-31T00:53:07.027601Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "53b15be4-80f9-45a3-9cc2-dae663b04107",
+      "author": "home",
+      "text": "Narrowed trace proposal reviewed conditionally, but no runtime authorized while P17 owns heavy slot. Independent review found readiness defects in newly extracted diagnostic completion: exited/code0 can report success for incomplete trace; early setup exceptions omit required teardown marker; host failure-test timeout lacks finally container cleanup. Terra assigned all three corrections plus adversarial tests. Prior seven native tests passed independently but do not cover these defects or prove actual forced-error child cleanup.",
+      "created_at": "2026-10-31T00:55:53.632604Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "e9806b72-b988-44e4-8c40-f220533b94b0",
+      "author": "home",
+      "text": "Primary inspected synthetic Linux failure-proof.log: forced copy/report-write failures both125; detached child pgrp/session23 differs from parent16, heartbeat stable90 bytes after teardown, owned containers absent (docker ps shows only unrelated biblicus-grobid). Native source fixes reject all incomplete traces and setup errors. Approved one narrower external trace with same policy/ELF/flags227archives and bounded45s/32MiB/1.5GiB/8GiB floor, unique owned container identity, no new download or privileges. Must reproduce untraced failure before trace; divergent/incomplete trace remains inconclusive. P20a owns heavy slot; P17 continues source.",
+      "created_at": "2026-10-31T00:58:38.068013Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "ba3219c0-e1f2-4ccc-a447-17b0bf86ef34",
+      "author": "home",
+      "text": "Narrow trace terminal and inconclusive: untraced SIGTRAP reproduced; traced process timed out45s with24files/144203bytes, traceIncomplete=true/status125, no report/cleanup error and container removed. Primary inspected trace-report.json; no causal syscall established. Next authorized work is source-only descriptor resource-limit proposal (soft/hard RLIMIT_NOFILE4096 equally for baseline/restricted/traced), to bound possible fallback close traversal without granting permissions. No next runtime approved. Heavy slot released to P17.",
+      "created_at": "2026-10-31T01:02:02.227137Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "47cc45d5-5864-4d92-8644-ee455658f2e0",
+      "author": "home",
+      "text": "Primary reviewed exact NOFILE-COMPILE-PROBE-COMMANDS.md and independently ran4 nofile evidence/result tests pass. Authorized bounded static compile, updated synthetic copy/report failure proofs, guard125, baseline/restricted parent+child4096 limit, denied hard-limit raise, real EMFILE and low-inherited-limit rejection. Same readonly reviewed source/binaries, unique names/CID/owner, network-none/no pulls or added privileges,1.5GiB budget and8GiB floor. No browser run authorized yet; stop on hash mismatch or uncertain cleanup. Actual per-command first-line limit evidence is mandatory and cleanup uncertainty takes precedence over output classification.",
+      "created_at": "2026-10-31T01:07:45.960308Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "c9bc812c-4472-4409-a8f2-e6de3025b3e8",
+      "author": "home",
+      "text": "Primary inspected actual Linux nofile-proof.json and probe.log: baseline/restricted observed1048576/1048576=>4096/4096; each parent and child inherited cap, denied raise and exhausted at4093 opens/EMFILE. Low1024 parent rejected; guard125. Synthetic modified-wrapper failure cases passed; dockerps only unrelatedgrobid. Local resource-limit proof accepted, not Chromium compatibility. Separate paired runtime command requested before authorization.",
+      "created_at": "2026-10-31T01:09:43.953966Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "0e7c8439-4dbb-4bff-9adc-e6f1922770b5",
+      "author": "home",
+      "text": "Approved exact NOFILE-PAIRED-RUNTIME-COMMAND.md after successful cap proof. One capped paired run active handle39750 in unique container p20a-nofile-paired-3af3f3bbddb54c42822e1c58e2f7cbda, independently observed Up17seconds. Evidence root /private/tmp/p20a-nofile-paired-3af3f3bbddb54c42822e1c58e2f7cbda. Same227cachedarchives/ELF/browserflags/isolation policy, mandatory filter and limit preflight before browser. No downloads/new permissions. Result pending; no restart on observation timeout.",
+      "created_at": "2026-10-31T01:11:03.733122Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "50ade54f-4608-4c02-9058-49ae18961dfe",
+      "author": "home",
+      "text": "Primary inspected capped trace report: complete31files239381bytes, bothtraced/untracedSIGTRAP, no observedEMFILE, wrapper1048576=>4096. Two child traces .4442/.4443 show denied urandom O_RDONLY immediatelySIGTRAP. Source-only exactinode readonlyurandom candidate recorded D08b. Independent review accepts investigation under trustednamespace; randombytes are nondeterministic and Landlockread is not ioctl filtering. Require boundedread/deviceidentity/negativewrite+otherdevices and benign zero-delta privilegedentropy ioctl denials, never destructive entropy resets/reseed or hostdevice mutation. No browser/policy enablement approved.",
+      "created_at": "2026-10-31T01:14:06.433938Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "7b9685eb-1e5b-45c2-b8d4-b3cf9a5de731",
+      "author": "home",
+      "text": "Primary inspected urandom paired complete trace31files244087bytes: SIGTRAP persists, proc_util.cc39 fatal. Official exact Chromium156 source confirms zygote calls OpenProc to check self/task single-thread invariant; supported no-zygote with existing no-sandbox uses direct multiprocess LaunchProcess. Primary verified content_switches.cc476-480 and child_process_launcher_helper_linux.cc101-104 at https://github.com/chromium/chromium/tree/156.0.8078.73 . Authorized source-only next candidate adds only --no-zygote consistently to all browser paths; no procgrant, no singleprocess, no runtimeyet. Other gates unchanged.",
+      "created_at": "2026-10-31T01:21:13.389776Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "c75cee3d-5031-4801-90af-4f9bceacd4f5",
+      "author": "home",
+      "text": "Primary reviewed centralized browser-candidate.mjs, in-process trace entry and exactNO-ZYGOTE-PAIRED-COMMAND.md; authorized one pairedrun addingonly--no-zygote to all4browserpaths. Sameurandomlauncher/cap4096/ELF/227archives/no procgrant. Livehandle84684 evidence /private/tmp/p20a-nozygote-398b2e1519eb41f0981a1b437da76050; sourcebinarychecks passed, ownedrandomcontainer. No production or compatibility acceptance until terminal evidence.",
+      "created_at": "2026-10-31T01:22:30.886597Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "259eaa01-258e-49c8-af61-fc1730630e4b",
+      "author": "home",
+      "text": "Primary inspected terminal no-zygote REPORT.md: baseline PNG and restricted FFmpeg pass; restricted Chromium and cancellation attempt SIGTRAP, no trace launched, guard125. Current single-container proc-denial topology has not produced a usable browser. Next source-only architecture proposal: same-task separate renderer container with private PID namespace, separate root filesystem and bounded input/output exchange; retain syscall network denial, scrubbed environment/FDs and no supervisor mounts. Same-task IAM credentials remain a risk requiring adversarial proof; private PID alone is insufficient. No policy widening, runtime, provisioning or production enablement authorized by this proposal. Terra preparing concrete topology, CDP exchange and exact AWS mapping before primary decision.",
+      "created_at": "2026-10-31T01:30:06.617855Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "6d750a8b-e7f8-422c-8262-53f1645c9017",
+      "author": "home",
+      "text": "Primary source review found concrete D08c integration conflict: installed Playwright1.45 processLauncher.js106-110 sets detached:true on Unix, requiring setsid; existing launcher.c156 denies setsid/setpgid. New private-PID topology must explicitly revise lifecycle containment before actual Playwright can launch. Reviewer assigned narrow private-PID-only session allowance and authoritative whole-container termination assessment, including launcher startup setpgid at PID1/sessionleader. No policy runtime authorized. Runtime provenance decision: trusted build harness verifies approved package SHA, extracts into fresh owned runtime tree and inventories installed bytes plus separately inventoried third-party deps, recording exact commands. This is not acceptance of an untrusted manifest self-assertion; final P17 artifacts remain pending.",
+      "created_at": "2026-10-31T01:36:32.725775Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T21:55:55.047192Z",
-  "updated_at": "2026-10-31T00:11:11.434767Z",
+  "updated_at": "2026-10-31T01:36:32.726285Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,

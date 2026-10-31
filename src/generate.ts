@@ -10,7 +10,8 @@ import { getDefaultMusicProvider, getDefaultProvider, getDefaultSfxProvider, typ
 import { getEnvironment, resolveEnvCacheDir } from "./env.js";
 import { loadManifest, getManifestDuration, resolveCachedSfx, resolveCachedMusic } from "./cache-resolver.js";
 import { hashKey, safePrefix, ensureDir } from "./util.js";
-import { makeBullet, type Script, type TransitionTimelineItem, scriptToJson } from "./models.js";
+import { type Script, type TransitionTimelineItem, scriptToJson } from "./models.js";
+import {projectAuthoredCue, projectAuthoredScene, projectAuthoredTransition, transitionDuration, transitionTiming} from "./script-projection.js";
 import { getProviderConfig } from "./config.js";
 import { getTtsProvider } from "./providers/tts/registry.js";
 import { estimateDurationSec } from "./providers/tts/dry-run.js";
@@ -20,7 +21,6 @@ import {
   type CompositionSpec,
   type PauseSpec,
   type SceneSpec,
-  type VoiceSegmentSpec,
   type AudioClipSpec,
   type TimelineItemSpec,
   type TransitionSpec,
@@ -29,7 +29,7 @@ import {
   type AudioPlan,
   type NarrationSpec,
 } from "./dsl/types.js";
-import { pause as pauseHelper } from "./dsl/pause.js";
+import {normalizePauseSpec,samplePause,makeRng} from "./script-pauses.js";
 import { probeDurationSec } from "./media.js";
 import { writeSilenceWav, parseWav, writePcmWav, exactTrimPcm } from "./audio/wav.js";
 import { prepareVoicePcm } from "./audio/voice-pcm.js";
@@ -542,22 +542,13 @@ async function generateWithSession(options: GenerateOptions, session: Generation
       }
 
       const end = now;
-      cuesOut.push({
-        id: cue.id,
-        label: cue.label,
-        startSec: start,
-        endSec: end,
-        text: cue.segments.filter(isTextSegment).map((s) => s.text).join(" ").trim(),
-        bullets: cue.bullets.map(makeBullet),
-        markup: cue.markup,
-        segments: cueSegments.map(seg => ({
-          type: seg.type as "tts" | "pause",
-          startSec: seg.startSec as number,
-          endSec: seg.endSec as number,
-          text: seg.text as string | undefined,
-          durationSec: seg.seconds as number | undefined,
-        })),
-      });
+      cuesOut.push(projectAuthoredCue(cue, start, end, cueSegments.map(seg => ({
+        type: seg.type as "tts" | "pause",
+        startSec: seg.startSec as number,
+        endSec: seg.endSec as number,
+        text: seg.text as string | undefined,
+        durationSec: seg.seconds as number | undefined,
+      }))));
       if (cueStartIndex[cue.id] != null) {
         throw new CompileError(`Duplicate cue id across scenes: "${cue.id}"`);
       }
@@ -576,32 +567,7 @@ async function generateWithSession(options: GenerateOptions, session: Generation
         : scene.time.end
       : null;
     now = Math.max(now, sceneEndHint ?? now);
-    // Inject sceneStartSec into component props
-    const layersWithSceneStart = scene.layers?.map(layer => ({
-      ...layer,
-      components: layer.components.map(comp => ({
-        ...comp,
-        props: {
-          ...(comp.props || {}),
-          sceneStartSec: sceneStart,
-        },
-      })),
-    }));
-
-    outScenes.push({
-      id: scene.id,
-      title: scene.title,
-      startSec: sceneStart,
-      endSec: now,
-      cues: cuesOut,
-      markup: scene.markup,
-      styles: scene.styles,
-      layers: layersWithSceneStart,
-      components: scene.components,
-      enter: scene.enter,
-      exit: scene.exit,
-      transitionToNext: scene.transitionToNext,
-    });
+    outScenes.push(projectAuthoredScene(scene, sceneStart, now, cuesOut));
     if (sceneStartIndex[scene.id] != null) {
       throw new CompileError(`Duplicate scene id: "${scene.id}"`);
     }
@@ -610,7 +576,6 @@ async function generateWithSession(options: GenerateOptions, session: Generation
 
   let outSceneById = new Map(outScenes.map((scene) => [scene.id, scene]));
   const timeline: Script["timeline"] = [];
-  const DEFAULT_TRANSITION_DURATION_SEC = 1;
 
   const isSceneItem = (item: TimelineItemSpec): item is SceneSpec => !("kind" in item);
   const isTransitionItem = (item: TimelineItemSpec): item is TransitionSpec =>
@@ -635,25 +600,6 @@ async function generateWithSession(options: GenerateOptions, session: Generation
     return undefined;
   };
 
-  const getTransitionDurationSeconds = (transition: TransitionSpec): number => {
-    let maxAudioEnd = 0;
-    if (transition.overflowAudio === "extend" && transition.audio?.length) {
-      for (const audio of transition.audio) {
-        const offset = audio.time?.start ?? 0;
-        let duration = audio.durationSeconds ?? null;
-        if (duration == null && audio.time?.start != null && audio.time?.end != null) {
-          duration = Math.max(0, audio.time.end - audio.time.start);
-        }
-        if (duration != null) {
-          maxAudioEnd = Math.max(maxAudioEnd, offset + duration);
-        }
-      }
-    }
-    if (transition.time?.start != null && transition.time?.end != null) {
-      return Math.max(0, transition.time.end - transition.time.start);
-    }
-    return Math.max(transition.durationSeconds ?? DEFAULT_TRANSITION_DURATION_SEC, maxAudioEnd);
-  };
 
   const shiftBefore: number[] = [];
   const shiftBySceneId = new Map<string, number>();
@@ -667,7 +613,7 @@ async function generateWithSession(options: GenerateOptions, session: Generation
       continue;
     }
     if (isTransitionItem(item) && (item.mode ?? "overlap") === "insert") {
-      const duration = getTransitionDurationSeconds(item);
+      const duration = transitionDuration(item);
       const prevSceneId = findPrevSceneId(i);
       const nextSceneId = findNextSceneId(i);
       let extraShift = duration;
@@ -978,39 +924,12 @@ async function generateWithSession(options: GenerateOptions, session: Generation
   ): TransitionTimelineItem => {
     const prevScene = prevSceneId ? outSceneById.get(prevSceneId) : undefined;
     const nextScene = nextSceneId ? outSceneById.get(nextSceneId) : undefined;
-    const durationSeconds = getTransitionDurationSeconds(transition as TransitionSpec);
-    const mode: TransitionSpec["mode"] =
-      transition.mode ?? (prevScene && nextScene ? "overlap" : "insert");
-    const startSec =
-      transition.time?.start != null
-        ? transition.time.start
-        : mode === "overlap" && prevScene
-          ? Math.max(0, prevScene.endSec - durationSeconds)
-          : prevScene?.endSec ?? 0;
-    const endSec = transition.time?.end ?? startSec + durationSeconds;
-
+    const {mode, startSec, endSec} = transitionTiming(transition as TransitionSpec, prevScene, nextScene);
     if (mode === "overlap" && nextScene && startSec < nextScene.startSec) {
       nextScene.startSec = startSec;
     }
 
-    return {
-      kind: "transition",
-      id: transition.id,
-      startSec,
-      endSec,
-      effect: transition.effect,
-      ease: transition.ease,
-      props: transition.props,
-      mode,
-      overflow: transition.overflow,
-      overflowAudio: transition.overflowAudio,
-      fromSceneId: prevSceneId,
-      toSceneId: nextSceneId,
-      styles: transition.styles,
-      markup: transition.markup,
-      layers: transition.layers,
-      components: transition.components,
-    };
+    return projectAuthoredTransition(transition, startSec, endSec, mode, prevSceneId, nextSceneId);
   };
 
   for (let i = 0; i < timelineSpec.length; i += 1) {
@@ -1735,57 +1654,6 @@ function mergeAudioPlans(base?: AudioPlan | null, extra?: AudioPlan | null): Aud
   };
 }
 
-function normalizePauseSpec(value: PauseSpec | number | undefined | null): PauseSpec | null {
-  if (value == null) {
-    return null;
-  }
-  if (typeof value === "number") {
-    return pauseHelper(value);
-  }
-  return value;
-}
-
-function samplePause(spec: PauseSpec, rng: () => number): number {
-  if (spec.mode === "fixed") {
-    if (!Number.isFinite(spec.seconds)) throw new CompileError("Pause must be finite");
-    return Math.max(0, spec.seconds);
-  }
-  if (!Number.isFinite(spec.mean) || !Number.isFinite(spec.std) || spec.std < 0 ||
-      (spec.min != null && !Number.isFinite(spec.min)) || (spec.max != null && !Number.isFinite(spec.max)) ||
-      (spec.min != null && spec.max != null && spec.min > spec.max)) throw new CompileError("Invalid Gaussian pause");
-  let val = gaussianSample(rng, spec.mean, spec.std);
-  if (spec.min != null) {
-    val = Math.max(val, spec.min);
-  }
-  if (spec.max != null) {
-    val = Math.min(val, spec.max);
-  }
-  return Math.max(0, val);
-}
-
-function gaussianSample(rng: () => number, mean: number, std: number): number {
-  let u = 0;
-  let v = 0;
-  while (u === 0) u = rng();
-  while (v === 0) v = rng();
-  const z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
-  return mean + z * std;
-}
-
-function makeRng(seed: number | null): () => number {
-  if (seed == null) {
-    return () => Math.random();
-  }
-  let t = seed >>> 0;
-  return () => {
-    t += 0x6d2b79f5;
-    let r = t;
-    r = Math.imul(r ^ (r >>> 15), r | 1);
-    r ^= r + Math.imul(r ^ (r >>> 7), r | 61);
-    return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
 
 function toPublicPath(path: string): string {
   const parts = path.split(`${sep}public${sep}`);
@@ -1912,10 +1780,6 @@ function volumeAt(points: Array<[number, number]>, t: number): number {
     }
   }
   return points[points.length - 1][1];
-}
-
-function isTextSegment(segment: VoiceSegmentSpec): segment is { kind: "text"; text: string } {
-  return segment.kind === "text";
 }
 
 function findFirstMatch(dir: string, prefix: string, ext: string): string | null {

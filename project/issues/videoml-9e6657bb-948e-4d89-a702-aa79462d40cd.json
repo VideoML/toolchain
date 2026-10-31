@@ -31,11 +31,27 @@
     {
       "target": "videoml-eb5a8e83-390d-4339-9f4c-fdcf22b2ee3d",
       "type": "blocked-by"
+    },
+    {
+      "target": "videoml-224803d9-e857-4f84-ba37-65a3dc649d30",
+      "type": "blocked-by"
+    },
+    {
+      "target": "videoml-8d09d9e0-f541-4532-ace2-edfc8844d18d",
+      "type": "blocked-by"
     }
   ],
-  "comments": [],
+  "comments": [
+    {
+      "id": "1d5c49a6-8ddd-47d5-a572-9183a6a735e3",
+      "author": "home",
+      "text": "Primary preflight before C001 dispatch: preserve cursor typed statuses/curved path/click rings/exit with default4.8s beat mapping (2.0/3.35/3.65 sync); bar chart actual labels/card/custom-property growth/dashed line and1.2s power3.out; arc both SVG paths/chips with locally bundled MotionPathPlugin auto-rotation (2.4s power1.inOut,2.1s sine.inOut delayed.25s) and per-instance scoped IDs; ASCII pass luminance summed-area sampling, stepped4-to1 grid, deterministic shimmer/resolve/exit and authored slotted scene static snapshot; ASCII trail actual S-curve/per-cell path-relative flips/actor/guide/hold. Use neutral owned assets, Apache notices, local GSAP, no CDN or fixed monogram substitute for slot support. Before implementation primary must finalize shared immutable placement timing in EffectMountContext (current absolute seek has no start/end context) and bounded scene snapshot provider for authored slot content. These require a shared prerequisite packet and copiedXML/player/CLI proof; do not silently approximate. Website currently hardcodes preview registrations: C001 must wire reusable registrations and matching fixtures, manifest alone is not runnable coverage. Reference tests must compare meaningful choreography intermediate states, reverse/repeat/partition/multiple instances and asset cancellation. Independent preflight by plan_review; no C001 implementation yet.",
+      "created_at": "2026-10-31T00:18:09.122764Z",
+      "comment_type": "default"
+    }
+  ],
   "created_at": "2026-10-30T19:29:36.292510Z",
-  "updated_at": "2026-10-30T19:29:36.380474Z",
+  "updated_at": "2026-10-31T00:21:06.472866Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,

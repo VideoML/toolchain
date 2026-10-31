@@ -1,0 +1,7 @@
+import {isDeepStrictEqual} from 'node:util';
+import type {BundleManifest} from './manifest.js';
+const digest=/^sha256:[0-9a-f]{64}$/;
+const packageKey=/^(?:@[a-z0-9][a-z0-9._~-]*\/[a-z0-9][a-z0-9._~-]*|[a-z0-9][a-z0-9._~-]*)@(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
+function map(value:unknown):value is Record<string,string>{return !!value&&typeof value==='object'&&!Array.isArray(value)&&Object.getPrototypeOf(value)===Object.prototype&&Object.entries(value).every(([key,item])=>!['__proto__','constructor','prototype'].includes(key)&&typeof item==='string'&&digest.test(item));}
+/** Validate pinned content identities and exact equality with manifest maps. */
+export function verifyBundleLock(lock:unknown,manifest:Pick<BundleManifest,'dependencies'|'fonts'>):void {if(!lock||typeof lock!=='object'||Array.isArray(lock)||Object.keys(lock).length!==2||!Object.hasOwn(lock,'dependencies')||!Object.hasOwn(lock,'fonts'))throw new Error('BUNDLE_LOCK: expected dependencies and fonts');const data=lock as {dependencies:unknown;fonts:unknown};if(!map(data.dependencies)||!Object.keys(data.dependencies).every(key=>packageKey.test(key))||!map(data.fonts)||!Object.keys(data.fonts).every(key=>/^[A-Za-z][A-Za-z0-9_-]*$/.test(key))||!isDeepStrictEqual(data.dependencies,manifest.dependencies)||!isDeepStrictEqual(data.fonts,manifest.fonts))throw new Error('BUNDLE_LOCK: invalid pins or manifest mismatch');}
