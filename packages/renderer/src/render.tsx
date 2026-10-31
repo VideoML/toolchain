@@ -1,9 +1,10 @@
+import { loadBrowserController } from './browser-controller.js';
+import {loadSafeEsbuild} from './safe-esbuild.js';
 import {prepareSceneSnapshots,validatePreparedSceneSnapshots} from './prepare-scene-snapshots.js';
 import { mkdirSync, writeFileSync, readFileSync, readdirSync, unlinkSync, existsSync } from "fs";
 import { cpus } from "os";
 import { dirname, basename, join, resolve, isAbsolute } from "path";
 import { fileURLToPath } from "node:url";
-import { createRequire } from "module";
 import React from "react";
 import { renderToString } from "react-dom/server";
 import { clamp } from "./math.js";
@@ -94,7 +95,6 @@ type PageAdapter = {
   waitForTimeout?: (timeout: number) => Promise<void>;
 };
 
-const require = createRequire(import.meta.url);
 
 const ensureDir = (path: string) => {
   mkdirSync(path, { recursive: true });
@@ -206,17 +206,9 @@ export const renderFrameToFile = ({ outPath, ...options }: RenderFrameFileOption
   return html;
 };
 
-const loadPlaywright = async (): Promise<{ chromium: { launch: (options?: { executablePath?: string }) => Promise<BrowserAdapter> } }> => {
-  try {
-    return require("playwright") as { chromium: { launch: (options?: { executablePath?: string }) => Promise<BrowserAdapter> } };
-  } catch {
-    try {
-      return require("playwright-core") as { chromium: { launch: (options?: { executablePath?: string }) => Promise<BrowserAdapter> } };
-    } catch {
-      throw new Error("Playwright is required for PNG rendering. Install 'playwright' or 'playwright-core'.");
-    }
-  }
-};
+const loadPlaywright = async (): Promise<{ chromium: { launch: (options?: { executablePath?: string }) => Promise<BrowserAdapter> } }> =>
+  loadBrowserController() as unknown as { chromium: { launch: (options?: { executablePath?: string }) => Promise<BrowserAdapter> } };
+
 
 const formatFrameName = (pattern: string, frame: number): string => {
   const match = pattern.match(/%0(\d+)d/);
@@ -311,7 +303,7 @@ export const renderFramesToPng = async ({
   let automaticBundle: string | undefined;
   if (automaticEffects && (!Number.isFinite(options.effectStageTimeoutMs ?? 30000) || (options.effectStageTimeoutMs ?? 30000) <= 0 || (options.effectStageTimeoutMs ?? 30000) > 300000)) throw new Error('FRAME_EFFECT_INVALID: stage timeout must be within 300 seconds');
   if (automaticEffects) {
-    const buildWork=import("esbuild").then(({build})=>build({entryPoints:[fileURLToPath(new URL("./frame-effect-browser.tsx",import.meta.url))],bundle:true,write:false,platform:"browser",format:"iife",target:"es2022"}));
+    const buildWork=Promise.resolve().then(()=>loadSafeEsbuild(import.meta.url).build({entryPoints:[fileURLToPath(new URL("./frame-effect-browser.tsx",import.meta.url))],bundle:true,write:false,platform:"browser",format:"iife",target:"es2022"}));
     const output = await preflight(buildWork,'renderer build');
     automaticBundle = output.outputFiles[0].text;
   }

@@ -65,10 +65,11 @@ export const buildFfmpegArgs = ({
   }
   args.push("-r", String(fps));
 
-  // If frameCount is specified, limit the number of video frames to encode
-  // This is crucial for preview mode to only encode the frames we rendered
+  // FFmpeg 5 can stop muxing audio early when -frames:v ends the video.
+  // A shared duration bounds both streams while preserving the requested frames.
   if (frameCount !== undefined) {
-    args.push("-frames:v", String(frameCount));
+    if (audioPath) args.push("-t", String(frameCount / fps));
+    else args.push("-frames:v", String(frameCount));
   }
   if (ffmpegArgs && ffmpegArgs.length) {
     args.push(...ffmpegArgs);

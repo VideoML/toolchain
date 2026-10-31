@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "sampleRateHz": 24000,
+  "fps": 30,
+  "durationFrames": 22,
+  "audioTotalSamples": 17455,
+  "generationSeed": 3500037013,
+  "leadInSamples": 0,
+  "scenes": [
+    {
+      "id": "scene:[\"s\"]",
+      "startFrame": 0,
+      "endFrame": 22
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue:[\"c\"]",
+      "startFrame": 0,
+      "endFrame": 22
+    }
+  ],
+  "layers": [],
+  "components": [
+    {
+      "id": "component:[\"s\",\"bg\"]",
+      "startFrame": 0,
+      "endFrame": 22
+    },
+    {
+      "id": "component:[\"s\",\"font-fx\"]",
+      "startFrame": 0,
+      "endFrame": 22
+    }
+  ],
+  "transitions": [],
+  "segments": [
+    {
+      "id": "segment:[\"c\",0]",
+      "cueId": "cue:[\"c\"]",
+      "track": "main",
+      "originalText": "Hello offline",
+      "expandedText": "Hello offline",
+      "startSample": 0,
+      "endSample": 17455,
+      "startFrame": 0,
+      "endFrame": 22,
+      "trimSamples": 0,
+      "pauseSamples": 0,
+      "audioPath": "env/development/segments/pcm-2a7b9be7dbb013b8051d172f62cb7f374987197033e6315dcc14f0d9af069604.wav",
+      "audioSha256": "2a7b9be7dbb013b8051d172f62cb7f374987197033e6315dcc14f0d9af069604",
+      "pcmSha256": "ddd10a961c923665bd9641d52ce7cf5d6dcb53ecb576900f7dbdffe83ff50a06",
+      "provenance": {
+        "provider": "dry-run",
+        "simulated": true,
+        "audioSha256": "2a7b9be7dbb013b8051d172f62cb7f374987197033e6315dcc14f0d9af069604",
+        "pcmSha256": "ddd10a961c923665bd9641d52ce7cf5d6dcb53ecb576900f7dbdffe83ff50a06",
+        "extensions": {}
+      }
+    }
+  ]
+}

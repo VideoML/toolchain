@@ -1,7 +1,7 @@
 import {assertTransitionTransferBudget,encodeTransitionSnapshots} from './scene-snapshot-budget.js';
 import {validatePreparedSceneSnapshots} from './prepare-scene-snapshots.js';
 import {awaitBrowserLaunch} from './render-lifecycle.js';
-import { createRequire } from 'node:module';
+import { loadBrowserController } from './browser-controller.js';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import type {TransitionShader,TransitionOptions} from '@videoml/stdlib/effects/transitions';
@@ -28,7 +28,7 @@ export async function captureTransitionFrames(options:TransitionCaptureOptions):
   const snapshotDecodedLimit=Math.floor((64*1024*1024-16*width*height)/2);if(options.snapshots?.length && snapshotDecodedLimit<1)throw new Error('SCENE_CAPTURE_LIMIT: transition decoded budget');
   if(options.sceneScript)validatePreparedSceneSnapshots(options.sceneScript,options.customEffects,options.snapshots??[]);
   if (signal?.aborted) throw new Error('Transition capture aborted');
-  const {chromium}=createRequire(import.meta.url)('playwright') as typeof import('playwright');
+  const {chromium}=loadBrowserController();
   const timeout=options.stageTimeoutMs ?? 30000;
   if(!Number.isInteger(timeout)||timeout<1||timeout>300000) throw new Error('Invalid stage timeout');
   let browser:Awaited<ReturnType<typeof chromium.launch>>|undefined,closing:Promise<void>|undefined;
@@ -41,7 +41,7 @@ export async function captureTransitionFrames(options:TransitionCaptureOptions):
   const launch=chromium.launch({executablePath:options.executablePath ?? process.env.VIDEOML_CHROMIUM_EXECUTABLE_PATH});
   browser=await awaitBrowserLaunch(launch,{owned:true,signal,timeoutMs:timeout});
   const abort=()=>{void closeBrowser().catch(()=>{});}; signal?.addEventListener('abort',abort,{once:true});
-  const contexts:import('playwright').BrowserContext[]=[];
+  const contexts:import('playwright-core').BrowserContext[]=[];
   const blockedRequests:string[]=[];const sceneErrors:string[]=[];
   let failed=false;
   try {

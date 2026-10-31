@@ -28,3 +28,5 @@ export {importPortableBundle,validatePortableBundle,type BundleInput} from './bu
 export {exportPortableBundle,type BundleExport} from './bundle/export.js';
 export {renderPortableBundle} from './bundle/render.js';
 export {createPortableLock} from './bundle/create-lock.js';
+
+export {collectRuntimeTargetDescriptor} from './bundle/runtime-lock.js';
