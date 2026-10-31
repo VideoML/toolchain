@@ -52,10 +52,24 @@
       "text": "Clean offline package installations now succeeded on macOS and pinned Linux arm64 glibc image 2f5a6cba750806d852f2a3520c3cbc221102fcdedc7b922d903633a05616cc5e, hooks disabled. Both installed native esbuild versions execute and packed CLI starts. Primary independently compared collected descriptors: Mac112/Linux111 pins, all six VideoML content pins identical; only native esbuild pairs and fsevents differ. Descriptor SHA256 Mac6c3f2ff5d68c71e9fa048dee41605bc434c2c4951ef3dc6a69e61377aeda5b1d, Linux1a915469f2ab2417f4c9fa576af9858879fe6c77e2e843ecbb415c539435f247. Containers confirmed absent. Scratch about551MiB. Install watchdog omitted aggregate-size enforcement; corrected budgeted watchdog required for subsequent renders. First Mac watchdog false positive on local file cache hit retained npm debug log. Authorized next: sequential XML and trustedTS same-ZIP cross-host render, network-disabled Linux, actual declared assets and output checks. No render acceptance yet.",
       "created_at": "2026-10-31T03:05:37.355388Z",
       "comment_type": "default"
+    },
+    {
+      "id": "280a5490-14ef-4368-b640-0ce17e85fcfe",
+      "author": "home",
+      "text": "Real render exposed a required dependency gap before browser launch: clean renderer installation omits optional Playwright peer. Primary decided regular exact playwright-core@1.56.1 dependency, matching accepted P03b controller version, with explicit installed Chromium and no browser downloads. Registry metadata reports no dependencies/optional dependencies/scripts and 8,228,520 expanded bytes. Approved graph delta is this single package; fresh renderer pack, both complete runtime descriptors and paired archives are required. Earlier archive/descriptor evidence remains superseded rather than accepted. Worker continues bounded integrity-verified acquisition and clean offline installation/render tests.",
+      "created_at": "2026-10-31T03:08:40.557499Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "b849cf0c-90a1-43a6-82b4-b8414820bb98",
+      "author": "home",
+      "text": "Both final-at-that-point archives rendered on macOS and Linux, but primary ffprobe inspection caught Linux XML AAC truncation: 0.085s/3frames vs Mac0.727s/19frames despite22video frames. Input PCM verified identical17455samples at24kHz (decoded SHA256 ddd10a961c923665bd9641d52ce7cf5d6dcb53ecb576900f7dbdffe83ff50a06). Bounded Linux5.1 diagnostic replacing frames:v with shared output duration produced22video/19AACframes and0.727s. Renderer fix now uses duration for frame-limited audiovisual output; silent frames retain frame limit. Primary requires preview offset/extra-frame/fractionalfps and tone regressions plus refreshed packed sameZIP proof before acceptance. Prior exit-zero renders remain failed audio acceptance.",
+      "created_at": "2026-10-31T03:16:29.343202Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-31T02:23:58.465552Z",
-  "updated_at": "2026-10-31T03:05:37.366204Z",
+  "updated_at": "2026-10-31T03:16:29.343702Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
