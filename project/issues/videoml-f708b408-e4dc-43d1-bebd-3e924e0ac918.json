@@ -88,10 +88,38 @@
       "text": "Primary approved reuse of generator pure cue/scene/transition projections for full source verification, not preview placeholder converter. Explicit authored times compare normalized source seconds; PCM segment times compare samples; genuinely inferred visual times validate frozen floor/ceil plus ordering/containment, with frozen timing authoritative during render. Current stdlib dev dependency refreshed from accepted pack and AJV8.17.1 reused locally; toolchain TypeScript now passes. These changes do not establish end-to-end bundle acceptance.",
       "created_at": "2026-10-31T00:36:02.371654Z",
       "comment_type": "default"
+    },
+    {
+      "id": "49e467b8-f335-4755-864b-e584743ec12f",
+      "author": "home",
+      "text": "Early public bundle validate/import integration now binds shipped XML source verifier internally and requires explicit local trust; hosted mode currently returns HOSTED_UNSUPPORTED pending fixed declarative contract. Worker reports real generated XML/hash manifest validate/atomic import passes, with source mutation/existing target rejection. Independent integrated-path review dispatched. Export, offline render and hosted contract remain unfinished; P17 not accepted.",
+      "created_at": "2026-10-31T00:42:09.514465Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "99120980-973e-43b6-8f78-1e8695949af7",
+      "author": "home",
+      "text": "Primary specified immutable dependency/font lock encoding and recomputed hosted report in canonical D08/D08d. Export closure regression excludes unrelated .env/private files. Independent ZIP publication source review found no concrete blocker within documented trust boundary; file inventory intentionally omits empty directories. Actual packed offline rendering and complete hosted contract remain acceptance gates.",
+      "created_at": "2026-10-31T00:48:31.417318Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "c2938e4e-04d7-4787-9b96-d99b3d5575eb",
+      "author": "home",
+      "text": "Independent focused source review of hosted classifier/public wiring found no concrete fail-open: eligibility recomputed from staged verified inputs before publication. This is content classification only; P20a isolation gate remains mandatory. Runtime lock review required installed optional dependencies/peers and actual executing toolchain identity to prevent missing binary provenance or nested shadow substitution; Terra reports fixes and targeted regressions. Packed actual offline render proof remains pending. P17 now owns sole heavy test slot, with 8 GiB free-space floor.",
+      "created_at": "2026-10-31T00:53:07.166407Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "5c66d883-cf6a-437f-a26f-2e47160acd75",
+      "author": "home",
+      "text": "Primary independently ran node --import tsx --test tests/bundle/runtime-lock.test.mjs tests/bundle/hosted.test.mjs: 8/8 pass, including optional dependency tampering and nested toolchain shadow regression. This verifies focused source behavior, not packed renderer acceptance.",
+      "created_at": "2026-10-31T00:53:20.098321Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.623766Z",
-  "updated_at": "2026-10-31T00:36:02.371881Z",
+  "updated_at": "2026-10-31T00:53:20.098538Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,

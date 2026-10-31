@@ -117,10 +117,24 @@
       "text": "Paired null-candidate runtime terminal: baseline screenshot/FFmpeg, restricted FFmpeg and real-descendant cancellation passed; restricted browser still SIGTRAP after zygote/GPU startup failures with no screenshot. /dev/null failures disappeared, remaining diagnostics do not establish one cause. Evidence /private/tmp/p20a-null-runtime/REPORT.md. Next step is bounded syscall/source diagnosis before any additional policy change; no tracing package download, Docker privilege change or new browser permission authorized yet.",
       "created_at": "2026-10-31T00:40:39.132793Z",
       "comment_type": "default"
+    },
+    {
+      "id": "fa77a702-aae5-4d50-8fca-780a3840cdfa",
+      "author": "home",
+      "text": "Reviewed external-tracer diagnostic proposal /private/tmp/p20a-null-probe/TRACE-PROPOSAL.md. Approved saved-index resolver and only strace6.1-0.1 archive1,192,916B SHA751817724af91cb95df566a21a154f9a7dcdd938e700e5cb9a5a47eb19752ea2 if exact resolution unchanged. Conservative total1,147,096,433B within1.5GiB. Trace supervisor requires32MiBtmpfs and tested whole-container cleanup for separate launcher process group; source/lifecycle review before actual browser tracing. No capability, Docker seccomp, dumpability or renderer policy changes allowed.",
+      "created_at": "2026-10-31T00:42:09.555699Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "9a75c008-0257-4135-b237-7936cae717d1",
+      "author": "home",
+      "text": "External strace diagnostic terminated inconclusively. Untraced restricted SIGTRAP reproduced; tracing changed behavior and filled 32 MiB tmpfs, then stderr hit its output cap. Report records output-limit, traceIncomplete=true, 24 partial files/33,492,979 bytes. Whole container teardown completed. /proc/self/fd denial followed by many close calls is observed, not established root cause. Evidence /private/tmp/p20a-trace/DIAGNOSTIC.md and logs/trace-report.json. No policy widening or production approval. Heavy slot released to P17; only a source-only narrower diagnostic proposal is authorized next.",
+      "created_at": "2026-10-31T00:53:07.027601Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T21:55:55.047192Z",
-  "updated_at": "2026-10-31T00:40:39.133013Z",
+  "updated_at": "2026-10-31T00:53:07.027856Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
