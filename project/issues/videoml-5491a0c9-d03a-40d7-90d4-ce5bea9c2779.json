@@ -35,10 +35,17 @@
       "text": "Primary verified pinned shader registry has14 names including unquoted glitch. Corrected importer/catalog tests7/7 and transition contract tests15/15 pass under primary execution; manifest now470 while preserving prior metadata. Independent review found scene-capture semantic timestamp mutation and silently ignored unknown shader names; Terra source fixes now preserve authored scene context and reject unknown effect IDs. Actual compilation/reference/alpha and XML browser/CLI proof remain pending heavy slot; no verified shader status accepted yet.",
       "created_at": "2026-10-30T23:53:14.902416Z",
       "comment_type": "default"
+    },
+    {
+      "id": "06e9397b-eaaf-4d98-98f0-2e21494dfa5f",
+      "author": "home",
+      "text": "Primary acceptance: final independent read-only source review found no concrete blocker. Primary reran17 transition tests and7 catalog tests, verified six pack SHA256 hashes and inspected evidence including14 exact packed player/CLI midpoint RGBA matches,42 pinned upstream interior comparisons, transparent endpoints, explicit fallback/errors, scene timing/cues, partition equality and bounded cancellation. /private/tmp/videoml-p08-check/REPORT.md records scope/commands/limitations. Accept implementation on local macOS Chromium; P28 Linux release and broader permutations remain pending, verified count stays0. P08a videoml-0e01d3 now owns website handoff and470 catalog refresh.",
+      "created_at": "2026-10-31T00:11:45.314725Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.240751Z",
-  "updated_at": "2026-10-30T23:53:14.902624Z",
+  "updated_at": "2026-10-31T00:11:45.314935Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
