@@ -3,7 +3,7 @@
   "title": "P17 — Implement portable export/import and offline render",
   "description": "## Dispatch packet P17\nRead initiative videoml-dbc2b1 sections D08 before editing. Those are binding decisions, not suggestions.\n\n## Repositories and edit scope\ntoolchain, cli\nPrimary paths: bundle schema validation; CLI export/import/render. Read repository AGENTS before any edits. Do not edit unrelated product code.\n\n## Procedure\n1. Read prerequisites and existing implementation at the paths above.\n2. Add failing behavioral fixtures for the listed acceptance cases.\n3. Implement D08 manifest, hashes, pinned assets/fonts/audio/deps and ZIP path validation. Add vml export and import/validate paths, render from frozen bundle; no live network capture. Reject arbitrary hosted dependencies.\n4. Run scoped checks plus required repo quality gates. Save actual commands, exit status and artifacts in an issue comment.\n5. Return the diff and evidence to the primary reviewer; do not close the issue yourself.\n\n## Acceptance\nexport fixture renders on clean consumer without Babulus creds; traversal/symlink/hash/version tests; PCM timing parity.\n\n## Dependencies\nvideoml-684f74 (P02), videoml-48d9c8 (P15), videoml-2779f2 (P04)\n\n## Stop conditions\nDo not guess a missing credential/account identity, bypass a failed test, substitute mocked evidence for a real smoke run, expand product scope, or change contract defaults. Report a precise blocker and return to the primary reviewer. A passing build alone is insufficient for rendering behavior.\n\n## Accepted review correction\nD08 supports local trusted TS but hosted pilot validation accepts declarative built-in/approved effects only. Exported projects stay portable; report unsupported hosted custom code without mutating the source. Enforce compressed/expanded/file-count/path/hash limits.",
   "type": "task",
-  "status": "in_progress",
+  "status": "closed",
   "priority": 1,
   "assignee": null,
   "creator": null,
@@ -256,11 +256,18 @@
       "text": "Primary accepted local P17 implementation evidence: 90 bundle tests plus one Windows skip, 20 timing tests/typecheck, 13 positive/30 negative schema vectors; packed XML/audio/custom TS/shader/font and Framer checks, source tamper/trust rejection, deterministic seek/partition output and active-capture CLI SIGINT exit130 with8observedowned processesgone. Final font refreshed against finalCLI and primary viewed frame83. Product commits toolchain c09d4ff, CLI7e50ca6, specification019cdf4. Review PRs: https://github.com/VideoML/toolchain/pull/7 ; https://github.com/VideoML/cli/pull/6 ; https://github.com/VideoML/specification/pull/4 . Durable workflow docs and VALIDATION.md included. Await landing checks before closure/checkout handoff. Reused third-party consumer and local macOS evidence are explicit limitations; Linux release/cloud isolation gates unchanged.",
       "created_at": "2026-10-31T01:42:34.524971Z",
       "comment_type": "default"
+    },
+    {
+      "id": "c8861a15-73a1-4163-bb2b-3386de364d14",
+      "author": "home",
+      "text": "Primary verified all three PRs MERGED and local main at merge commits: toolchain a07017d23cd81922ee5ac38ff374710242450bbb, CLI b763529e26a5f1b0e5626e15235aa8b899274237, specification ef3834ea4261fafbc4742b62c5fc278c7d00b063. Local acceptance evidence and limitations recorded above and in tests/bundle/VALIDATION.md. No hosted CI was configured; local checks are the evidence. P17 complete; P03a checkout dependency released. P28 Linux reproducibility and P20a cloud isolation remain separate open gates.",
+      "created_at": "2026-10-31T01:43:22.360049Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.623766Z",
-  "updated_at": "2026-10-31T01:42:34.525516Z",
-  "closed_at": null,
+  "updated_at": "2026-10-31T01:43:22.390288Z",
+  "closed_at": "2026-10-31T01:43:22.390173Z",
   "right_now_summary": null,
   "right_now_updated_at": null,
   "custom": {}
