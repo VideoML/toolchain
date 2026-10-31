@@ -1,3 +1,4 @@
+import {prepareSceneSnapshots,validatePreparedSceneSnapshots} from './prepare-scene-snapshots.js';
 import { mkdirSync, writeFileSync, readFileSync, readdirSync, unlinkSync, existsSync } from "fs";
 import { cpus } from "os";
 import { dirname, basename, join, resolve, isAbsolute } from "path";
@@ -46,6 +47,9 @@ export type RenderFramesPngOptions = Omit<RenderFrameOptions, "frame"> & {
   forceLocalSceneRenderer?: boolean;
   portableComponents?: Array<{id:string;version:string}>;
   portableMode?: boolean;
+  customEffects?: import('@videoml/stdlib/effects').SceneInputDescriptor[];
+  /** Internal per-composition snapshot preparation shared with shader captures. */
+  preparedSceneSnapshots?: Array<{sceneId:string;frame:number;png:string}>;
   signal?: AbortSignal;
   browserBundlePath?: string; // Deprecated: use browserBundlePaths instead
   browserBundlePaths?: string[]; // Multiple bundles to load in order (standard + custom)
@@ -312,6 +316,9 @@ export const renderFramesToPng = async ({
     automaticBundle = output.outputFiles[0].text;
   }
 
+  const snapshots=options.preparedSceneSnapshots ?? (automaticBundle ? await prepareSceneSnapshots({script:options.inputProps?.script,width:options.config.width,height:options.config.height,fps:options.config.fps,seed:Number(options.inputProps?.effectSeed??0),assets:(options.inputProps?.effectAssets??{}) as Record<string,unknown>,durationFrames:options.config.durationFrames,bundle:automaticBundle,signal:options.signal,portableBundlePath:options.effectRegistryBundlePath,portableComponents:options.portableComponents,customEffects:options.customEffects}) : []);
+  if(options.preparedSceneSnapshots)validatePreparedSceneSnapshots(options.inputProps?.script,options.customEffects,snapshots);
+
   if(options.signal?.aborted)throw new Error('RENDER_CANCELLED');
   const providedBrowser = browser ?? (await preflight(loadPlaywright(),'browser library')).chromium.launch({ executablePath: process.env.VIDEOML_CHROMIUM_EXECUTABLE_PATH });
   const launch=Promise.resolve(providedBrowser);
@@ -334,7 +341,7 @@ export const renderFramesToPng = async ({
     throw error;
   }
   const totalFrames = lastFrame - firstFrame + 1;
-  const workerCount = Math.min(resolveWorkerCount(workers), totalFrames);
+  const workerCount = snapshots.length ? 1 : Math.min(resolveWorkerCount(workers), totalFrames);
   const nextFrameRef = { value: firstFrame };
 
   const takeNextFrame = () => {
@@ -367,7 +374,7 @@ export const renderFramesToPng = async ({
       try {
         for (;;) {
           const frame = takeNextFrame(); if (frame == null) break;
-          await bounded(()=>page.evaluate!(async (args: any) => (window as any).videomlFrameEffectRender(args), {script:options.inputProps?.script,frame,config:options.config,assets:options.inputProps?.effectAssets ?? {},seed:options.inputProps?.effectSeed ?? 0,portableComponents:options.portableComponents??[],portableMode:options.portableMode??false}),"mount or seek");
+          await bounded(()=>page.evaluate!(async (args: any) => (window as any).videomlFrameEffectRender(args), {script:options.inputProps?.script,frame,config:options.config,assets:options.inputProps?.effectAssets ?? {},seed:options.inputProps?.effectSeed ?? 0,portableComponents:options.portableComponents??[],portableMode:options.portableMode??false,customEffects:options.customEffects??[],snapshots}),"mount or seek");
           const policyViolations=await bounded(()=>page.evaluate!(()=>(window as any).__videomlBlockedPolicies as string[]),'policy check');
           if(blockedRequests.length||policyViolations.length)throw new Error(`FRAME_EFFECT_NETWORK_BLOCKED: ${blockedRequests[0] ?? policyViolations[0]}`);
           const buffer = await bounded(()=>page.screenshot({type:"png"}),"screenshot"); const outPath=join(outDir,formatFrameName(framePattern,frame));ensureDir(dirname(outPath));writeFileSync(outPath,buffer);frames.push({frame,path:outPath});onFrame?.(frame,outPath);

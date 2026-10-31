@@ -1,0 +1,23 @@
+import {createRequire} from 'node:module';
+import {pathToFileURL} from 'node:url';
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import assert from 'node:assert/strict';
+const consumer=process.env.P03B_CONSUMER,output=process.env.P03B_OUTPUT,executablePath=process.env.VIDEOML_CHROMIUM_EXECUTABLE_PATH;
+if(!consumer||!output||!executablePath)throw Error('P03B_CONSUMER, P03B_OUTPUT and Chromium required');
+const require=createRequire(`${consumer}/package.json`),{build}=require('esbuild'),{chromium}=require('playwright');
+const {prepareSceneSnapshots}=await import(pathToFileURL(`${consumer}/node_modules/@videoml/renderer/src/prepare-scene-snapshots.ts`).href);
+const {captureTransitionFrames}=await import(pathToFileURL(require.resolve('@videoml/renderer/transition-capture')).href);
+await mkdir(output,{recursive:true});
+const base=`${consumer}/node_modules/@videoml/renderer/src`;
+const [scene,compositor]=await Promise.all(['frame-effect-browser.tsx','shader-compositor-browser.ts'].map(entry=>build({entryPoints:[`${base}/${entry}`],bundle:true,write:false,platform:'browser',format:'iife'})));
+const scenePath=`${output}/p07-scene.js`,compositorPath=`${output}/p07-compositor.js`;await writeFile(scenePath,scene.outputFiles[0].contents);await writeFile(compositorPath,compositor.outputFiles[0].contents);
+const background=(id,color)=>({id,startSec:0,endSec:2,components:[{id:`${id}-bg`,type:'Background',props:{color}},{id:`${id}-title`,type:'VideoTitle',props:{text:id,fontSize:20,color:'#ffffff',position:{x:15,y:15}}}]});
+const sink=(id,source,frame)=>({id,startSec:0,endSec:2,components:[{id:`${id}-snapshot`,type:'FrameEffect',props:{effectId:'videoml/scene-snapshot',effectVersion:'1',parameters:{sourceSceneId:source,sourceFrame:frame}},timing:{startSec:0,endSec:2}}]});
+const script={scenes:[background('source-red','#c02040'),background('source-blue','#2040c0'),sink('sink-red','source-red',7),sink('sink-blue','source-blue',19)]};
+const snapshots=await prepareSceneSnapshots({script,width:320,height:240,fps:30,seed:3,assets:{},durationFrames:60,bundle:scene.outputFiles[0].text});
+assert.deepEqual(snapshots.map(({sceneId,frame})=>({sceneId,frame})),[{sceneId:'source-red',frame:7},{sceneId:'source-blue',frame:19}]);
+const frames=[0,15,30,15,0,30];
+const paths=await captureTransitionFrames({fromBundlePath:scenePath,toBundlePath:scenePath,compositorBundlePath:compositorPath,width:320,height:240,fps:30,seed:3,assets:{},frames,startFrame:0,endFrame:30,fromSceneId:'sink-red',toSceneId:'sink-blue',shader:'crossfade',sceneScript:script,durationFrames:60,snapshots,outDir:output,executablePath});
+const pngs=await Promise.all(paths.map(path=>readFile(path))),hash=b=>createHash('sha256').update(b).digest('hex');assert.equal(hash(pngs[0]),hash(pngs[4]));assert.equal(hash(pngs[1]),hash(pngs[3]));assert.equal(hash(pngs[2]),hash(pngs[5]));assert.notEqual(hash(pngs[0]),hash(pngs[2]));
+const browser=await chromium.launch({executablePath});try{const page=await browser.newPage();const pixels=[];for(const png of pngs.slice(0,3)){pixels.push(await page.evaluate(async encoded=>{const raw=atob(encoded),bytes=Uint8Array.from(raw,c=>c.charCodeAt(0)),bitmap=await createImageBitmap(new Blob([bytes],{type:'image/png'})),canvas=document.createElement('canvas');canvas.width=bitmap.width;canvas.height=bitmap.height;const ctx=canvas.getContext('2d');ctx.drawImage(bitmap,0,0);bitmap.close();return [...ctx.getImageData(160,120,1,1).data]},png.toString('base64')));}const [red,mid,blue]=pixels;assert.ok(red[0]>red[2]+60);assert.ok(blue[2]>blue[0]+60);for(let i=0;i<3;i++)assert.ok(mid[i]>=Math.min(red[i],blue[i])-3&&mid[i]<=Math.max(red[i],blue[i])+3);console.log(JSON.stringify({frames,hashes:pngs.map(hash),pixels,paths}));}finally{await browser.close()}

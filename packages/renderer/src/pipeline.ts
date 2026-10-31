@@ -30,6 +30,7 @@ export type RenderVideoOptions<TInputProps extends Record<string, unknown> = Rec
   forceLocalSceneRenderer?: boolean;
   portableComponents?: Array<{id:string;version:string}>;
   portableMode?: boolean;
+  customEffects?: RenderFramesPngOptions["customEffects"];
   signal?: AbortSignal;
   browserBundlePath?: RenderFramesPngOptions["browserBundlePath"]; // Deprecated
   browserBundlePaths?: RenderFramesPngOptions["browserBundlePaths"]; // Multiple bundles
@@ -67,6 +68,7 @@ export const renderVideo = async <TInputProps extends Record<string, unknown> = 
   forceLocalSceneRenderer,
   portableComponents,
   portableMode,
+  customEffects,
   signal,
   browserBundlePath,
   browserBundlePaths,
@@ -96,6 +98,7 @@ export const renderVideo = async <TInputProps extends Record<string, unknown> = 
     forceLocalSceneRenderer,
     portableComponents,
     portableMode,
+    customEffects,
     signal,
     browserBundlePath,
     browserBundlePaths,

@@ -1,0 +1,35 @@
+{
+  "id": "videoml-9e1b0494-f04b-41be-bd30-078fcbb2abbe",
+  "title": "P17a — Render one pinned portable archive on macOS and Linux",
+  "description": "Problem: P17 records the installed host closure, including @esbuild/darwin-arm64 and Mach-O esbuild/bin/esbuild. Exact closure equality rejects the unchanged archive on Linux. Existing macOS validation remains valid; cross-platform portability is not achieved.\n\nPrimary decisions and implementation order:\n1. Wait for P03b to land before writing shared toolchain/CLI/specification checkouts. Implement a version2 portable manifest and lock contract. Preserve version1 reading and exact host-closure verification without silently rewriting or weakening it.\n2. Version2 binds a runtimeTargets map of explicit target keys to complete name@version -> sha256 package-payload closures, plus the existing font pins. Use complete per-target maps rather than guessed shared/native partitioning: esbuild mutates its own package payload at install time. Each target entry is part of canonical manifest content digest and lock equality. Initial proven targets: darwin-arm64 and linux-arm64-glibc. Reject unknown/unsupported/absent current targets explicitly; never fall back to the exporter target or omit optional packages. Limit target count to8 and retain existing package/path/count/digest limits. Other platform targets require explicit later evidence.\n3. Add a trusted local vml bundle runtime-lock command that collects the actual installed complete closure plus current target identity to a bounded JSON descriptor. It performs no dependency installation or network access. On Linux distinguish glibc from musl using Node runtime evidence; do not infer from a filename. Add repeatable --runtime-target descriptor paths to bundle lock, collecting current target automatically and merging verified descriptors from prepared foreign runtimes. Read descriptors as bounded regular nofollow control files, reject duplicate/conflicting targets and malformed entries. Do not pretend a hand-written descriptor proves provenance: retain actual collector/runtime/package evidence in validation.\n4. Require all target maps to pin identical VideoML package versions and payload hashes. Non-VideoML target payloads may differ only through the explicit pinned maps; render always verifies the entire selected actual closure including installed optional packages, missing/extra/divergent nodes. Never skip all optional dependencies or substitute an unpinned native binary. Core VideoML packages are packed once and reused unchanged on both hosts.\n5. Thread selected target closure through lock, export, validate, import, render and trusted TS compile/re-execution. Inert validation checks all descriptor/map structure without executing foreign binaries; render/import with execution verifies current runtime target before source code. No change to XML custom-code rejection or hosted custom-code policy. Document version1 limitations and migration through explicit re-export, without claiming old archives become cross-platform automatically.\n6. Add failure-first semantic vectors for v1 compatibility, unknown/missing/wrong target, duplicate target, modified closure/digest, extra/missing optional package, mutated esbuild wrapper, mismatched core VideoML package, wrong libc, foreign metadata that tries to bypass hosted policy, and absent native binary. Ensure cancellation and stage cleanup remain intact.\n7. Build two real clean consumers using identical VideoML tarballs and independently pinned native dependencies. Collect both target descriptors and export ONE version2 ZIP. Record its SHA/content digest and render the exact unchanged bytes on macOS ARM64 and Linux ARM64 glibc, offline, with built-in scene/asset/font and frozen PCM evidence. Source/timing/PCM identities must match; pixel comparisons use the documented platform-rendering tolerance with raw frame evidence (do not claim byte-identical PNG across distinct browser/OS without measurement). Also test native compiler through trusted TS source with equivalent normalized source. Re-locking or re-exporting in Linux does not satisfy acceptance.\n8. Return code, tests, exact package/native provenance and both runtime commands/artifacts to primary. Primary reviews, creates/attaches PRs and lands before closure.\n\nRepositories: toolchain, CLI, specification; board in toolchain. Max2 implementation writers, one heavy job,8GiB floor. P03b owns shared repos until landing. P20a may independently prepare Linux runtime and run explicitly diagnostic local-only browser/private-PID experiments, including a Linux-origin bundle, but that is not portability acceptance. P17a is mandatory before platform/release acceptance, P28 and any claim that one local bundle runs unchanged in Babulus. No cloud provisioning or Babulus commits implied.\n",
+  "type": "bug",
+  "status": "open",
+  "priority": 1,
+  "assignee": null,
+  "creator": null,
+  "parent": "videoml-49cdfa8f-a6cf-4c73-9f1f-76e6def3500d",
+  "labels": [
+    "terra-packet"
+  ],
+  "dependencies": [
+    {
+      "target": "videoml-8d09d9e0-f541-4532-ace2-edfc8844d18d",
+      "type": "blocked-by"
+    }
+  ],
+  "comments": [
+    {
+      "id": "c042aebc-7933-4359-84da-47f865dd73cc",
+      "author": "home",
+      "text": "Linux native metadata and prior runtime preparation available at /private/tmp/p20a-architecture-proposal/LINUX-NATIVE-ARTIFACTS.md and RUNTIME-ASSEMBLY.md. No tarball acquisition yet. Full platform-target closure must handle esbuild package payload mutation, not only optional native package name. After P03b lands this worker owns toolchain/CLI/specification; concurrent C001 worker owns stdlib/website. Coordinate package snapshots so immutable same VideoML package bytes are used for both platform consumers even while later catalog source changes proceed.",
+      "created_at": "2026-10-31T02:26:54.016534Z",
+      "comment_type": "default"
+    }
+  ],
+  "created_at": "2026-10-31T02:23:58.465552Z",
+  "updated_at": "2026-10-31T02:26:54.016760Z",
+  "closed_at": null,
+  "right_now_summary": null,
+  "right_now_updated_at": null,
+  "custom": {}
+}

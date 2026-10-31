@@ -1,0 +1,12 @@
+<vml id="snapshot-demo" width="320" height="240" fps="30">
+  <assets>
+    <asset id="font" src="fonts/Geist.woff2" media-type="font/woff2" />
+  </assets>
+  <scene id="sink" start="0s" duration="2s">
+    <frame-effect id="snapshot" effect-id="videoml/scene-snapshot" effect-version="1" props='{"parameters":{"sourceSceneId":"source","sourceFrame":75}}' />
+  </scene>
+  <scene id="source" start="2s" duration="2s">
+    <video-title id="source-title" props='{"text":"Authored source","fontSize":20,"color":"#151515","position":{"x":20,"y":20}}' />
+    <frame-effect id="source-canvas" effect-id="videoml/particle-text-dissolve" effect-version="1" props='{"parameters":{"text":"Scene","density":"low","accent":"blue"}}' />
+  </scene>
+</vml>

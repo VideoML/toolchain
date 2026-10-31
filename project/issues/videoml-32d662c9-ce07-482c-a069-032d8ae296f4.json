@@ -11,7 +11,12 @@
   "labels": [
     "terra-packet"
   ],
-  "dependencies": [],
+  "dependencies": [
+    {
+      "target": "videoml-9e1b0494-f04b-41be-bd30-078fcbb2abbe",
+      "type": "relates-to"
+    }
+  ],
   "comments": [
     {
       "id": "748f438b-a1c0-4966-aa07-20f9594c3f74",
@@ -222,10 +227,38 @@
       "text": "Primary inspected corrected offline resolver delta:240packages, exact13candidate additions, zerochanged/removed;227archivechecks pass, ownedcontainer absent (dockerps only unrelatedgrobid), watchdog0. Prior --no-download simulation failed100 withoutmutations; corrected -s/networknone simulation passed. Evidence /private/tmp/p20a-python-resolver-b0e8ddf62f4e4428b95c322975c73e35/REPORT.md. Approved exact13indexed URLs/hashes,5,444,196B into freshownedcache with perfile size/hash checks,total6MiBcap,boundedtimeout; noindexrefresh/versionfallback/install/build/container. This small acquisition may run beside P03a heavybrowser; actualruntime remains gated. Primary independently ran23privatePIDsource tests pass.",
       "created_at": "2026-10-31T01:53:47.894566Z",
       "comment_type": "default"
+    },
+    {
+      "id": "e6d87ef2-f64e-48e9-ba6c-0dbb433e169e",
+      "author": "home",
+      "text": "Primary verified offlineimage build success: sha256:d82eb0e8cb22bbed27d280f03608706903a1a37df84ceeefaf38100f548b24b9, arm64 image999043438B, start/commit0, terminalreconciletrue/noerrors, exactownedcontainer absent. Evidence /private/tmp/p20a-image-ae35e27464154800996704a4fe8ba35c/REPORT.md. Compilerretry staticstrict passed; normalguard notyetexecuted. Authorized separate readonlynetworknone audit of trustedversions/ELF/loader/font/licenses/mounts/guard125, nowactive79316; no Chromium/privatepolicy/cloudexecution. P03b awaitingheavyslot afteraudit.",
+      "created_at": "2026-10-31T02:08:54.578652Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "dff58355-edac-457d-8aa6-249f62447ca4",
+      "author": "home",
+      "text": "Read-only audit completed on image d82eb0e8cb22bbed27d280f03608706903a1a37df84ceeefaf38100f548b24b9; owned container absent, normal guard125. 240 expected versions match, 328 installed package copyright files retained. Font audit failed on unsupported include; direct Chromium DT_NEEDED unresolved due audit parser short read. Evidence /private/tmp/p20a-image-audit-0c6253f5a6a54828a5b92d12e5fd2a69/REPORT.md. No browser/private policy execution. Primary selected immutable system-only fontconfig with no XDG/user includes, no filesystem-policy widening; source ELF parser must honor DT_STRSZ and reject incomplete names. 38 worker source tests pass, current image not fixed. Source-only image update preparation underway; P03b currently owns heavy slot.",
+      "created_at": "2026-10-31T02:13:42.092881Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "88686438-278d-478b-a51d-5324ab4678d1",
+      "author": "home",
+      "text": "Primary verified derived font image sha256:2f5a6cba750806d852f2a3520c3cbc221102fcdedc7b922d903633a05616cc5e. Config SHA4f79ec2fdaf98aa654d9b4b09cab7f9c79a2b3301fafde3e104b0296e1919ca5. Source reviewed independently; primary40tests passed; source hashes matched proposal. Build start/commit0, reconciler terminal, owned container absent, old image retained. Evidence /private/tmp/p20a-font-image-b29f0076b00e4ca59fd7d32e10358d3d. Readonly audit pending for corrected font and ELF tools; no browser or private-policy execution. Heavy slot returned to P03b.",
+      "created_at": "2026-10-31T02:16:33.332452Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "a591c57d-6972-4a2c-ae47-5d3464cb6829",
+      "author": "home",
+      "text": "Derived image read-only audit passed and primary independently reran host checker: fonts6/packages328, unchanged full package inventory, font config exact SHA, no missing copyright, normal guard125. Corrected ELF parser establishes42 Chromium direct dependencies; ldd resolved. Evidence /private/tmp/p20a-derived-audit-1e5b6b66299a4895bc8b179001ce8c94. Primary verified exact bounded command and owned-container absence. Image2f5a6cba750806d852f2a3520c3cbc221102fcdedc7b922d903633a05616cc5e. No browser/private-policy compatibility claim. Next source task is reconcile runtime manifest to fixed /usr paths and prepare pinned Linux ARM64 dependency assembly; first actual private-PID render remains open.",
+      "created_at": "2026-10-31T02:19:39.824094Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T21:55:55.047192Z",
-  "updated_at": "2026-10-31T01:53:47.895154Z",
+  "updated_at": "2026-10-31T02:24:20.330378Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,

@@ -1,3 +1,5 @@
+import {assertTransitionTransferBudget,encodeTransitionSnapshots} from './scene-snapshot-budget.js';
+import {validatePreparedSceneSnapshots} from './prepare-scene-snapshots.js';
 import {awaitBrowserLaunch} from './render-lifecycle.js';
 import { createRequire } from 'node:module';
 import { mkdir, writeFile } from 'node:fs/promises';
@@ -13,6 +15,7 @@ export interface TransitionCaptureOptions {
   onDiagnostic?:(diagnostic:'CROSSFADE_FALLBACK')=>void;
   outDir:string; executablePath?:string; signal?:AbortSignal; stageTimeoutMs?:number;
   portableBundlePath?:string; portableComponents?:Array<{id:string;version:string}>; portableMode?:boolean;
+  customEffects?:import('@videoml/stdlib/effects').SceneInputDescriptor[]; snapshots?:Array<{sceneId:string;frame:number;png:string}>;
 }
 
 /** Capture browser-painted, explicitly selected local scenes into a third compositor page. */
@@ -21,6 +24,9 @@ export async function captureTransitionFrames(options:TransitionCaptureOptions):
   if (![width,height,startFrame,endFrame,...frames].every(Number.isSafeInteger) || width<1 || height<1 || width>4096 || height>4096 || width*height>4194304 || startFrame<0 || endFrame<=startFrame || frames.some(f=>f<0)) throw new Error('Invalid capture dimensions or frames');
   if(!Number.isFinite(options.fps)||options.fps<=0||!Number.isInteger(options.seed)||options.seed<0||options.seed>0xffffffff||!options.assets||typeof options.assets!=='object'||Array.isArray(options.assets)||typeof options.fromSceneId!=='string'||!options.fromSceneId||typeof options.toSceneId!=='string'||!options.toSceneId) throw new Error('Invalid scene capture configuration');
   if(options.allowCrossfadeFallback && typeof options.onDiagnostic!=='function') throw new Error('A diagnostic handler is required for crossfade fallback');
+  const cachedBytes=(options.snapshots??[]).reduce((sum,item)=>sum+item.png.length/4*3,0);if(options.snapshots?.length)assertTransitionTransferBudget(cachedBytes);
+  const snapshotDecodedLimit=Math.floor((64*1024*1024-16*width*height)/2);if(options.snapshots?.length && snapshotDecodedLimit<1)throw new Error('SCENE_CAPTURE_LIMIT: transition decoded budget');
+  if(options.sceneScript)validatePreparedSceneSnapshots(options.sceneScript,options.customEffects,options.snapshots??[]);
   if (signal?.aborted) throw new Error('Transition capture aborted');
   const {chromium}=createRequire(import.meta.url)('playwright') as typeof import('playwright');
   const timeout=options.stageTimeoutMs ?? 30000;
@@ -57,7 +63,7 @@ export async function captureTransitionFrames(options:TransitionCaptureOptions):
       if(typeof api.mountVideoMLScene!=='function') throw new Error('SCENE_CAPTURE_UNAVAILABLE: bundle must expose mountVideoMLScene');
       api.__videomlScene=await api.mountVideoMLScene(document.querySelector('#root'),config);
       if(!api.__videomlScene || typeof api.__videomlScene.seek!=='function' || typeof api.__videomlScene.dispose!=='function') throw new Error('SCENE_CAPTURE_UNAVAILABLE: invalid scene source');
-    },{width,height,fps:options.fps,seed:options.seed,assets:options.assets,captureSceneId:sceneId,selectedSceneVisible:true,script:options.sceneScript,durationFrames:options.durationFrames,portableComponents:options.portableComponents??[],portableMode:options.portableMode??false}));
+    },{width,height,fps:options.fps,seed:options.seed,assets:options.assets,captureSceneId:sceneId,selectedSceneVisible:true,script:options.sceneScript,durationFrames:options.durationFrames,portableComponents:options.portableComponents??[],portableMode:options.portableMode??false,customEffects:options.customEffects??[],snapshots:options.snapshots??[],snapshotDecodedLimit}));
     await stage('compositor mount',compositor.evaluate(async config=>{
       const api=window as any;
       if(typeof api.mountVideoMLTransition!=='function') throw new Error('Compositor bundle must expose mountVideoMLTransition');
@@ -79,7 +85,8 @@ export async function captureTransitionFrames(options:TransitionCaptureOptions):
       if(sceneErrors.length)throw new Error(`SCENE_CAPTURE_UNAVAILABLE: ${sceneErrors[0]}`);
       const [a,b]=await stage('scene screenshot',Promise.all([from.screenshot(),to.screenshot()]));
       if(a.length>16777216||b.length>16777216) throw new Error('Scene capture exceeds PNG size limit');
-      await stage('compositor render',compositor.evaluate(async ({frame,a,b})=>{await (window as any).__videomlTransition.render(frame,a,b);},{frame,a:a.toString('base64'),b:b.toString('base64')}));
+      const [encodedA,encodedB]=options.snapshots?.length?encodeTransitionSnapshots(cachedBytes,a,b):[a.toString('base64'),b.toString('base64')];
+      await stage('compositor render',compositor.evaluate(async ({frame,a,b})=>{await (window as any).__videomlTransition.render(frame,a,b);},{frame,a:encodedA,b:encodedB}));
       const png=await stage('compositor screenshot',compositor.screenshot());
       if(signal?.aborted) throw new Error('Transition capture aborted');
       const path=join(options.outDir,`frame-${String(index).padStart(6,'0')}-${String(frame).padStart(6,'0')}.png`);

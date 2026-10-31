@@ -17,7 +17,7 @@ import type {DirectoryStage,InventoryFile} from './stage.js';
 const builtinComponents=new Set(listComponents());
 /** Trusted-local XML validation. Hosted execution requires a separate strict AST and asset-reference gate. */
 export async function verifyTrustedXmlSource(input:{source:Buffer;script:Record<string,unknown>;timing:ResolvedTiming;manifest:BundleManifest;stage:DirectoryStage;inventory:InventoryFile[]}):Promise<void>{
- if(input.manifest.composition.normalizedSource!==undefined||input.manifest.composition.sourceClosure!==undefined||input.manifest.composition.browserBundle!==undefined||input.manifest.composition.customComponents!==undefined)throw new Error('BUNDLE_ROLE: custom source roles are not permitted on XML');
+ if(input.manifest.composition.normalizedSource!==undefined||input.manifest.composition.sourceClosure!==undefined||input.manifest.composition.browserBundle!==undefined||input.manifest.composition.customComponents!==undefined||input.manifest.composition.customEffects!==undefined)throw new Error('BUNDLE_ROLE: custom source roles are not permitted on XML');
  if(!input.manifest.entry.toLowerCase().endsWith('.xml'))throw new Error('BUNDLE_CAPABILITY_UNAVAILABLE: trusted custom source compilation is not available');
  let text:string;try{text=new TextDecoder('utf-8',{fatal:true}).decode(input.source);}catch{throw new Error('BUNDLE_SOURCE: invalid UTF-8');}
  const parsed=loadVideoFileFromXml(text),selected=validateCompositionIdentity(parsed,input.manifest,input.script as any);await verifyCompositionSource(input,selected);
