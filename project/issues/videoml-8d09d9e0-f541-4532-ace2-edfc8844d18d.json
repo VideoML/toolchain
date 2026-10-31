@@ -31,10 +31,17 @@
       "text": "Primary architecture addition: provide minimal built-in videoml/scene-snapshot v1 with strict sourceSceneId/sourceFrame parameters and pure sceneInputs descriptor. This reusable consumer lets ordinary copied XML use authored scene snapshots without weakening P17 rejection of XML custom browser roles. Controller owns/closes snapshot handle through disposal/mount failure; destination seeks use fixed source frame. This is P03b enablement, not Hyperframes catalog parity. Internal preparation store now returns only completion (Promise<void>), exposes no mutable PNG bytes; preparation owns immutable encoded snapshots. Verification transfer budget must be checked before base64/browser decode allocation, not only after return.",
       "created_at": "2026-10-31T02:16:33.289203Z",
       "comment_type": "default"
+    },
+    {
+      "id": "40e052c4-326b-4161-8e0c-b1a2fe3918ee",
+      "author": "home",
+      "text": "Source browser evidence advanced: /private/tmp/p03b-browser-v4.log passes authored canvas+HTML and ordinary title with font, fixed source selection outside scene interval, transfer budget rejection before trapped decoder. Primary viewed /var/folders/h8/bff490w93nl9c87021k92f0m0000gp/T/p03b-browser-vsidOX/captured.png and confirmed both text elements visible. Source 1080p P07 narrow regression /private/tmp/p03b-shader-1080.log passes; primary viewed solid magenta output. This test uses one snapshot-consuming page and identical visual endpoints, so not full two-provider/blend proof. Worker instructed to verify two distinct snapshot-consuming pages, start/mid/end pixels and repeated/reverse equality in packed integration. No P03b acceptance yet.",
+      "created_at": "2026-10-31T02:21:15.853402Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-31T00:21:06.384494Z",
-  "updated_at": "2026-10-31T02:16:53.952041Z",
+  "updated_at": "2026-10-31T02:21:15.854009Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
