@@ -24,7 +24,8 @@
     "./effects": "./src/effects.ts",
     "./effect-capture": "./src/effect-capture.ts",
     "./transition-capture": "./src/transition-capture.ts",
-    "./builtin-validation": "./src/builtin-validation.ts"
+    "./builtin-validation": "./src/builtin-validation.ts",
+    "./safe-esbuild": "./src/safe-esbuild.ts"
   },
   "dependencies": {
     "@videoml/shared": "0.0.0",
@@ -35,7 +36,8 @@
     "lottie-web": "^5.12.0",
     "p5": "^1.9.0",
     "three": "^0.163.0",
-    "esbuild": "0.27.3"
+    "esbuild": "0.27.3",
+    "playwright-core": "1.56.1"
   },
   "devDependencies": {
     "@types/d3": "^7.4.3",

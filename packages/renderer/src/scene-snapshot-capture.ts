@@ -1,4 +1,4 @@
-import { createRequire } from 'node:module';
+import { loadBrowserController } from './browser-controller.js';
 import type { SceneSnapshotRequest } from '@videoml/stdlib/effects';
 import { awaitBrowserLaunch } from './render-lifecycle.js';
 import { validateSnapshotPng, assertSnapshotTransferBudget } from './scene-snapshot-store.js';
@@ -35,7 +35,7 @@ export async function captureSceneSnapshotPng(options: SceneSnapshotCaptureOptio
         throw new Error('SCENE_CAPTURE_CANCELLED');
     if (!Number.isSafeInteger(width) || !Number.isSafeInteger(height) || width < 1 || height < 1 || width > 4096 || height > 4096 || width * height > 4194304)
         throw new Error('SCENE_CAPTURE_LIMIT: dimensions');
-    const { chromium } = createRequire(import.meta.url)('playwright') as typeof import('playwright');
+    const { chromium } = loadBrowserController();
     let browser: Awaited<ReturnType<typeof chromium.launch>> | undefined, close: Promise<void> | undefined;
     const closeBrowser = () => close ??= (browser ? browser.close() : Promise.resolve());
     const launch = chromium.launch({ executablePath: options.executablePath ?? process.env.VIDEOML_CHROMIUM_EXECUTABLE_PATH });

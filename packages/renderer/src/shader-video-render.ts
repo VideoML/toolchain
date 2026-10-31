@@ -3,7 +3,7 @@ import {mkdtemp,rm,writeFile,copyFile,unlink} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {build} from 'esbuild';
+import {loadSafeEsbuild} from './safe-esbuild.js';
 import {shaderNames,validateTransitionOptions} from '@videoml/stdlib/effects/transitions';
 import {captureTransitionFrames} from './transition-capture.js';
 import {renderFramesToPng,type RenderFramesPngOptions,type RenderFramesResult} from './render.js';
@@ -26,7 +26,7 @@ export async function renderShaderFrames(options:RenderFramesPngOptions):Promise
  const temp=await mkdtemp(join(tmpdir(),'videoml-shader-render-'));let result:RenderFramesResult|undefined,failed=false,uncertain=false;
  try {
   const rendererDir=dirname(fileURLToPath(import.meta.url));
-  const builds=Promise.all(['frame-effect-browser.tsx','shader-compositor-browser.ts'].map(entry=>build({entryPoints:[join(rendererDir,entry)],bundle:true,write:false,format:'iife',platform:'browser',target:'es2022'})));
+  const builds=Promise.all(['frame-effect-browser.tsx','shader-compositor-browser.ts'].map(entry=>loadSafeEsbuild(import.meta.url).build({entryPoints:[join(rendererDir,entry)],bundle:true,write:false,format:'iife',platform:'browser',target:'es2022'})));
   let onAbort:()=>void=()=>{};const aborted=new Promise<never>((_,reject)=>{onAbort=()=>reject(new Error('RENDER_CANCELLED'));options.signal?.addEventListener('abort',onAbort,{once:true});if(options.signal?.aborted)onAbort();});let scene,compositor;try{[scene,compositor]=await Promise.race([builds,aborted]);}catch(error){if(options.signal?.aborted){let timer:ReturnType<typeof setTimeout>|undefined;try{await Promise.race([builds.then(()=>{},()=>{}),new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error('RENDER_CLEANUP_UNCONFIRMED: shader build did not settle')),options.effectStageTimeoutMs??30000);})]);}finally{if(timer)clearTimeout(timer);}}throw error;}finally{options.signal?.removeEventListener('abort',onAbort);}
   const sceneBundle=join(temp,'scene.js'),compositorBundle=join(temp,'compositor.js');await Promise.all([writeFile(sceneBundle,scene.outputFiles[0].contents),writeFile(compositorBundle,compositor.outputFiles[0].contents)]);
   const snapshots=options.preparedSceneSnapshots ?? await prepareSceneSnapshots({script,width:options.config.width,height:options.config.height,fps:options.config.fps,seed:Number(options.inputProps?.effectSeed??0),assets:(options.inputProps?.effectAssets??{}) as Record<string,unknown>,durationFrames:options.config.durationFrames,bundle:scene.outputFiles[0].text,signal:options.signal,portableBundlePath:options.effectRegistryBundlePath,portableComponents:options.portableComponents,customEffects:options.customEffects});

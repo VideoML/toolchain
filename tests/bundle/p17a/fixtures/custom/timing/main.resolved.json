@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "sampleRateHz": 24000,
+  "fps": 30,
+  "durationFrames": 60,
+  "audioTotalSamples": 24000,
+  "generationSeed": 2828117061,
+  "leadInSamples": 0,
+  "scenes": [
+    {
+      "id": "scene:[\"a\"]",
+      "startFrame": 0,
+      "endFrame": 30
+    },
+    {
+      "id": "scene:[\"b\"]",
+      "startFrame": 21,
+      "endFrame": 60
+    }
+  ],
+  "cues": [],
+  "layers": [],
+  "components": [
+    {
+      "id": "component:[\"a\",\"shape-a\"]",
+      "startFrame": 0,
+      "endFrame": 30
+    },
+    {
+      "id": "component:[\"b\",\"shape-b\"]",
+      "startFrame": 21,
+      "endFrame": 60
+    }
+  ],
+  "transitions": [
+    {
+      "id": "transition:[\"warp\"]",
+      "startFrame": 21,
+      "endFrame": 30
+    }
+  ],
+  "segments": []
+}
