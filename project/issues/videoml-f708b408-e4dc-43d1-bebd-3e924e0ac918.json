@@ -235,10 +235,17 @@
       "text": "Primary reviewed actual packed conformance harness and unique ordinal output paths: reverse, repeated/random and partition checks compare independent captures; hash mappings verified. Packed Geist font frame83 independently viewed and legible. Framer Motion actual browser tests now exercise portals, controller-owned nested root and direct motion.div registration; valid React memo/forwardRef support added. Independent review uncovered pre-dispatch commit cancellation leaving stage helper until timeout; primary confirmed DirectoryStage.commit catch only handles commitSent, assigned central cleanup fix and real-helper regression. XML/browser trust-bypass finding was retracted: source-xml.ts20 rejects custom roles and crafted recomputed-digest public test covers it. P17 remains open pending cleanup fix, current-source final packed rerun and acceptance.",
       "created_at": "2026-10-31T01:33:33.734833Z",
       "comment_type": "default"
+    },
+    {
+      "id": "ae83661f-cef2-4039-b1ab-acf9c23152cb",
+      "author": "home",
+      "text": "Primary reviewed DirectoryStage.commit pre-dispatch cancellation fix and independently ran staging plus public tests: 20/20 pass, including real helper stage removal before return and preservation of publication-unconfirmed behavior. Source fix accepted for this defect. Current-source final package rebuild and acceptance evidence remain pending.",
+      "created_at": "2026-10-31T01:34:49.764470Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.623766Z",
-  "updated_at": "2026-10-31T01:33:33.735067Z",
+  "updated_at": "2026-10-31T01:34:49.764692Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,

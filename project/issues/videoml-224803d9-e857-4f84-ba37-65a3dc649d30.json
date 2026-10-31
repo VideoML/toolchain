@@ -17,9 +17,17 @@
       "type": "blocked-by"
     }
   ],
-  "comments": [],
+  "comments": [
+    {
+      "id": "96b65619-a1f1-4ef2-80c2-76198bd6f47e",
+      "author": "home",
+      "text": "Read-only implementation handoff: authoritative seam stdlib src/effects/index.ts mountEffect. Copy validated startFrame/endFrame to local constants; create fresh Object.freeze timing; pass {...context,timing} overriding caller timing; visibility uses copied constants too. Keep absolute seek and existing effect calculations. Player src/runtime.ts and toolchain frame-effect-browser already floor start and ceil end; preserve rounding. Docs stdlib src/effects/README.md and specification specs/frame-effects-v1.md. Existing toolchain tests/effects/browser.test.mjs and player-react-fixture.tsx supply preview/renderer seams. P17 remains blocking; no concurrent checkout writer.",
+      "created_at": "2026-10-31T01:34:49.741440Z",
+      "comment_type": "default"
+    }
+  ],
   "created_at": "2026-10-31T00:21:06.359451Z",
-  "updated_at": "2026-10-31T00:23:44.411542Z",
+  "updated_at": "2026-10-31T01:34:49.741676Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
