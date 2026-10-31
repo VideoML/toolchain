@@ -13,7 +13,7 @@ The existing P09 browser tests passed 5/5. All 24 particle PNGs matched the prio
 
 For fractional placement, the packed CLI rendered a copied XML particle effect at 0.31s for 0.23s, separately at 24 and 30 fps. A packed player rendered the same XML, seed and font on a normalized 320×240 host. At nine forward, repeated and reverse seeks per frame rate, full-frame PNG hashes matched the CLI output; the check also asserted computed visibility across ancestors, no fallback placeholder, and a visible canvas rectangle of `[0,0,320,240]`. Local evidence is in `/private/tmp/p03a-packed/compare-24.log`, `compare-30.log`, `offset24-frames/`, `offset-final-frames/`, and `player-{24,30}-*.png`.
 
-The checked-in `packed-placement.browser.mjs` passed against the same 24 and 30 fps frames. It loads Playwright and esbuild from the packed consumer; using another Playwright version changed rendered pixels in the local check. Given the generated project and CLI frames, run it from the packed consumer so its browser bundle resolves the packed player and its dependencies:
+The checked-in `packed-placement.browser.mjs` passed against the same 24 and 30 fps frames. It loads Playwright and esbuild from the packed consumer; using another Playwright version produced different PNG output in the local check. Given the generated project and CLI frames, run it from the packed consumer so its browser bundle resolves the packed player and its dependencies:
 
 ```sh
 cd /path/to/packed-consumer
