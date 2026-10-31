@@ -151,10 +151,17 @@
       "text": "Primary independently reran all current tests/bundle/*.test.mjs:65/65 pass, no skips. Includes repository-owned licensed Geist font copy/pin/tamper/missing tests, portable python3 invocation, selective capture, lock/runtime optional payload and shadow regression, ZIP/parser/lifecycle adversarial cases and source/frozen semantics. This remains current XML/data-path verification; custom browser ABI and trusted TS work are not complete. Canonical initiative now records approved ABIv1 shared React/context, per-instance settlement/disposal and both shader source-page injection.",
       "created_at": "2026-10-31T01:02:17.390933Z",
       "comment_type": "default"
+    },
+    {
+      "id": "11cd150a-684a-4285-b3ea-75df5da97bb6",
+      "author": "home",
+      "text": "Portable-host first lifecycle implementation independently reviewed. Required corrections: abort constructor failures; identity-based registry removal; shared disposal promise; serialize full flush/settle; terminal page close after failed/noncooperative work; await old instance disposal before a new instance may settle/capture. Canonical D08 now states cooperative cancellation limits rather than claiming arbitrary JS revocation. Initial real-browser lifecycle log reports shared context, frame serialization, double disposal, constructor abort and stalled cleanup pass; targeted old-instance/new-instance regression and independent test-source review remain pending.",
+      "created_at": "2026-10-31T01:05:00.447887Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.623766Z",
-  "updated_at": "2026-10-31T01:02:17.391428Z",
+  "updated_at": "2026-10-31T01:05:00.448396Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
