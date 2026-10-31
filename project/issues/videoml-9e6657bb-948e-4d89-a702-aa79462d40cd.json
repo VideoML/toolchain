@@ -55,10 +55,17 @@
       "text": "Next dispatch after P03b lands owns stdlib and videoml-org only, concurrent P17a owns toolchain/CLI/specification. Use separate task-owned parity harness without toolchain edits; report any unavoidable cross-repo need to primary. Read-only preflight underway. Full upstream choreography/defaults/options and working website fixtures remain required; no manifest-only parity.",
       "created_at": "2026-10-31T02:26:54.035080Z",
       "comment_type": "default"
+    },
+    {
+      "id": "04931417-973e-4b7f-8e34-39e9daa3a466",
+      "author": "home",
+      "text": "Website actual five-effect mount/lifecycle and five copied XML CLI executions passed provisionally. Upstream reference captures found real defaults/font/easing differences: chart opacity corrected; arc default frames exact; same-owned-image ASCII default exact after matching upstream monospace stack; nondefault up-exit exposed cubic GSAP easing/container-unit fix now source-only. Small agent/trail raster differences retained, not labeled exact. CopiedXML source must preserve absolute sourceFrame75 and original composition timing; source raster difference measured203pixels vspriorP03b input, rawmetrics in /private/tmp/videoml-c001-validation/source-image-difference.log. Final corrected pack, all-options/multiinstance/reference validation remains pending. Heavy slot released to P17a; source/evidence /private/tmp/videoml-c001-validation/REPORT.md. No deployment or acceptance.",
+      "created_at": "2026-10-31T02:57:01.711861Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:36.292510Z",
-  "updated_at": "2026-10-31T02:38:24.811927Z",
+  "updated_at": "2026-10-31T02:57:01.712076Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
