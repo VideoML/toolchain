@@ -66,10 +66,17 @@
       "text": "Both final-at-that-point archives rendered on macOS and Linux, but primary ffprobe inspection caught Linux XML AAC truncation: 0.085s/3frames vs Mac0.727s/19frames despite22video frames. Input PCM verified identical17455samples at24kHz (decoded SHA256 ddd10a961c923665bd9641d52ce7cf5d6dcb53ecb576900f7dbdffe83ff50a06). Bounded Linux5.1 diagnostic replacing frames:v with shared output duration produced22video/19AACframes and0.727s. Renderer fix now uses duration for frame-limited audiovisual output; silent frames retain frame limit. Primary requires preview offset/extra-frame/fractionalfps and tone regressions plus refreshed packed sameZIP proof before acceptance. Prior exit-zero renders remain failed audio acceptance.",
       "created_at": "2026-10-31T03:16:29.343202Z",
       "comment_type": "default"
+    },
+    {
+      "id": "63692e5a-d5a5-40bd-a1f4-18197d761979",
+      "author": "home",
+      "text": "Audio-fix same-archive proof now succeeds on both macOS and Linux. XML ZIP SHA256 b715d3914eca95ec71fc98b4dc63713815b0ae26fba3d7f36c47834d5bc74b69; trustedTS161fbb3c32d7a60fc49a3eb6f7fd66adf8162110862a0db40f19920580ebf6ab. Primary independently confirmed identical transferred ZIP bytes and XML ffprobe output on both hosts:320x240/30fps/22frames/0.733333s video,24kHz19AACframes/0.727s audio. Worker verifiedTS bothhosts60frames/2s and25AACframes/1s frozen input. Linux5.1 preview diagnostic with extra frames/start5/fractional30000/1001fps produced exactly10frames andnon-silenttone;zero duration encodednostreams. Remaining acceptance: final negatives/sourcegates, tracked reproducible evidence and OSvisualdifference characterization; no cross-OSpixelidentity claimed.",
+      "created_at": "2026-10-31T03:19:49.611984Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-31T02:23:58.465552Z",
-  "updated_at": "2026-10-31T03:16:29.343702Z",
+  "updated_at": "2026-10-31T03:19:49.612492Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,

@@ -24,10 +24,17 @@
       "text": "P18 implementation dispatched to Terra in Babulus as second writer while catalog writer is idle. Native story babulus-daa883 and task babulus-d87059 created before code. Preflight confirms legacy shared Job uses unfenced list/update claims and ECS worker can proceed from nonqueued states; preserve non-render paths and implement new separate render authority per D09b. Worker owns pure transitions/transaction contract, Gherkin red-to-green evidence and cutover inventory only; no cloud operation, deployment, commit, or legacy writer cutover authorized at this stage.",
       "created_at": "2026-10-31T03:08:40.579912Z",
       "comment_type": "default"
+    },
+    {
+      "id": "20c85454-14d8-4715-8889-ce12eeb822d3",
+      "author": "home",
+      "text": "Independent Terra review reproduced and verified fixes for late/duplicate Batch IDs, exhaustive sealed dispatch proof, mutable artifact proposals, malformed evidence, tenant-bound artifact/key identity and recoverable unknown-submit timeout. Final prior findings cleared narrowly: one lifetime submit intent, durable begin timestamp and explicit exhaustive uncertainty resolution; independently28/28unit tests. This is pure contract evidence only. P21/P25 must implement trusted verification/durable same-account CAS/outbox and realfault tests. Repo-wide gates/primary acceptance/commit approval remain pending; no deployment.",
+      "created_at": "2026-10-31T03:19:49.653053Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.693457Z",
-  "updated_at": "2026-10-31T03:13:45.591624Z",
+  "updated_at": "2026-10-31T03:19:49.653274Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
