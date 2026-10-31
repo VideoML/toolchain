@@ -186,10 +186,17 @@
       "text": "Primary independently ran two real POSIX encoder cancellation tests: both pass, including leader exits TERM while descendant ignores it; group escalation removes descendant. Renderer launch/setup/late-resource/cleanup error separation findings remain under correction. Test harness cleanup-on-regression and Windows capability handling requested. This is narrow encoder cancellation evidence, not complete bundle lifecycle acceptance.",
       "created_at": "2026-10-31T01:09:44.076460Z",
       "comment_type": "default"
+    },
+    {
+      "id": "247a417b-45ea-441b-84b6-065c1acf59ab",
+      "author": "home",
+      "text": "Additional source review of render cancellation requires immediate ownership tracking when browser context is acquired (before awaiting newPage), bounded cleanup of late contexts/pages and cleanup on filesystem setup errors after launch. Worker correcting with delayed setup/launch tests. Signal propagation into shader/encoder and offline CSP integration remain subject to actual tests; current new source is not acceptance evidence.",
+      "created_at": "2026-10-31T01:11:03.842Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.623766Z",
-  "updated_at": "2026-10-31T01:09:44.076688Z",
+  "updated_at": "2026-10-31T01:11:03.842246Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,

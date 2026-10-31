@@ -166,10 +166,17 @@
       "text": "Primary inspected actual Linux nofile-proof.json and probe.log: baseline/restricted observed1048576/1048576=>4096/4096; each parent and child inherited cap, denied raise and exhausted at4093 opens/EMFILE. Low1024 parent rejected; guard125. Synthetic modified-wrapper failure cases passed; dockerps only unrelatedgrobid. Local resource-limit proof accepted, not Chromium compatibility. Separate paired runtime command requested before authorization.",
       "created_at": "2026-10-31T01:09:43.953966Z",
       "comment_type": "default"
+    },
+    {
+      "id": "0e7c8439-4dbb-4bff-9adc-e6f1922770b5",
+      "author": "home",
+      "text": "Approved exact NOFILE-PAIRED-RUNTIME-COMMAND.md after successful cap proof. One capped paired run active handle39750 in unique container p20a-nofile-paired-3af3f3bbddb54c42822e1c58e2f7cbda, independently observed Up17seconds. Evidence root /private/tmp/p20a-nofile-paired-3af3f3bbddb54c42822e1c58e2f7cbda. Same227cachedarchives/ELF/browserflags/isolation policy, mandatory filter and limit preflight before browser. No downloads/new permissions. Result pending; no restart on observation timeout.",
+      "created_at": "2026-10-31T01:11:03.733122Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T21:55:55.047192Z",
-  "updated_at": "2026-10-31T01:09:43.954470Z",
+  "updated_at": "2026-10-31T01:11:03.733377Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
