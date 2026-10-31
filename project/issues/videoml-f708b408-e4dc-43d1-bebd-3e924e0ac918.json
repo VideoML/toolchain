@@ -214,10 +214,17 @@
       "text": "Primary inspected stronger shader browser test: HTTP requests, WebSocket upgrades and TCP connections all counted and zero; cancellation waits actual scene-seek console marker. Terminal handle11552/log p17-shader-policy-active passed. Normal render terminal3189/log p17-portable-lifecycle-settle-abort waits explicit controller.settle marker and confirms pagecleanup afterabort. Requested evidence gaps addressed; TS closure/export/import/custompacked acceptance remains unfinished. P20a owns nextheavy pairedrun, P17 sourcecontinues.",
       "created_at": "2026-10-31T01:17:21.601622Z",
       "comment_type": "default"
+    },
+    {
+      "id": "1f1ab1eb-9edf-4002-bc0e-b07a1069175a",
+      "author": "home",
+      "text": "Primary independently reran tests/bundle/ts-closure.test.mjs:5/5pass. Covers explicitclosedimports, prohibitedimports, realtrustedchildexecution, function/cycle/oversizeddata rejection and publicVideoMLDSL+GSAP import through explicit test mappings. This is not packedruntime/publicTSworkflow acceptance; export/browserfactory/completecustomshaderfont consumerproof pending.",
+      "created_at": "2026-10-31T01:22:30.778111Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.623766Z",
-  "updated_at": "2026-10-31T01:17:21.601868Z",
+  "updated_at": "2026-10-31T01:22:30.778335Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
