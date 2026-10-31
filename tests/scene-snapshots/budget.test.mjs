@@ -1,0 +1,4 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {assertTransitionTransferBudget,encodeTransitionSnapshots} from '../../packages/renderer/src/scene-snapshot-budget.ts';
+test('1080p low-entropy screenshots fit while expensive transfers fail before encoding',()=>{assert.doesNotThrow(()=>assertTransitionTransferBudget(10000));assert.doesNotThrow(()=>assertTransitionTransferBudget(10000,[200000,200000]));assert.throws(()=>assertTransitionTransferBudget(3*1024*1024),/SCENE_CAPTURE_LIMIT/);assert.throws(()=>assertTransitionTransferBudget(10000,[8*1024*1024,8*1024*1024]),/SCENE_CAPTURE_LIMIT/)});
+
+test('over-budget screenshots never reach base64 conversion',()=>{let calls=0;const large={byteLength:8*1024*1024,toString(){calls++;return ''}};assert.throws(()=>encodeTransitionSnapshots(10000,large,large),/SCENE_CAPTURE_LIMIT/);assert.equal(calls,0)});

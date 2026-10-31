@@ -1,0 +1,8 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { prepareSceneSnapshotPlan } from '../../packages/renderer/src/scene-snapshot-plan.ts';
+const descriptors = [{ id: 'test/snapshot', version: '1', sceneInputs: [{ sceneIdParameter: 'sourceSceneId', frameParameter: 'sourceFrame' }] }];
+const effect = (id, frame) => ({ type: 'FrameEffect', props: { effectId: 'test/snapshot', effectVersion: '1', parameters: { sourceSceneId: id, sourceFrame: frame } } });
+test('preflight finds nested fixed-source effects and orders diamond dependencies', () => { const script = { scenes: [{ id: 'a', components: [effect('b', 1), effect('c', 2)] }, { id: 'b', components: [effect('d', 3)] }, { id: 'c', layers: [{ components: [effect('d', 3)] }] }, { id: 'd', components: [] }] }; assert.deepEqual(prepareSceneSnapshotPlan(script, descriptors), [{ sceneId: 'd', frame: 3 }, { sceneId: 'b', frame: 1 }, { sceneId: 'c', frame: 2 }]); });
+test('preflight refuses missing and cyclic sources before capture', () => { assert.throws(() => prepareSceneSnapshotPlan({ scenes: [{ id: 'a', components: [effect('a', 1)] }] }, descriptors), /SCENE_CAPTURE_CYCLE/); assert.throws(() => prepareSceneSnapshotPlan({ scenes: [{ id: 'a', components: [effect('bad', 1)] }] }, descriptors), /SCENE_CAPTURE_INVALID/); });
+test('transition-owned snapshot inputs are preflight roots', () => { const script = { scenes: [{ id: 'a', components: [] }], timeline: [{ kind: 'transition', components: [effect('a', 3)] }] }; assert.deepEqual(prepareSceneSnapshotPlan(script, descriptors), [{ sceneId: 'a', frame: 3 }]); script.timeline[0].components = [effect('missing', 3)]; assert.throws(() => prepareSceneSnapshotPlan(script, descriptors), /SCENE_CAPTURE_INVALID/); });

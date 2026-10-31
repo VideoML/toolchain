@@ -1,6 +1,6 @@
 import {createHash} from 'node:crypto';
 export type FileRecord={path:string;sha256:string;mediaType:string};
-export type BundleRoles={entry:string;composition:{id:string;script:string;timing:string;audio:string|null;normalizedSource?:string;sourceClosure?:string[];browserBundle?:string|null;customComponents?:Array<{id:string;version:string}>};files:FileRecord[];assets:FileRecord[];audio:string[];timing:string[]};
+export type BundleRoles={entry:string;composition:{id:string;script:string;timing:string;audio:string|null;normalizedSource?:string;sourceClosure?:string[];browserBundle?:string|null;customComponents?:Array<{id:string;version:string}>;customEffects?:Array<{id:string;version:string;sceneInputs:Array<{sceneIdParameter:string;frameParameter:string}>}>};files:FileRecord[];assets:FileRecord[];audio:string[];timing:string[]};
 export function canonicalBundlePath(path:string):string {
  if(typeof path!=='string'||!path||path!==path.normalize('NFC')||/[\u0000-\u001f\u007f-\u009f\\]/u.test(path)||path.startsWith('/')||/^[a-z]:/i.test(path))throw new Error('BUNDLE_PATH: invalid path');
  for(const part of path.split('/'))if(!part||part==='.'||part==='..'||/[. ]$/u.test(part)||/[<>:"|?*]/u.test(part)||/^(?:CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\.|$)/i.test(part))throw new Error('BUNDLE_PATH: invalid segment');
