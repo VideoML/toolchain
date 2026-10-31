@@ -207,10 +207,17 @@
       "text": "Shader policy first actualbrowser test rejects attempted fetch/image/WebSocket, but primary source review found HTTP request counter omits explicit Upgrade event and timedabort1000ms does not establish seek started. Directed upgrade counter and actual seek-start synchronization before claiming zeroWebSocketdelivery/activecapturecancel. Normal active-controller cancellation browser test running. Outputcommit decision: immediate abortcheck then synchronous atomicrename terminalpoint; precommitcancel preserves existingoutput, successfulcommit replaces it, EXDEV namederror/no copyfallback.",
       "created_at": "2026-10-31T01:15:12.118484Z",
       "comment_type": "default"
+    },
+    {
+      "id": "dac8253a-f521-464f-8d4f-7c5da47c85c8",
+      "author": "home",
+      "text": "Primary inspected stronger shader browser test: HTTP requests, WebSocket upgrades and TCP connections all counted and zero; cancellation waits actual scene-seek console marker. Terminal handle11552/log p17-shader-policy-active passed. Normal render terminal3189/log p17-portable-lifecycle-settle-abort waits explicit controller.settle marker and confirms pagecleanup afterabort. Requested evidence gaps addressed; TS closure/export/import/custompacked acceptance remains unfinished. P20a owns nextheavy pairedrun, P17 sourcecontinues.",
+      "created_at": "2026-10-31T01:17:21.601622Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.623766Z",
-  "updated_at": "2026-10-31T01:15:12.119048Z",
+  "updated_at": "2026-10-31T01:17:21.601868Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
