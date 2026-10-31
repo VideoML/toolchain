@@ -194,10 +194,17 @@
       "text": "Primary reviewed centralized browser-candidate.mjs, in-process trace entry and exactNO-ZYGOTE-PAIRED-COMMAND.md; authorized one pairedrun addingonly--no-zygote to all4browserpaths. Sameurandomlauncher/cap4096/ELF/227archives/no procgrant. Livehandle84684 evidence /private/tmp/p20a-nozygote-398b2e1519eb41f0981a1b437da76050; sourcebinarychecks passed, ownedrandomcontainer. No production or compatibility acceptance until terminal evidence.",
       "created_at": "2026-10-31T01:22:30.886597Z",
       "comment_type": "default"
+    },
+    {
+      "id": "259eaa01-258e-49c8-af61-fc1730630e4b",
+      "author": "home",
+      "text": "Primary inspected terminal no-zygote REPORT.md: baseline PNG and restricted FFmpeg pass; restricted Chromium and cancellation attempt SIGTRAP, no trace launched, guard125. Current single-container proc-denial topology has not produced a usable browser. Next source-only architecture proposal: same-task separate renderer container with private PID namespace, separate root filesystem and bounded input/output exchange; retain syscall network denial, scrubbed environment/FDs and no supervisor mounts. Same-task IAM credentials remain a risk requiring adversarial proof; private PID alone is insufficient. No policy widening, runtime, provisioning or production enablement authorized by this proposal. Terra preparing concrete topology, CDP exchange and exact AWS mapping before primary decision.",
+      "created_at": "2026-10-31T01:30:06.617855Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T21:55:55.047192Z",
-  "updated_at": "2026-10-31T01:22:30.886839Z",
+  "updated_at": "2026-10-31T01:30:06.618129Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
