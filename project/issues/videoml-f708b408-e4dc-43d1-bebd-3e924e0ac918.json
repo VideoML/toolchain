@@ -172,10 +172,17 @@
       "text": "Primary inspected updated lifecycle browser test and /private/tmp/p17-portable-lifecycle-remount.log: actual renderFramesToPng timeout rejects FRAME_EFFECT_TIMEOUT and leaves zero browser pages; clean same-page host registration/disposal/remount succeeds. This closes the prior manually-closed-page evidence gap. All lifecycle browser handles terminal; heavy slot released while TS closure and shader integration continue. Full packed custom animation/shader/font acceptance remains required.",
       "created_at": "2026-10-31T01:06:06.326417Z",
       "comment_type": "default"
+    },
+    {
+      "id": "b6c490d8-7e7a-4b2a-b2af-b8c07ea63157",
+      "author": "home",
+      "text": "Primary shader integration review requires offline CSP/policy checks on both scene pages and compositor before custom bundle injection, not HTTP routing alone; tests must prove blocked browser network attempts produce failure. Bundle signal currently stops validation only; directed propagation through actual frame capture/shader capture/FFmpeg with active-work cancellation/cleanup tests. These are required completion gaps, not fulfilled by earlier import or manually closed browser tests.",
+      "created_at": "2026-10-31T01:07:46.089218Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.623766Z",
-  "updated_at": "2026-10-31T01:06:06.326636Z",
+  "updated_at": "2026-10-31T01:07:46.089471Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,

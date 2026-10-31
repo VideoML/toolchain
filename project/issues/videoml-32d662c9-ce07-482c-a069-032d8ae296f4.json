@@ -152,10 +152,17 @@
       "text": "Narrow trace terminal and inconclusive: untraced SIGTRAP reproduced; traced process timed out45s with24files/144203bytes, traceIncomplete=true/status125, no report/cleanup error and container removed. Primary inspected trace-report.json; no causal syscall established. Next authorized work is source-only descriptor resource-limit proposal (soft/hard RLIMIT_NOFILE4096 equally for baseline/restricted/traced), to bound possible fallback close traversal without granting permissions. No next runtime approved. Heavy slot released to P17.",
       "created_at": "2026-10-31T01:02:02.227137Z",
       "comment_type": "default"
+    },
+    {
+      "id": "47cc45d5-5864-4d92-8644-ee455658f2e0",
+      "author": "home",
+      "text": "Primary reviewed exact NOFILE-COMPILE-PROBE-COMMANDS.md and independently ran4 nofile evidence/result tests pass. Authorized bounded static compile, updated synthetic copy/report failure proofs, guard125, baseline/restricted parent+child4096 limit, denied hard-limit raise, real EMFILE and low-inherited-limit rejection. Same readonly reviewed source/binaries, unique names/CID/owner, network-none/no pulls or added privileges,1.5GiB budget and8GiB floor. No browser run authorized yet; stop on hash mismatch or uncertain cleanup. Actual per-command first-line limit evidence is mandatory and cleanup uncertainty takes precedence over output classification.",
+      "created_at": "2026-10-31T01:07:45.960308Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T21:55:55.047192Z",
-  "updated_at": "2026-10-31T01:02:02.227383Z",
+  "updated_at": "2026-10-31T01:07:45.961171Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
