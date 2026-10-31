@@ -242,10 +242,17 @@
       "text": "Primary reviewed DirectoryStage.commit pre-dispatch cancellation fix and independently ran staging plus public tests: 20/20 pass, including real helper stage removal before return and preservation of publication-unconfirmed behavior. Source fix accepted for this defect. Current-source final package rebuild and acceptance evidence remain pending.",
       "created_at": "2026-10-31T01:34:49.764470Z",
       "comment_type": "default"
+    },
+    {
+      "id": "9a2ad28f-5c0c-43d5-b1f3-e62a4f759045",
+      "author": "home",
+      "text": "Current packed rebuild evidence inspected: trusted TS import/render and font render pass; inert validation reports pending, hosted/untrusted imports reject; recomputed-digest TS tamper fails normalized-source re-execution. Full reverse/random/repeat/partition conformance passes. Final CLI review found bundle commands lacked SIGINT/SIGTERM forwarding despite library cleanup tests. Worker added scoped AbortController handlers for all five bundle commands with awaited cleanup and 130/143 preservation; primary source review passed, actual active-capture CLI subprocess cancellation proof and CLI repack pending. Do not close P17 before this user-facing integration gate.",
+      "created_at": "2026-10-31T01:38:43.229541Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.623766Z",
-  "updated_at": "2026-10-31T01:34:49.764692Z",
+  "updated_at": "2026-10-31T01:38:43.229785Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
