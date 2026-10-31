@@ -31,10 +31,31 @@
       "text": "V2 source integration and guarded compiler work progressing: worker reports104bundlepass/1skip and typecheck; reviewer confirmed ESBUILD_BINARY_PATH/preloaded-module bypass fixed by pre-tsx JS bootstrap and fresh isolated compiler module loading, preserving embedding cache. Clean runtime proof still pending. Metadata-only npm lock generation completed with hooks disabled and no third-party tarball GET: lock SHA72b980004714272987ab47ac4c1639e9bdce45ca1ac9cfe80b8b2e6ae50fde4b. Primary verified target inventory SHAcefa24d3af4e0b09456f05942078d07d5da21950bc2a7bc3166de0a6385dd598,108registry artifacts,known unpacked148752799bytes; archive lengths unknown. Approved bounded SRI-verified acquisition128MiB compressed/256MiB expanded total,32MiB archive/64MiB package, unknown3packages4MiB each,180s,8GiBfloor,1.5GiBtaskgrowth, no install/container. Active worker29700 /private/tmp/p17a-acquisition/acquire.py and acquire.log. Source changes and actual cross-platform acceptance remain open.",
       "created_at": "2026-10-31T02:57:01.667635Z",
       "comment_type": "default"
+    },
+    {
+      "id": "910d179a-f4bf-469b-8608-3a98b50ac694",
+      "author": "home",
+      "text": "P17a preparation update: bounded acquisition completed with 108 exact registry archives verified against SHA512 integrity, 40,574,397 compressed bytes and 148,798,237 regular-file payload bytes. Result /private/tmp/p17a-acquisition/result.json SHA256 96a3912a8e12519b4a6f87c7207ccb30bbd3425e1c77011aad91d284626b054c. No installation or container execution yet. Read-only review found foreign descriptors can omit required esbuild/native pairs; fix and regression required before final pack. Relative vendor staging authorized with unchanged registry graph, 1.5 GiB task-growth cap and 8 GiB free floor. Scratch player expected-hash transcription error stopped prep; independently verified archive matches committed P03b VALIDATION.md, so corrected expectation may proceed. Same unchanged ZIP cross-host proof remains required.",
+      "created_at": "2026-10-31T03:02:14.078115Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "c7eea960-863c-451f-aef1-846bee810ab2",
+      "author": "home",
+      "text": "Primary independently verified final preparation lock fd3d4371180550c1370c86647e3d56aeeb198125ed27a6f1ccefa68056687b1a: all 156 third-party entries retain identical metadata, nesting, versions and integrity after removing only resolved-path differences; 114 local vendored archives exist. Compared all packed product members against current source: CLI 11, toolchain 84, renderer 108 files, zero mismatches. Product hashes CLI bb0fb3fa31d3f7dc286b8d8f1a408022c9e147a7efba1dc510a3d3ff680b437a; toolchain fe62f934ae1c6b18ca6f83ef7c9c2ebfd9c35f3fec060993a18c58ba27a2109a; renderer 4bb87eaa8e53e0896508052437544f6f8c0e825bfc685d20da535b7a72f8803d. Worker reports 105 bundle passes and one platform skip after descriptor correction. Clean offline install is underway; installation and cross-host rendering acceptance are not yet established.",
+      "created_at": "2026-10-31T03:03:59.061947Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "ef24ae3f-a63e-4066-adf3-56ea1511b53e",
+      "author": "home",
+      "text": "Clean offline package installations now succeeded on macOS and pinned Linux arm64 glibc image 2f5a6cba750806d852f2a3520c3cbc221102fcdedc7b922d903633a05616cc5e, hooks disabled. Both installed native esbuild versions execute and packed CLI starts. Primary independently compared collected descriptors: Mac112/Linux111 pins, all six VideoML content pins identical; only native esbuild pairs and fsevents differ. Descriptor SHA256 Mac6c3f2ff5d68c71e9fa048dee41605bc434c2c4951ef3dc6a69e61377aeda5b1d, Linux1a915469f2ab2417f4c9fa576af9858879fe6c77e2e843ecbb415c539435f247. Containers confirmed absent. Scratch about551MiB. Install watchdog omitted aggregate-size enforcement; corrected budgeted watchdog required for subsequent renders. First Mac watchdog false positive on local file cache hit retained npm debug log. Authorized next: sequential XML and trustedTS same-ZIP cross-host render, network-disabled Linux, actual declared assets and output checks. No render acceptance yet.",
+      "created_at": "2026-10-31T03:05:37.355388Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-31T02:23:58.465552Z",
-  "updated_at": "2026-10-31T02:57:01.668160Z",
+  "updated_at": "2026-10-31T03:05:37.366204Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
