@@ -3,7 +3,7 @@
   "title": "P08 — Adapt every pinned Hyperframes shader",
   "description": "## Dispatch packet P08\nRead canonical initiative videoml-dbc2b1 D03, D03a, D03b and D04 before editing. P07 and P12a are accepted and merged. Preserve all existing effect/asset/seed/timing behavior.\n\n## Ownership and sequence\nOwn stdlib, player and toolchain only, on verified feature branches based on current main. Primary owns boards, commits and acceptance. Website consumes a frozen handoff later; do not edit its checkout. Follow D16: source work may run beside one other writer; browser/build/install/render operations require the primary-assigned heavy slot, with 8 GiB free floor.\n\n1. Enumerate pinned Hyperframes shader registry at 28181602fe2d9ffa38474a6e8155a89909a7b8aa. Add failing coverage fixtures for the exact 14 keys. Adapt formulas/uniforms into the accepted P07 shared compositor and retain attribution and licenses.\n2. Implement D03b parameter validation and composition-derived resolution. Preserve exact endpoints, explicit background compositing and documented upstream interior alpha semantics. Preserve correctly premultiplied crossfade.\n3. Wire actual XML transition effect/props/ease and resolved source IDs into compositor in player and renderer. Advance both independently captured scenes at composition-absolute frames. Use P07 screenshot providers for general renderer scenes; native pixels or injected snapshot providers for browser preview. Missing provider is a named error; fallback must be explicit and diagnosed. Do not silently retain a CSS fade for shader XML.\n4. Add owned runnable examples and per-shader schema/fixture/provenance metadata. Mark implemented only after behavior works; primary alone decides verified status. Do not claim full 470-entry completion.\n5. With heavy slot, capture each shader at start/mid/end, reference-check opaque interior against pinned source, transparent endpoints and explicit background separately. Exercise repeated/reverse/random and partitioned seeks, non-default FPS/seed, easing, cancellation, invalid params/source IDs and explicit unavailable/fallback cases.\n6. Prove actual XML player and CLI integration using isolated packed consumers and equivalent source pixels. Include real DOM/canvas/WebGL capture where applicable. Helpers alone are not acceptance. Return commands, source/pack hashes, actual logs/images and clear remaining gaps; no self-closure or commits.\n\n## Exact coverage\nAll 14: domain-warp, ridged-burn, whip-pan, sdf-iris, ripple-waves, gravitational-lens, cinematic-zoom, chromatic-split, glitch, swirl-vortex, thermal-distortion, flash-through-white, cross-warp-morph, light-leak. Defaults and easing behavior are binding in D03b; do not improvise alternatives.\n\n## Stop conditions\nDo not weaken assertions, invent missing source or replace browser-painted evidence with SSR/html2canvas/foreignObject. No cloud operation, deployment, new framework ownership or silent fallback. Report unsupported capability accurately while continuing independent source work.\nPrimary correction: repair original catalog importer to enumerate unquoted as well as quoted shader keys; include shader/glitch under this packet and assert14 shader/470 total entries without dropping existing statuses/provenance. Source key enumeration must not execute arbitrary upstream runtime.",
   "type": "task",
-  "status": "in_progress",
+  "status": "closed",
   "priority": 1,
   "assignee": null,
   "creator": null,
@@ -42,11 +42,18 @@
       "text": "Primary acceptance: final independent read-only source review found no concrete blocker. Primary reran17 transition tests and7 catalog tests, verified six pack SHA256 hashes and inspected evidence including14 exact packed player/CLI midpoint RGBA matches,42 pinned upstream interior comparisons, transparent endpoints, explicit fallback/errors, scene timing/cues, partition equality and bounded cancellation. /private/tmp/videoml-p08-check/REPORT.md records scope/commands/limitations. Accept implementation on local macOS Chromium; P28 Linux release and broader permutations remain pending, verified count stays0. P08a videoml-0e01d3 now owns website handoff and470 catalog refresh.",
       "created_at": "2026-10-31T00:11:45.314725Z",
       "comment_type": "default"
+    },
+    {
+      "id": "527bc8bb-d41c-4eaa-8446-486d5e349b78",
+      "author": "home",
+      "text": "Accepted and landed: stdlib PR7 main ad73452523b822fa96dd92202dcc829ae728f2e3; player PR5 main682d3ab80eb3e509d576c7665727ac8f81a68b3f; toolchain PR6 mainab1b8e69305b0d1c97a0090d96c29baa628c4b06. All three PR states verified MERGED; no CI configured, recorded local checks are acceptance evidence. P08a website work dispatched separately.",
+      "created_at": "2026-10-31T00:13:05.555522Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.240751Z",
-  "updated_at": "2026-10-31T00:11:45.314935Z",
-  "closed_at": null,
+  "updated_at": "2026-10-31T00:13:05.588949Z",
+  "closed_at": "2026-10-31T00:13:05.588809Z",
   "right_now_summary": null,
   "right_now_updated_at": null,
   "custom": {}
