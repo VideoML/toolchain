@@ -123,10 +123,24 @@
       "text": "Packed CLI export produced visual directory digest 27458ea8d58ebb44ec2adf6e48d8f9ff02d60a79a62ac14d3a2459f853e4147e and simulated-audio ZIP digest c7f8e956f63ab8638a1022adb77d4271138922bb325cd11c937a2537711a2b98. Primary inspected terminal export logs under /private/tmp/p17-packed. Consumer uses six actual package tarballs with inventoried reused third-party dependencies, not a fresh npm installation. Actual rendering, full custom TS path and normal lock-creation workflow remain required. Canonical D08/P28 now distinguishes portable content pins from pinned Linux render-environment reproducibility.",
       "created_at": "2026-10-31T00:55:53.505096Z",
       "comment_type": "default"
+    },
+    {
+      "id": "c3d658fe-4ab9-44e0-b04d-c921161c0701",
+      "author": "home",
+      "text": "Packed visual CLI render succeeded: primary independently ffprobed /private/tmp/p17-packed/visual.mp4 as H264 320x240, 30 frames, 1.000s and viewed frame-000018.png (actual title/rectangle/background). Fixture title clips at right edge; requested fitted fixture for next visual check, no product defect inferred. Validate visual and ZIP audio import also succeeded with expected digests. Frozen simulated-audio render is running under worker; no real-TTS or full P17 acceptance claim.",
+      "created_at": "2026-10-31T00:56:19.430650Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "523cd5a2-ff9e-4060-b74d-d0324f493337",
+      "author": "home",
+      "text": "Primary verified packed simulated-audio ZIP render: ffprobe reports H264 320x240, 22 frames/0.733333s and AAC mono 24kHz/0.727s. Independently checked segment WAV SHA256, PCM SHA256 and byte-for-byte segment placement in assembled.wav: 17,455 samples at24kHz, matching frozen timing. Viewed fitted visual frame at /private/tmp/p17-packed/visual-fit-frames/frame-000015.png; title fits. Source provenance explicitly dry-run/simulated. P17 heavy work terminal and slot released to P20a synthetic failure tests; local custom TS and automatic lock workflow still pending.",
+      "created_at": "2026-10-31T00:57:10.508769Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.623766Z",
-  "updated_at": "2026-10-31T00:55:53.505623Z",
+  "updated_at": "2026-10-31T00:57:10.509292Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,

@@ -138,10 +138,17 @@
       "text": "Narrowed trace proposal reviewed conditionally, but no runtime authorized while P17 owns heavy slot. Independent review found readiness defects in newly extracted diagnostic completion: exited/code0 can report success for incomplete trace; early setup exceptions omit required teardown marker; host failure-test timeout lacks finally container cleanup. Terra assigned all three corrections plus adversarial tests. Prior seven native tests passed independently but do not cover these defects or prove actual forced-error child cleanup.",
       "created_at": "2026-10-31T00:55:53.632604Z",
       "comment_type": "default"
+    },
+    {
+      "id": "e9806b72-b988-44e4-8c40-f220533b94b0",
+      "author": "home",
+      "text": "Primary inspected synthetic Linux failure-proof.log: forced copy/report-write failures both125; detached child pgrp/session23 differs from parent16, heartbeat stable90 bytes after teardown, owned containers absent (docker ps shows only unrelated biblicus-grobid). Native source fixes reject all incomplete traces and setup errors. Approved one narrower external trace with same policy/ELF/flags227archives and bounded45s/32MiB/1.5GiB/8GiB floor, unique owned container identity, no new download or privileges. Must reproduce untraced failure before trace; divergent/incomplete trace remains inconclusive. P20a owns heavy slot; P17 continues source.",
+      "created_at": "2026-10-31T00:58:38.068013Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T21:55:55.047192Z",
-  "updated_at": "2026-10-31T00:55:53.632841Z",
+  "updated_at": "2026-10-31T00:58:38.068259Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
