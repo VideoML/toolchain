@@ -45,3 +45,11 @@ vml bundle render --source ./custom.zip --zip --trust local --execute-source \
 ```
 
 Without `--execute-source`, validation is inert and reports pending trusted execution; it does not establish that source and frozen artifacts agree. Import and render require execution and recheck that agreement. Hosted mode rejects custom TypeScript and browser code before execution. Static closure and dependency checks support portability but do not contain malicious trusted code. Bundle pins do not promise identical pixels or encoded video across different browsers, FFmpeg builds or system fonts; those environments require their own release validation.
+
+To register a trusted custom effect that consumes authored-scene snapshots, pass `--effect-metadata ./effects.json` to export. The bounded JSON file is an array such as:
+
+```json
+[{"id":"custom/snapshot","version":"1","sceneInputs":[{"sceneIdParameter":"sourceSceneId","frameParameter":"sourceFrame"}]}]
+```
+
+The declarations are bound into the bundle manifest and must match the browser effect registrations. A snapshot-aware effect holds its owned `{bitmap, close()}` handle while its one derived canvas copy is live, then closes the handle. The public built-in `videoml/scene-snapshot@1` provides this behavior to ordinary XML using `props='{"parameters":{"sourceSceneId":"source","sourceFrame":75}}'`; it captures that authored scene once at the fixed absolute frame. Preview hosts supply a native-pixel provider explicitly. Missing providers and invalid or cyclic references fail rather than using a synthetic image.
