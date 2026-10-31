@@ -38,10 +38,17 @@
       "text": "Actual painted-output comparison exposed a second exact-seconds gate in player runtime timed-item display logic: visibility alone could be correct while display:none hid the leading rounded frame. Primary approved matching FrameEffect-only floor/ceil display gating in player, preserving all ordinary timed items. Acceptance must check painted/computed display output, not controller state alone. Zero-offset packed XML render90frames matches P17 reference and24particle referencePNGs match P09 exactly; fractional copiedXML painted parity remains under test.",
       "created_at": "2026-10-31T01:49:55.617203Z",
       "comment_type": "default"
+    },
+    {
+      "id": "87cdf163-6f4e-4152-a008-f341a727f1f5",
+      "author": "home",
+      "text": "Primary independently viewed copiedXML player frame9 and packedCLI frame9: fallback label <frame-effect> added33px layout shift in player. Root cause registerFallbackComponents treated reserved effect host as unknown custom element. Primary approved exclusion of frame-effect only, with failure-first regression retaining ordinary unknown fallback. This actual host bug must be fixed rather than hidden/cropped in comparison. Worker reports browser2/2 afterfix and final packed rerender in progress. Placement acceptance remains painted geometry/visibility parity, not controller-only state.",
+      "created_at": "2026-10-31T01:51:21.542722Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-31T00:21:06.359451Z",
-  "updated_at": "2026-10-31T01:49:55.617801Z",
+  "updated_at": "2026-10-31T01:51:21.543232Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
