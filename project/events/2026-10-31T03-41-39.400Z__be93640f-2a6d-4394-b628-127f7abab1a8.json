@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "event_id": "be93640f-2a6d-4394-b628-127f7abab1a8",
+  "issue_id": "videoml-56fa833c-3c3c-4ad8-bef2-81dfc5cd7259",
+  "event_type": "issue_created",
+  "occurred_at": "2026-10-31T03:41:39.400Z",
+  "actor_id": "home",
+  "payload": {
+    "title": "P17b — Verify portable bundles on the production Linux x86_64 target",
+    "description": "D10 selects AWS Batch Fargate Linux x86_64. P17a correctly proves only darwin-arm64 and linux-arm64-glibc; the production target currently rejects runtime selection. Preserve that accepted scope and add explicit linux-x64-glibc support before cloud drills/cutover. Owning repos: toolchain, CLI tests if needed, specification. Add strict Node platform/libc identification, native @esbuild/linux-x64 same-version pins and ELF64 little-endian EM_X86_64 verification; retain all v1 behavior, complete target closures, VideoML identical-content requirement and fail-closed unsupported/musl behavior. No generic optional-dependency skipping. Add schema examples and malformed native/architecture tests. Use immutable same six VideoML tarballs in clean offline macOS and actual Linux x86_64 consumers; QEMU is acceptable local functional evidence only if explicitly labeled, never as Fargate/performance proof. Reuse tracked P17a XML/font/PCM and trustedTS/shader fixtures: same unchanged ZIP on both hosts, actual outputs, complete frame/audio counts, PCM/font/source/timing identity, native tamper negative. Inspect available images first; pin and inventory any x86_64 image and obtain primary bounded acquisition approval before downloads. No cloud calls/deployment; D16 one heavy operation and8GiB free floor. Initial new image/cache+scratch reservation at most5GiB aggregate; report measured sizes and stop on bound. P26 still requires actual dedicated-account production architecture drills. Return reviewed source, reproducible evidence and exact package/image hashes; primary closes only after landing.",
+    "issue_type": "task",
+    "status": "open",
+    "priority": 1,
+    "assignee": null,
+    "parent": "videoml-49cdfa8f-a6cf-4c73-9f1f-76e6def3500d",
+    "labels": []
+  }
+}
