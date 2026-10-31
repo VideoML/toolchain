@@ -17,9 +17,17 @@
       "type": "blocked-by"
     }
   ],
-  "comments": [],
+  "comments": [
+    {
+      "id": "c042aebc-7933-4359-84da-47f865dd73cc",
+      "author": "home",
+      "text": "Linux native metadata and prior runtime preparation available at /private/tmp/p20a-architecture-proposal/LINUX-NATIVE-ARTIFACTS.md and RUNTIME-ASSEMBLY.md. No tarball acquisition yet. Full platform-target closure must handle esbuild package payload mutation, not only optional native package name. After P03b lands this worker owns toolchain/CLI/specification; concurrent C001 worker owns stdlib/website. Coordinate package snapshots so immutable same VideoML package bytes are used for both platform consumers even while later catalog source changes proceed.",
+      "created_at": "2026-10-31T02:26:54.016534Z",
+      "comment_type": "default"
+    }
+  ],
   "created_at": "2026-10-31T02:23:58.465552Z",
-  "updated_at": "2026-10-31T02:24:20.286646Z",
+  "updated_at": "2026-10-31T02:26:54.016760Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
