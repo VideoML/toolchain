@@ -45,10 +45,17 @@
       "text": "Primary independently viewed copiedXML player frame9 and packedCLI frame9: fallback label <frame-effect> added33px layout shift in player. Root cause registerFallbackComponents treated reserved effect host as unknown custom element. Primary approved exclusion of frame-effect only, with failure-first regression retaining ordinary unknown fallback. This actual host bug must be fixed rather than hidden/cropped in comparison. Worker reports browser2/2 afterfix and final packed rerender in progress. Placement acceptance remains painted geometry/visibility parity, not controller-only state.",
       "created_at": "2026-10-31T01:51:21.542722Z",
       "comment_type": "default"
+    },
+    {
+      "id": "6fa91bc7-9842-41e9-a20b-f482ef0b4ed8",
+      "author": "home",
+      "text": "Primary independently compared all24P03a particle PNG hashes against /private/tmp/videoml-execution/artifacts/p09-final2: exactmatches. P20a resolver terminal; heavy slot returned to P03a for24fps packed render and24/30fpsnormalized paintedcomparisons. Toolchain typecheck passed; no new dependencies installed for stdlib/player.",
+      "created_at": "2026-10-31T01:53:47.937129Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-31T00:21:06.359451Z",
-  "updated_at": "2026-10-31T01:51:21.543232Z",
+  "updated_at": "2026-10-31T01:53:47.937360Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
