@@ -11,13 +11,14 @@ export type EncodeVideoOptions = {
   frameCount?: number; // Total number of frames to encode (for preview mode)
   ffmpegPath?: string;
   ffmpegArgs?: string[];
+  signal?: AbortSignal;
 };
 
 export type EncodeRunnerResult = {
   code: number | null;
 };
 
-export type EncodeRunner = (command: string, args: string[]) => Promise<EncodeRunnerResult>;
+export type EncodeRunner = (command: string, args: string[], signal?: AbortSignal) => Promise<EncodeRunnerResult>;
 
 const defaultFramePattern = "frame-%06d.png";
 
@@ -76,11 +77,17 @@ export const buildFfmpegArgs = ({
   return args;
 };
 
-const spawnRunner: EncodeRunner = (command, args) =>
+const spawnRunner: EncodeRunner = (command, args, signal) =>
   new Promise((resolve, reject) => {
-    const child = spawn(command, args, { stdio: "inherit" });
-    child.on("error", reject);
-    child.on("close", (code) => resolve({ code }));
+    if(signal?.aborted){reject(new Error('RENDER_CANCELLED'));return;}
+    if(signal&&process.platform==='win32'){reject(new Error('RENDER_CAPABILITY_UNAVAILABLE: encoder tree cancellation is unsupported on Windows'));return;}
+    const child=spawn(command,args,{stdio:'inherit',detached:process.platform!=='win32'});let aborted=false,closed=false,done=false,probe:ReturnType<typeof setInterval>|undefined,killTimer:ReturnType<typeof setTimeout>|undefined,deadline:ReturnType<typeof setTimeout>|undefined;
+    const finish=(error?:Error,code?:number|null)=>{if(done)return;done=true;signal?.removeEventListener('abort',cancel);if(probe)clearInterval(probe);if(killTimer)clearTimeout(killTimer);if(deadline)clearTimeout(deadline);if(error)reject(error);else resolve({code:code??null});};
+    const groupSignal=(name:NodeJS.Signals|0)=>{if(!child.pid)throw new Error('encoder process group unavailable');try{process.kill(-child.pid,name);return true;}catch(error:any){if(error?.code==='ESRCH')return false;throw error;}};
+    const check=()=>{try{if(closed&&!groupSignal(0))finish(new Error('RENDER_CANCELLED'));}catch(error){finish(new Error(`RENDER_CLEANUP_UNCONFIRMED: ${String(error)}`));}};
+    const cancel=()=>{if(aborted||done)return;aborted=true;try{groupSignal('SIGTERM');}catch(error){finish(new Error(`RENDER_CLEANUP_UNCONFIRMED: ${String(error)}`));return;}probe=setInterval(check,50);killTimer=setTimeout(()=>{try{groupSignal('SIGKILL');check();}catch(error){finish(new Error(`RENDER_CLEANUP_UNCONFIRMED: ${String(error)}`));}},2000);deadline=setTimeout(()=>finish(new Error('RENDER_CLEANUP_UNCONFIRMED: encoder process group did not terminate')),4000);check();};
+    signal?.addEventListener('abort',cancel,{once:true});if(signal?.aborted)cancel();
+    child.on('error',error=>finish(error));child.on('close',code=>{closed=true;if(aborted)check();else finish(undefined,code);});
   });
 
 export const encodeVideo = async (options: EncodeVideoOptions, runner: EncodeRunner = spawnRunner): Promise<void> => {
@@ -88,7 +95,7 @@ export const encodeVideo = async (options: EncodeVideoOptions, runner: EncodeRun
   const args = buildFfmpegArgs(options);
   let result: EncodeRunnerResult;
   try {
-    result = await runner(command, args);
+    result = await runner(command, args, options.signal);
   } catch (error) {
     const err = error as NodeJS.ErrnoException;
     if (err?.code === "ENOENT") {

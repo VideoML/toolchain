@@ -1,0 +1,1 @@
+`Geist-Latin.woff2` is from Hyperframes commit `28181602fe2d9ffa38474a6e8155a89909a7b8aa`, `registry/components/caret-swap`. Copyright 2024 The Geist Project Authors; licensed under SIL OFL 1.1. The complete license is in `Geist-OFL.txt`.

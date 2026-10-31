@@ -1,0 +1,1 @@
+Trusted local portable-source fixture. The source uses public VideoML DSL and GSAP; the browser factory shares the renderer host's React and frame context, draws at a nonzero position, and settles asynchronously. The shader transition exercises both captured scene pages. No network or TTS is required.

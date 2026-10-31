@@ -27,6 +27,10 @@ export type RenderVideoOptions<TInputProps extends Record<string, unknown> = Rec
   onTransitionDiagnostic?: RenderFramesPngOptions["onTransitionDiagnostic"];
   effectRegistryBundlePath?: RenderFramesPngOptions["effectRegistryBundlePath"];
   effectStageTimeoutMs?: RenderFramesPngOptions["effectStageTimeoutMs"];
+  forceLocalSceneRenderer?: boolean;
+  portableComponents?: Array<{id:string;version:string}>;
+  portableMode?: boolean;
+  signal?: AbortSignal;
   browserBundlePath?: RenderFramesPngOptions["browserBundlePath"]; // Deprecated
   browserBundlePaths?: RenderFramesPngOptions["browserBundlePaths"]; // Multiple bundles
   onFrame?: RenderFramesPngOptions["onFrame"];
@@ -60,6 +64,10 @@ export const renderVideo = async <TInputProps extends Record<string, unknown> = 
   onTransitionDiagnostic,
   effectRegistryBundlePath,
   effectStageTimeoutMs,
+  forceLocalSceneRenderer,
+  portableComponents,
+  portableMode,
+  signal,
   browserBundlePath,
   browserBundlePaths,
   onFrame,
@@ -85,6 +93,10 @@ export const renderVideo = async <TInputProps extends Record<string, unknown> = 
     onTransitionDiagnostic,
     effectRegistryBundlePath,
     effectStageTimeoutMs,
+    forceLocalSceneRenderer,
+    portableComponents,
+    portableMode,
+    signal,
     browserBundlePath,
     browserBundlePaths,
     onFrame,
@@ -108,6 +120,7 @@ export const renderVideo = async <TInputProps extends Record<string, unknown> = 
       frameCount: framesResult.frames.length, // Number of frames actually rendered
       ffmpegPath,
       ffmpegArgs,
+      signal,
     },
     encodeRunner,
   );

@@ -23,7 +23,8 @@
     "./math": "./src/math.ts",
     "./effects": "./src/effects.ts",
     "./effect-capture": "./src/effect-capture.ts",
-    "./transition-capture": "./src/transition-capture.ts"
+    "./transition-capture": "./src/transition-capture.ts",
+    "./builtin-validation": "./src/builtin-validation.ts"
   },
   "dependencies": {
     "@videoml/shared": "0.0.0",

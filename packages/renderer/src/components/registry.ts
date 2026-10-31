@@ -131,3 +131,8 @@ export function getComponent(name: string | ComponentType): ComponentType | null
 export function listComponents(): string[] {
   return Array.from(registry.keys());
 }
+
+/** Remove only the exact component installed by a controlled portable host. */
+export function unregisterComponentIfSame(name: string, component: ComponentType): void {
+  if (registry.get(name) === component) registry.delete(name);
+}

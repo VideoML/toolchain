@@ -1,3 +1,4 @@
+import {awaitBrowserLaunch} from './render-lifecycle.js';
 import { createRequire } from 'node:module';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
@@ -11,6 +12,7 @@ export interface TransitionCaptureOptions {
   shader:TransitionShader; parameters?:TransitionOptions; easeName?:string; sceneScript?:unknown; durationFrames?:number; allowCrossfadeFallback?:boolean;
   onDiagnostic?:(diagnostic:'CROSSFADE_FALLBACK')=>void;
   outDir:string; executablePath?:string; signal?:AbortSignal; stageTimeoutMs?:number;
+  portableBundlePath?:string; portableComponents?:Array<{id:string;version:string}>; portableMode?:boolean;
 }
 
 /** Capture browser-painted, explicitly selected local scenes into a third compositor page. */
@@ -23,36 +25,39 @@ export async function captureTransitionFrames(options:TransitionCaptureOptions):
   const {chromium}=createRequire(import.meta.url)('playwright') as typeof import('playwright');
   const timeout=options.stageTimeoutMs ?? 30000;
   if(!Number.isInteger(timeout)||timeout<1||timeout>300000) throw new Error('Invalid stage timeout');
-  let browser:Awaited<ReturnType<typeof chromium.launch>>|undefined;
+  let browser:Awaited<ReturnType<typeof chromium.launch>>|undefined,closing:Promise<void>|undefined;
+  const closeBrowser=()=>closing??=(browser?browser.close():Promise.resolve());
   async function stage<T>(name:string,work:Promise<T>,closeOnFailure=true):Promise<T> {
     let timer:ReturnType<typeof setTimeout>|undefined; let cancel:(()=>void)|undefined;
     const interrupted=new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error(`Transition capture ${name} timed out`)),timeout);cancel=()=>reject(new Error('Transition capture aborted'));signal?.addEventListener('abort',cancel,{once:true});if(signal?.aborted)cancel();});
-    try{return await Promise.race([work,interrupted]);}catch(error){if(closeOnFailure)void browser?.close().catch(()=>{});throw error;}finally{if(timer)clearTimeout(timer);if(cancel)signal?.removeEventListener('abort',cancel);}
+    try{return await Promise.race([work,interrupted]);}catch(error){if(closeOnFailure)void closeBrowser().catch(()=>{});throw error;}finally{if(timer)clearTimeout(timer);if(cancel)signal?.removeEventListener('abort',cancel);}
   }
   const launch=chromium.launch({executablePath:options.executablePath ?? process.env.VIDEOML_CHROMIUM_EXECUTABLE_PATH});
-  try{browser=await stage('launch',launch);}catch(error){void launch.then(late=>late.close().catch(()=>{}),()=>{});throw error;}
-  const abort=()=>{void browser?.close().catch(()=>{});}; signal?.addEventListener('abort',abort,{once:true});
+  browser=await awaitBrowserLaunch(launch,{owned:true,signal,timeoutMs:timeout});
+  const abort=()=>{void closeBrowser().catch(()=>{});}; signal?.addEventListener('abort',abort,{once:true});
   const contexts:import('playwright').BrowserContext[]=[];
   const blockedRequests:string[]=[];const sceneErrors:string[]=[];
   let failed=false;
   try {
     if(signal?.aborted) throw new Error('Transition capture aborted');
-    async function open(bundle:string) {
+    async function open(bundle:string,scenePage:boolean) {
       const context=await stage('context',browser!.newContext({viewport:{width,height},deviceScaleFactor:1})); contexts.push(context);
       await stage('route',context.route('**/*',route=>{blockedRequests.push(route.request().url());return route.abort();}));
       const page=await stage('page',context.newPage());
       page.on('console',message=>{if(message.type()==='warning' && message.text().includes('Component not found:'))sceneErrors.push(message.text());});
-      await stage('content',page.setContent('<!doctype html><style>html,body,#root{width:100%;height:100%;margin:0;padding:0;overflow:hidden}</style><div id="root"></div>'));
+      await stage('content',page.setContent("<!doctype html><meta http-equiv=\"Content-Security-Policy\" content=\"default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval'; style-src 'unsafe-inline'; img-src data: blob:; font-src data: blob:; connect-src data: blob:; worker-src 'none'; frame-src 'none'; object-src 'none'\"><style>html,body,#root{width:100%;height:100%;margin:0;padding:0;overflow:hidden}</style><div id=\"root\"></div>"));
+      await stage('policy',page.evaluate(()=>{(window as any).__videomlBlockedPolicies=[];document.addEventListener('securitypolicyviolation',event=>(window as any).__videomlBlockedPolicies.push(`${event.violatedDirective}: ${event.blockedURI}`));}));
+      if(scenePage&&options.portableBundlePath)await stage('portable bundle',page.addScriptTag({path:resolve(options.portableBundlePath)}));
       await stage('bundle',page.addScriptTag({path:resolve(bundle)}));
       return page;
     }
-    const from=await open(options.fromBundlePath),to=await open(options.toBundlePath),compositor=await open(options.compositorBundlePath);
+    const from=await open(options.fromBundlePath,true),to=await open(options.toBundlePath,true),compositor=await open(options.compositorBundlePath,false);
     for(const [page,sceneId] of [[from,options.fromSceneId],[to,options.toSceneId]] as const) await stage('scene mount',page.evaluate(async config=>{
       const api=window as any;
       if(typeof api.mountVideoMLScene!=='function') throw new Error('SCENE_CAPTURE_UNAVAILABLE: bundle must expose mountVideoMLScene');
       api.__videomlScene=await api.mountVideoMLScene(document.querySelector('#root'),config);
       if(!api.__videomlScene || typeof api.__videomlScene.seek!=='function' || typeof api.__videomlScene.dispose!=='function') throw new Error('SCENE_CAPTURE_UNAVAILABLE: invalid scene source');
-    },{width,height,fps:options.fps,seed:options.seed,assets:options.assets,captureSceneId:sceneId,selectedSceneVisible:true,script:options.sceneScript,durationFrames:options.durationFrames}));
+    },{width,height,fps:options.fps,seed:options.seed,assets:options.assets,captureSceneId:sceneId,selectedSceneVisible:true,script:options.sceneScript,durationFrames:options.durationFrames,portableComponents:options.portableComponents??[],portableMode:options.portableMode??false}));
     await stage('compositor mount',compositor.evaluate(async config=>{
       const api=window as any;
       if(typeof api.mountVideoMLTransition!=='function') throw new Error('Compositor bundle must expose mountVideoMLTransition');
@@ -68,6 +73,8 @@ export async function captureTransitionFrames(options:TransitionCaptureOptions):
       if(signal?.aborted) throw new Error('Transition capture aborted');
       const frame=frames[index];
       for(const page of [from,to]) await stage('scene seek',page.evaluate(async frame=>{await (window as any).__videomlScene.seek(frame);},frame));
+      const policies=await stage('policy check',Promise.all([from,to,compositor].map(page=>page.evaluate(()=>(window as any).__videomlBlockedPolicies as string[]))));
+      if(policies.some(items=>items.length))throw new Error(`SCENE_CAPTURE_UNAVAILABLE: blocked browser policy ${policies.flat()[0]}`);
       if(blockedRequests.length)throw new Error(`SCENE_CAPTURE_UNAVAILABLE: blocked network request ${blockedRequests[0]}`);
       if(sceneErrors.length)throw new Error(`SCENE_CAPTURE_UNAVAILABLE: ${sceneErrors[0]}`);
       const [a,b]=await stage('scene screenshot',Promise.all([from.screenshot(),to.screenshot()]));
@@ -79,15 +86,16 @@ export async function captureTransitionFrames(options:TransitionCaptureOptions):
       await writeFile(path,png); paths.push(path);
     }
     return paths;
-  } catch(error) {failed=true; if(signal?.aborted) throw new Error('Transition capture aborted'); throw error;}
+  } catch(error) {failed=true; if(signal?.aborted) throw new Error('RENDER_CANCELLED'); throw error;}
   finally {
     signal?.removeEventListener('abort',abort);
+    const cleanup=async<T>(work:Promise<T>,name:string)=>{let timer:ReturnType<typeof setTimeout>|undefined;try{return await Promise.race([work,new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error(`cleanup ${name} timed out`)),timeout);})]);}finally{if(timer)clearTimeout(timer);}};
     let cleanupError:unknown;
-    for(const context of contexts) {
-      for(const page of context.pages()) try {await stage('dispose',page.evaluate(async()=>{const api=window as any;await api.__videomlScene?.dispose();await api.__videomlTransition?.dispose();}));} catch(error){cleanupError ??=error;}
-      try {await stage('context close',context.close(),false);} catch(error){cleanupError ??=error;}
+    if(!signal?.aborted&&!closing)for(const context of contexts) {
+      for(const page of context.pages())try{await cleanup(page.evaluate(async()=>{const api=window as any;await api.__videomlScene?.dispose();await api.__videomlTransition?.dispose();}),'dispose');}catch(error){cleanupError??=error;}
+      try{await cleanup(context.close(),'context');}catch(error){cleanupError??=error;}
     }
-    try {await stage('browser close',browser.close(),false);} catch(error){cleanupError ??=error;}
-    if(!failed && cleanupError) throw cleanupError;
+    try{await cleanup(closeBrowser(),'browser');}catch(error){cleanupError??=error;}
+    if(cleanupError)throw new Error(`RENDER_CLEANUP_UNCONFIRMED: ${String(cleanupError)}`);
   }
 }
