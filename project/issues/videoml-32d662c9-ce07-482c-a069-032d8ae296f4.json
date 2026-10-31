@@ -82,10 +82,24 @@
       "text": "Headlessshell offline transaction reviewed:226packages,225retainedarchives verified, only missingarchive56,878,696B SHAaeefcab4fd1f82ec44dc0249e1aebca23d80649dbee77f1826eb9f0583ad631a. Conservativetotal1,109,835,165B <1.5GiB, hostfree11,573,223,424B. Approved onepackageacquisition underwatchdog. First runtime retains existingpolicy and identicalbaseline/restricted flags, changes only verified headlessELF path afterreview. Playwright protocol gate remains unmet: defaultFD3/4pipes conflict with close_range>=3 andstdin/devnull; no network/FD exception authorized. CLI screenshot/FFmpeg/descendant cancellation are independent tests, not a substitute for real renderer protocol proof.",
       "created_at": "2026-10-31T00:26:05.829366Z",
       "comment_type": "default"
+    },
+    {
+      "id": "6e07e659-200a-44d4-8f47-42404d694067",
+      "author": "home",
+      "text": "Primary verified experimental driver SHA256 3bf86eac490f6e81339fb423a402506ecb1d6578fe7ff91b68d1cb07ab56239c: only browser executable selects verified direct headless-shell ELF, arguments and launcher policy unchanged. Approved one watchdog-bounded offline runtime after226 archive hashes and exact resolution revalidation. Production guard remains125; no extra FD/network exception; DevTools protocol remains unmet.",
+      "created_at": "2026-10-31T00:27:11.174336Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "6ea6058e-0d43-430b-b974-2129c57d452d",
+      "author": "home",
+      "text": "Dedicated headless-shell result: baseline screenshot/FFmpeg and isolated FFmpeg pass; cancellation after an observed Chromium descendant passes with confirmed group cleanup. Restricted browser still SIGTRAP after GPU process startup failures, with /dev/null/font/proc/dbus/netlink denials in stderr; no isolated screenshot or proven single root cause. Production guard125. ELF SHA256380c445b85755114f6dcb1da88b6e768d982d9179c7f9efa62ecd2ca457545ff. Evidence /private/tmp/p20a-headless-estimate/REPORT.md; runtime terminal. Next narrow experiment prepares a verified exact /dev/null read/write Landlock rule for review; no whole-/dev, /etc, network or FD exception.",
+      "created_at": "2026-10-31T00:30:37.564857Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T21:55:55.047192Z",
-  "updated_at": "2026-10-31T00:26:05.829605Z",
+  "updated_at": "2026-10-31T00:30:37.565713Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,

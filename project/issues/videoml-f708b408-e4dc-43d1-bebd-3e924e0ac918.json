@@ -67,10 +67,24 @@
       "text": "Wrapper source review found concurrency request misrouting, false successful abort after failed cleanup, uncertain commit outcome and EPIPE handling blockers. Worker added preflight/terminal commit, explicit BUNDLE_PUBLICATION_UNCONFIRMED after sent-commit response loss, clean-exit requirements and EPIPE fencing, with adversarial fake-helper tests; re-review pending. P17 not accepted or exposed through CLI.",
       "created_at": "2026-10-31T00:21:50.573033Z",
       "comment_type": "default"
+    },
+    {
+      "id": "7654e080-b101-489f-ba7a-05d46ccce10c",
+      "author": "home",
+      "text": "Primary approved required composition.id in unreleased manifest v1, distinct from projectId; recorded canonical D08a clarification. It must identify the selected source composition and agree with generated/frozen identities. Multi-composition export requires explicit selection; imports reject identity mismatch. P02 digest algorithm is unchanged.",
+      "created_at": "2026-10-31T00:27:11.156039Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "3c308cc8-153d-4774-ae9f-0963fca563a5",
+      "author": "home",
+      "text": "ZIP acquisition/extraction now integrates with held-descriptor private staging; it is not yet exposed through CLI. Independent review found valid DEFLATED empty-directory rejection and insufficient deadline checks inside high-ratio decompression loop; primary directed support for valid empty streams and inner-loop deadline checks, with targeted tests. No pathname reopening observed. Full source/script validation, export/import commands and packed offline rendering remain required.",
+      "created_at": "2026-10-31T00:31:21.453133Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.623766Z",
-  "updated_at": "2026-10-31T00:21:50.573277Z",
+  "updated_at": "2026-10-31T00:31:21.453631Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
