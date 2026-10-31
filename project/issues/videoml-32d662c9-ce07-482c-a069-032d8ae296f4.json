@@ -236,10 +236,17 @@
       "text": "Read-only audit completed on image d82eb0e8cb22bbed27d280f03608706903a1a37df84ceeefaf38100f548b24b9; owned container absent, normal guard125. 240 expected versions match, 328 installed package copyright files retained. Font audit failed on unsupported include; direct Chromium DT_NEEDED unresolved due audit parser short read. Evidence /private/tmp/p20a-image-audit-0c6253f5a6a54828a5b92d12e5fd2a69/REPORT.md. No browser/private policy execution. Primary selected immutable system-only fontconfig with no XDG/user includes, no filesystem-policy widening; source ELF parser must honor DT_STRSZ and reject incomplete names. 38 worker source tests pass, current image not fixed. Source-only image update preparation underway; P03b currently owns heavy slot.",
       "created_at": "2026-10-31T02:13:42.092881Z",
       "comment_type": "default"
+    },
+    {
+      "id": "88686438-278d-478b-a51d-5324ab4678d1",
+      "author": "home",
+      "text": "Primary verified derived font image sha256:2f5a6cba750806d852f2a3520c3cbc221102fcdedc7b922d903633a05616cc5e. Config SHA4f79ec2fdaf98aa654d9b4b09cab7f9c79a2b3301fafde3e104b0296e1919ca5. Source reviewed independently; primary40tests passed; source hashes matched proposal. Build start/commit0, reconciler terminal, owned container absent, old image retained. Evidence /private/tmp/p20a-font-image-b29f0076b00e4ca59fd7d32e10358d3d. Readonly audit pending for corrected font and ELF tools; no browser or private-policy execution. Heavy slot returned to P03b.",
+      "created_at": "2026-10-31T02:16:33.332452Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T21:55:55.047192Z",
-  "updated_at": "2026-10-31T02:13:42.094354Z",
+  "updated_at": "2026-10-31T02:16:33.332767Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
