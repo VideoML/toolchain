@@ -193,10 +193,24 @@
       "text": "Additional source review of render cancellation requires immediate ownership tracking when browser context is acquired (before awaiting newPage), bounded cleanup of late contexts/pages and cleanup on filesystem setup errors after launch. Worker correcting with delayed setup/launch tests. Signal propagation into shader/encoder and offline CSP integration remain subject to actual tests; current new source is not acceptance evidence.",
       "created_at": "2026-10-31T01:11:03.842Z",
       "comment_type": "default"
+    },
+    {
+      "id": "7e37beb3-2bba-4278-a1d3-56a2411990be",
+      "author": "home",
+      "text": "Primary reran targeted cancellation suite:7pass/1Windows-onlyskip onmacOS. Includes realPOSIXgroup escalation and mocked acquiredcontext/viewport/activecapture/delayedlaunch helper. Independent review found frame-directory cleanup outside ownedbrowserguard; worker has grouped it with ensureDir and reports added outputfailure test. P20a terminal; P17 owns heavy slot for actual shader offlinepolicy/cancellation and stagedMP4 checks. FullTS closure still unimplemented and required.",
+      "created_at": "2026-10-31T01:14:06.558668Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "75b7b41d-5527-4906-996a-d8a778e8d03c",
+      "author": "home",
+      "text": "Shader policy first actualbrowser test rejects attempted fetch/image/WebSocket, but primary source review found HTTP request counter omits explicit Upgrade event and timedabort1000ms does not establish seek started. Directed upgrade counter and actual seek-start synchronization before claiming zeroWebSocketdelivery/activecapturecancel. Normal active-controller cancellation browser test running. Outputcommit decision: immediate abortcheck then synchronous atomicrename terminalpoint; precommitcancel preserves existingoutput, successfulcommit replaces it, EXDEV namederror/no copyfallback.",
+      "created_at": "2026-10-31T01:15:12.118484Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.623766Z",
-  "updated_at": "2026-10-31T01:11:03.842246Z",
+  "updated_at": "2026-10-31T01:15:12.119048Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
