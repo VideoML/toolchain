@@ -158,10 +158,24 @@
       "text": "Portable-host first lifecycle implementation independently reviewed. Required corrections: abort constructor failures; identity-based registry removal; shared disposal promise; serialize full flush/settle; terminal page close after failed/noncooperative work; await old instance disposal before a new instance may settle/capture. Canonical D08 now states cooperative cancellation limits rather than claiming arbitrary JS revocation. Initial real-browser lifecycle log reports shared context, frame serialization, double disposal, constructor abort and stalled cleanup pass; targeted old-instance/new-instance regression and independent test-source review remain pending.",
       "created_at": "2026-10-31T01:05:00.447887Z",
       "comment_type": "default"
+    },
+    {
+      "id": "cbc59b0b-1fef-423d-ba1e-6e062ffaa15e",
+      "author": "home",
+      "text": "Primary inspected tests/bundle/portable-lifecycle.browser.mjs and successful scoped rerun log. Real browser verifies shared frame context, full-frame serialization, same disposal promise, constructor signal abort, old-controller delayed cleanup before new-controller settle and explicit stalled cleanup error. Direct stalled test manually closes page, so it does not prove owner automatic closure; actual renderFramesToPng timeout test dispatched and currently running. Same-page clean registry remount remains pending. No P17 closure.",
+      "created_at": "2026-10-31T01:05:38.618050Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "2410d78d-ada1-421b-b90b-1f0c45a2f325",
+      "author": "home",
+      "text": "Primary inspected updated lifecycle browser test and /private/tmp/p17-portable-lifecycle-remount.log: actual renderFramesToPng timeout rejects FRAME_EFFECT_TIMEOUT and leaves zero browser pages; clean same-page host registration/disposal/remount succeeds. This closes the prior manually-closed-page evidence gap. All lifecycle browser handles terminal; heavy slot released while TS closure and shader integration continue. Full packed custom animation/shader/font acceptance remains required.",
+      "created_at": "2026-10-31T01:06:06.326417Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.623766Z",
-  "updated_at": "2026-10-31T01:05:00.448396Z",
+  "updated_at": "2026-10-31T01:06:06.326636Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
