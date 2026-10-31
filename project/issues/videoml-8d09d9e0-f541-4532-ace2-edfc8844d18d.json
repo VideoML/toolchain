@@ -17,9 +17,17 @@
       "type": "blocked-by"
     }
   ],
-  "comments": [],
+  "comments": [
+    {
+      "id": "2a8af2c7-4310-4762-8da9-6e086468715a",
+      "author": "home",
+      "text": "First source-alias browser fixture passed real authored HTML/canvas at24 and30fps; repeated destination captures match, distinct source frame images differ. Primary viewed captured image. Evidence /private/tmp/p03b-browser.log and /var/folders/h8/bff490w93nl9c87021k92f0m0000gp/T/p03b-browser-Q77aYq. Narrow primitive proof only, no packed acceptance. Review found transition-root preflight omission, shared mutable cached bytes and P07 global decoded budget oversubscription. Worker fixing before packed run. P07 must reserve two compositor decoded frames from64MiB before scene quotas; encoded P07 screenshot/base64/transport copies also need explicit global accounting. Packed consumer prepared separately from pinned P17/P20 artifacts.",
+      "created_at": "2026-10-31T02:13:42.134598Z",
+      "comment_type": "default"
+    }
+  ],
   "created_at": "2026-10-31T00:21:06.384494Z",
-  "updated_at": "2026-10-31T02:08:54.489572Z",
+  "updated_at": "2026-10-31T02:13:42.134834Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,

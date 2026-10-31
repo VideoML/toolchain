@@ -229,10 +229,17 @@
       "text": "Primary verified offlineimage build success: sha256:d82eb0e8cb22bbed27d280f03608706903a1a37df84ceeefaf38100f548b24b9, arm64 image999043438B, start/commit0, terminalreconciletrue/noerrors, exactownedcontainer absent. Evidence /private/tmp/p20a-image-ae35e27464154800996704a4fe8ba35c/REPORT.md. Compilerretry staticstrict passed; normalguard notyetexecuted. Authorized separate readonlynetworknone audit of trustedversions/ELF/loader/font/licenses/mounts/guard125, nowactive79316; no Chromium/privatepolicy/cloudexecution. P03b awaitingheavyslot afteraudit.",
       "created_at": "2026-10-31T02:08:54.578652Z",
       "comment_type": "default"
+    },
+    {
+      "id": "dff58355-edac-457d-8aa6-249f62447ca4",
+      "author": "home",
+      "text": "Read-only audit completed on image d82eb0e8cb22bbed27d280f03608706903a1a37df84ceeefaf38100f548b24b9; owned container absent, normal guard125. 240 expected versions match, 328 installed package copyright files retained. Font audit failed on unsupported include; direct Chromium DT_NEEDED unresolved due audit parser short read. Evidence /private/tmp/p20a-image-audit-0c6253f5a6a54828a5b92d12e5fd2a69/REPORT.md. No browser/private policy execution. Primary selected immutable system-only fontconfig with no XDG/user includes, no filesystem-policy widening; source ELF parser must honor DT_STRSZ and reject incomplete names. 38 worker source tests pass, current image not fixed. Source-only image update preparation underway; P03b currently owns heavy slot.",
+      "created_at": "2026-10-31T02:13:42.092881Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T21:55:55.047192Z",
-  "updated_at": "2026-10-31T02:08:54.578892Z",
+  "updated_at": "2026-10-31T02:13:42.094354Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
