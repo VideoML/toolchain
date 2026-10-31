@@ -96,10 +96,24 @@
       "text": "Dedicated headless-shell result: baseline screenshot/FFmpeg and isolated FFmpeg pass; cancellation after an observed Chromium descendant passes with confirmed group cleanup. Restricted browser still SIGTRAP after GPU process startup failures, with /dev/null/font/proc/dbus/netlink denials in stderr; no isolated screenshot or proven single root cause. Production guard125. ELF SHA256380c445b85755114f6dcb1da88b6e768d982d9179c7f9efa62ecd2ca457545ff. Evidence /private/tmp/p20a-headless-estimate/REPORT.md; runtime terminal. Next narrow experiment prepares a verified exact /dev/null read/write Landlock rule for review; no whole-/dev, /etc, network or FD exception.",
       "created_at": "2026-10-31T00:30:37.564857Z",
       "comment_type": "default"
+    },
+    {
+      "id": "b06589b6-dd1f-4686-9edc-a42597dc8c81",
+      "author": "home",
+      "text": "Null candidate Linux probes: closed-stdin and guard125 pass, but old blanket /proc/self/fd/0 denial assertion fails because alias resolves to authorized null inode; observed5 scenarios pass/5fail before contract correction. Independent review confirms no new sensitive capability from same-null reopen and notes other allowed-object aliases. Canonical D08b now explicitly defines object-based rights and required identity/proc-secret/socket denial checks. Revised probes authorized; if passing, bounded browser compatibility may run with pathname replacement proof explicitly unavailable. No Docker privilege escalation or host/global device changes authorized. P20a stays open.",
+      "created_at": "2026-10-31T00:36:02.352172Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "fe12c885-b36a-4495-b63b-e0ce245b2050",
+      "author": "home",
+      "text": "Primary inspected alias-behave.log:10 Linux scenarios/30 steps pass, including null alias identity and explicit proc metadata/directory, injected secret/socket and external SCM denials; normal guard status125. Closed-stdin pin descriptor edge fixed. Paired headless runtime now active as handle3226/container p20a-null-runtime, independently observed Up28seconds while offline packages unpack. Exact pathname replacement remains unproven; this is bounded compatibility evidence only, not P20a acceptance.",
+      "created_at": "2026-10-31T00:37:29.788917Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T21:55:55.047192Z",
-  "updated_at": "2026-10-31T00:30:37.565713Z",
+  "updated_at": "2026-10-31T00:37:29.789417Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,

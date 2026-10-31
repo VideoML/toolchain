@@ -81,10 +81,17 @@
       "text": "ZIP acquisition/extraction now integrates with held-descriptor private staging; it is not yet exposed through CLI. Independent review found valid DEFLATED empty-directory rejection and insufficient deadline checks inside high-ratio decompression loop; primary directed support for valid empty streams and inner-loop deadline checks, with targeted tests. No pathname reopening observed. Full source/script validation, export/import commands and packed offline rendering remain required.",
       "created_at": "2026-10-31T00:31:21.453133Z",
       "comment_type": "default"
+    },
+    {
+      "id": "3a7235c6-48c4-47fb-8a55-b9a89cfe8f88",
+      "author": "home",
+      "text": "Primary approved reuse of generator pure cue/scene/transition projections for full source verification, not preview placeholder converter. Explicit authored times compare normalized source seconds; PCM segment times compare samples; genuinely inferred visual times validate frozen floor/ceil plus ordering/containment, with frozen timing authoritative during render. Current stdlib dev dependency refreshed from accepted pack and AJV8.17.1 reused locally; toolchain TypeScript now passes. These changes do not establish end-to-end bundle acceptance.",
+      "created_at": "2026-10-31T00:36:02.371654Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T19:29:35.623766Z",
-  "updated_at": "2026-10-31T00:31:21.453631Z",
+  "updated_at": "2026-10-31T00:36:02.371881Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
