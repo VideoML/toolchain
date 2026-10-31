@@ -145,10 +145,17 @@
       "text": "Primary inspected synthetic Linux failure-proof.log: forced copy/report-write failures both125; detached child pgrp/session23 differs from parent16, heartbeat stable90 bytes after teardown, owned containers absent (docker ps shows only unrelated biblicus-grobid). Native source fixes reject all incomplete traces and setup errors. Approved one narrower external trace with same policy/ELF/flags227archives and bounded45s/32MiB/1.5GiB/8GiB floor, unique owned container identity, no new download or privileges. Must reproduce untraced failure before trace; divergent/incomplete trace remains inconclusive. P20a owns heavy slot; P17 continues source.",
       "created_at": "2026-10-31T00:58:38.068013Z",
       "comment_type": "default"
+    },
+    {
+      "id": "ba3219c0-e1f2-4ccc-a447-17b0bf86ef34",
+      "author": "home",
+      "text": "Narrow trace terminal and inconclusive: untraced SIGTRAP reproduced; traced process timed out45s with24files/144203bytes, traceIncomplete=true/status125, no report/cleanup error and container removed. Primary inspected trace-report.json; no causal syscall established. Next authorized work is source-only descriptor resource-limit proposal (soft/hard RLIMIT_NOFILE4096 equally for baseline/restricted/traced), to bound possible fallback close traversal without granting permissions. No next runtime approved. Heavy slot released to P17.",
+      "created_at": "2026-10-31T01:02:02.227137Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T21:55:55.047192Z",
-  "updated_at": "2026-10-31T00:58:38.068259Z",
+  "updated_at": "2026-10-31T01:02:02.227383Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
