@@ -28,7 +28,8 @@
     "test:packed-consumer": "sh tests/packed-consumer-smoke.sh",
     "test:conformance": "node --test tests/conformance/runner.test.mjs",
     "test:voiceover": "node --import tsx --test tests/timing/*.test.ts tests/auritus/provider.test.ts",
-    "test:effects": "node --import tsx --test tests/effects/*.test.mjs"
+    "test:effects": "node --import tsx --test tests/effects/*.test.mjs",
+    "test:shaders": "node --test tests/transitions/p08-browser.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-polly": "^3.699.0",

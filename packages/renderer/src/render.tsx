@@ -37,8 +37,12 @@ export type RenderFramesPngOptions = Omit<RenderFrameOptions, "frame"> & {
   workers?: number;
   onFrame?: (frame: number, path: string) => void;
   cleanFrames?: boolean; // If true, delete existing frames before rendering (default: true)
+  transitionAllowCrossfadeFallback?: boolean;
+  onTransitionDiagnostic?: (diagnostic:'CROSSFADE_FALLBACK')=>void;
   effectRegistryBundlePath?: string; // Trusted local bundle registering custom frame effects
   effectStageTimeoutMs?: number; // Defaults to 30 seconds, capped at 300 seconds
+  /** Use the trusted local browser renderer even when the script has no frame effects. */
+  forceLocalSceneRenderer?: boolean;
   browserBundlePath?: string; // Deprecated: use browserBundlePaths instead
   browserBundlePaths?: string[]; // Multiple bundles to load in order (standard + custom)
 };
@@ -296,7 +300,7 @@ export const renderFramesToPng = async ({
   if (lastFrame < firstFrame) {
     return { frames: [] };
   }
-  const automaticEffects = hasFrameEffect(options.inputProps?.script);
+  const automaticEffects = options.forceLocalSceneRenderer === true || hasFrameEffect(options.inputProps?.script);
   let automaticBundle: string | undefined;
   if (automaticEffects && (!Number.isFinite(options.effectStageTimeoutMs ?? 30000) || (options.effectStageTimeoutMs ?? 30000) <= 0 || (options.effectStageTimeoutMs ?? 30000) > 300000)) throw new Error('FRAME_EFFECT_INVALID: stage timeout must be within 300 seconds');
   if (automaticEffects) {

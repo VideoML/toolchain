@@ -11,6 +11,7 @@ export type ComposableRendererProps = {
   script: ScriptData;
   debugLayout?: boolean;
   liveMode?: boolean;
+  captureSceneId?: string;
 };
 
 
@@ -148,24 +149,27 @@ const getTransitionStyle = (
   return {};
 };
 
-export const ComposableRenderer = ({ script, debugLayout, liveMode = false }: ComposableRendererProps) => {
+export const ComposableRenderer = ({ script, debugLayout, liveMode = false, captureSceneId }: ComposableRendererProps) => {
   const frame = useCurrentFrame();
   const { fps, width, height } = useVideoConfig();
   const timeSec = frame / fps;
   const scenes = script.scenes ?? [];
   const sceneById = useMemo(() => new Map(scenes.map((scene: any) => [scene.id, scene])), [scenes]);
   const scene = useMemo(
-    () => getActiveScene(script, timeSec, { allowOpenEnded: liveMode }),
-    [script, timeSec, liveMode]
+    () => captureSceneId ? sceneById.get(captureSceneId) : getActiveScene(script, timeSec, { allowOpenEnded: liveMode }),
+    [script, timeSec, liveMode, captureSceneId, sceneById]
   );
   const cue = useMemo(
-    () => getActiveCue(script, timeSec, { allowOpenEnded: liveMode }),
-    [script, timeSec, liveMode]
+    () => captureSceneId
+      ? (scene?.cues ?? []).find((item: any) => isActiveRange(timeSec, item.startSec, item.endSec, liveMode)) ?? null
+      : getActiveCue(script, timeSec, { allowOpenEnded: liveMode }),
+    [script, timeSec, liveMode, captureSceneId, scene]
   );
   const durationSec = useMemo(() => getScriptDuration(script), [script]);
   const progressPct = durationSec > 0 ? Math.min(100, Math.max(0, (timeSec / durationSec) * 100)) : 0;
 
   const activeTransition = useMemo(() => {
+    if(captureSceneId)return null;
     const items = script.timeline ?? [];
     for (const item of items) {
       if (item.kind !== "transition") continue;
@@ -174,7 +178,7 @@ export const ComposableRenderer = ({ script, debugLayout, liveMode = false }: Co
       }
     }
     return null;
-  }, [script, timeSec, liveMode]);
+  }, [script, timeSec, liveMode, captureSceneId]);
 
   const transitionProgress = useMemo(() => {
     if (!activeTransition) return 0;
@@ -194,10 +198,10 @@ export const ComposableRenderer = ({ script, debugLayout, liveMode = false }: Co
   const toOpacity = useOpacityMix ? transitionProgress : 1;
   const activeScenes = useMemo(
     () =>
-      scenes.filter((s: any) =>
+      captureSceneId ? scenes.filter((s:any)=>s.id===captureSceneId) : scenes.filter((s: any) =>
         isActiveRange(timeSec, s.startSec, s.endSec, liveMode)
       ),
-    [scenes, timeSec, liveMode]
+    [scenes, timeSec, liveMode, captureSceneId]
   );
 
   const primaryScene = fromScene ?? activeScenes[0] ?? scene;

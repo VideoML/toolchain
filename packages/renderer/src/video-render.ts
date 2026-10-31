@@ -79,6 +79,13 @@ export const renderVideoFromScript = async ({
   const script = resolvedTiming ? applyResolvedTimingToScript(originalScript, resolvedTiming, timeline as any) : absoluteFrameEffectTiming(originalScript);
   const projectedTimeline = resolvedTiming && timeline ? projectResolvedTimeline(timeline, resolvedTiming) : timeline;
   const derived = deriveVideoConfig({ script, timeline: projectedTimeline });
+  const candidates:any[]=(script.timeline ?? []).filter((item:any)=>item.kind==='transition' && typeof item.effect==='string' && !/^(?:fade|crossfade|cut|scale|zoom|(?:slide|push|wipe)(?:-(?:left|right|up|down))?)$/i.test(item.effect));
+  let shaderRenderer:typeof import('./shader-video-render.js') | undefined;
+  if(candidates.length){
+    try {shaderRenderer=await import('./shader-video-render.js');} catch(error) {throw new Error(`SHADER_UNAVAILABLE: shared shader compositor is unavailable: ${String(error)}`);}
+    for(const item of candidates)if(!shaderRenderer.hasShaderTransitions({timeline:[item]}))throw new Error(`TRANSITION_INVALID: unknown effect ${item.effect}`);
+    if(options.renderFrames)throw new Error('SCENE_CAPTURE_UNAVAILABLE: shader render cannot bypass the capture pipeline');
+  }
 
   // Handle preview mode
   let resolvedFps: number;
@@ -113,6 +120,7 @@ export const renderVideoFromScript = async ({
 
   const render = (verifiedAudioPath: string | null | undefined) => renderVideo({
     ...options,
+    renderFrames: shaderRenderer?.renderShaderFrames ?? options.renderFrames,
     audioPath: verifiedAudioPath,
     component: ComposableRenderer,
     config: {

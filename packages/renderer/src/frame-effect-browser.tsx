@@ -10,9 +10,9 @@ const registry=createBuiltinEffectRegistry();
 const registerCustom=(window as any).registerVideoMLFrameEffects;if(registerCustom!==undefined){if(typeof registerCustom!=='function')throw new Error('FRAME_EFFECT_INVALID: invalid custom registry hook');registerCustom(registry);}
 const effects=new Map<HTMLElement,{signature:string;controller:ReturnType<typeof mountFrameEffects>}>();
 let disposed=false;
-(window as any).videomlFrameEffectRender=async ({script,frame,config,assets,seed}:any)=>{
+(window as any).videomlFrameEffectRender=async ({script,frame,config,assets,seed,captureSceneId}:any)=>{
  if(disposed)throw new Error('Renderer disposed');
- flushSync(()=>reactRoot.render(<RendererProvider frame={frame} config={config}><ComposableRenderer script={script}/></RendererProvider>));
+ flushSync(()=>reactRoot.render(<RendererProvider frame={frame} config={config}><ComposableRenderer script={script} captureSceneId={captureSceneId}/></RendererProvider>));
  const elements=Array.from(root.querySelectorAll('frame-effect')) as HTMLElement[];
  for(const [element,effect] of effects)if(!elements.includes(element)){effect.controller.dispose();effects.delete(element);}
  for(const element of elements){
@@ -28,3 +28,11 @@ let disposed=false;
  await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
 };
 (window as any).videomlFrameEffectDispose=()=>{disposed=true;let failure:unknown;for(const effect of effects.values())try{effect.controller.dispose();}catch(error){failure??=error;}effects.clear();reactRoot.unmount();if(failure)throw failure;};
+
+/** P07 capture protocol: render one selected scene at composition-absolute frames. */
+(window as any).mountVideoMLScene=(_root:HTMLElement,settings:any)=>{
+ const selected=(settings.script?.scenes ?? []).find((scene:any)=>scene.id===settings.captureSceneId);
+ if(!selected)throw new Error('SCENE_CAPTURE_UNAVAILABLE: selected scene is missing');
+ const script=settings.script;
+ return {seek:(frame:number)=>(window as any).videomlFrameEffectRender({script,frame,config:{width:settings.width,height:settings.height,fps:settings.fps,durationFrames:settings.durationFrames},assets:settings.assets,seed:settings.seed,captureSceneId:settings.captureSceneId}),dispose:()=>(window as any).videomlFrameEffectDispose()};
+};

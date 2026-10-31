@@ -23,6 +23,8 @@ export type RenderVideoOptions<TInputProps extends Record<string, unknown> = Rec
   ffmpegPath?: string;
   ffmpegArgs?: string[];
   browser?: RenderFramesPngOptions["browser"];
+  transitionAllowCrossfadeFallback?: RenderFramesPngOptions["transitionAllowCrossfadeFallback"];
+  onTransitionDiagnostic?: RenderFramesPngOptions["onTransitionDiagnostic"];
   effectRegistryBundlePath?: RenderFramesPngOptions["effectRegistryBundlePath"];
   effectStageTimeoutMs?: RenderFramesPngOptions["effectStageTimeoutMs"];
   browserBundlePath?: RenderFramesPngOptions["browserBundlePath"]; // Deprecated
@@ -54,6 +56,8 @@ export const renderVideo = async <TInputProps extends Record<string, unknown> = 
   ffmpegPath,
   ffmpegArgs,
   browser,
+  transitionAllowCrossfadeFallback,
+  onTransitionDiagnostic,
   effectRegistryBundlePath,
   effectStageTimeoutMs,
   browserBundlePath,
@@ -77,6 +81,8 @@ export const renderVideo = async <TInputProps extends Record<string, unknown> = 
     deviceScaleFactor,
     workers,
     browser,
+    transitionAllowCrossfadeFallback,
+    onTransitionDiagnostic,
     effectRegistryBundlePath,
     effectStageTimeoutMs,
     browserBundlePath,
