@@ -208,10 +208,24 @@
       "text": "Primary source review found concrete D08c integration conflict: installed Playwright1.45 processLauncher.js106-110 sets detached:true on Unix, requiring setsid; existing launcher.c156 denies setsid/setpgid. New private-PID topology must explicitly revise lifecycle containment before actual Playwright can launch. Reviewer assigned narrow private-PID-only session allowance and authoritative whole-container termination assessment, including launcher startup setpgid at PID1/sessionleader. No policy runtime authorized. Runtime provenance decision: trusted build harness verifies approved package SHA, extracts into fresh owned runtime tree and inventories installed bytes plus separately inventoried third-party deps, recording exact commands. This is not acceptance of an untrusted manifest self-assertion; final P17 artifacts remain pending.",
       "created_at": "2026-10-31T01:36:32.725775Z",
       "comment_type": "default"
+    },
+    {
+      "id": "2ff8d2ae-eeb6-42a7-8285-b6852ebbb39e",
+      "author": "home",
+      "text": "Primary caught runtime bootstrap gap after focused source-flow review: /runtime-only Landlock grant cannot execute driver shebang /bin/sh or copied dynamic ELF absolute loader/library paths. Reviewer confirmed and withdrew runtime-readiness claim. No experiment authorized. Worker preparing concrete immutable read-only image runtime path recipe, static fixed-path driver shim, exact required system READ/EXEC and narrowly scoped loader/font config READ paths. Need primary-recorded allowlist decision and binary/path preflight before any policy run; no silent broad /etc grant or static-runtime assumption. P03a currently owns heavy slot.",
+      "created_at": "2026-10-31T01:45:04.741369Z",
+      "comment_type": "default"
+    },
+    {
+      "id": "e1569fb1-163c-43ea-a098-075612d68505",
+      "author": "home",
+      "text": "Primary inspected corrected offline resolver delta:240packages, exact13candidate additions, zerochanged/removed;227archivechecks pass, ownedcontainer absent (dockerps only unrelatedgrobid), watchdog0. Prior --no-download simulation failed100 withoutmutations; corrected -s/networknone simulation passed. Evidence /private/tmp/p20a-python-resolver-b0e8ddf62f4e4428b95c322975c73e35/REPORT.md. Approved exact13indexed URLs/hashes,5,444,196B into freshownedcache with perfile size/hash checks,total6MiBcap,boundedtimeout; noindexrefresh/versionfallback/install/build/container. This small acquisition may run beside P03a heavybrowser; actualruntime remains gated. Primary independently ran23privatePIDsource tests pass.",
+      "created_at": "2026-10-31T01:53:47.894566Z",
+      "comment_type": "default"
     }
   ],
   "created_at": "2026-10-30T21:55:55.047192Z",
-  "updated_at": "2026-10-31T01:36:32.726285Z",
+  "updated_at": "2026-10-31T01:53:47.895154Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
