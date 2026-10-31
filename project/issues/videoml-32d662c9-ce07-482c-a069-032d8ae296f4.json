@@ -11,7 +11,12 @@
   "labels": [
     "terra-packet"
   ],
-  "dependencies": [],
+  "dependencies": [
+    {
+      "target": "videoml-9e1b0494-f04b-41be-bd30-078fcbb2abbe",
+      "type": "relates-to"
+    }
+  ],
   "comments": [
     {
       "id": "748f438b-a1c0-4966-aa07-20f9594c3f74",
@@ -253,7 +258,7 @@
     }
   ],
   "created_at": "2026-10-30T21:55:55.047192Z",
-  "updated_at": "2026-10-31T02:19:39.824344Z",
+  "updated_at": "2026-10-31T02:24:20.330378Z",
   "closed_at": null,
   "right_now_summary": null,
   "right_now_updated_at": null,
